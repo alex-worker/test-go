@@ -6,4 +6,8 @@ docker-compose exec <container name> <command>
 
 docker run -it -e "DISPLAY=unix:0.0" -v="/tmp/.X11-unix:/tmp/.X11-unix:rw" activatedgeek/videostack bash
 
+"test": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -d --name go-server -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix go-server"
+
 docker system prune
+
+docker-compose run web bas

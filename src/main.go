@@ -1,8 +1,9 @@
 package main
 
 import (
-    "fmt"
-    "./myengine"
+    // "fmt"
+    "github.com/veandco/go-sdl2/sdl"
+    // "./myengine"
 )
 
 // this is a comment
@@ -20,18 +21,64 @@ import (
 // 
 // var myScene Scene
 
-func main() {
+// func main() {
+
+    // if err := sdl.Init(sdl.SDL_INIT_EVERYTHING); err != nil {
+	// 	panic(err)
+	// }
+	// defer sdl.Quit()
     
-    var myEntity = myengine.NewBasic()
+    func main() {
+
+        println("Quit")
+        
+        if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
+            panic(err)
+        }
+        defer sdl.Quit()
+    
+        window, err := sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+            800, 600, sdl.WINDOW_SHOWN)
+        if err != nil {
+            panic(err)
+        }
+        defer window.Destroy()
+    
+        surface, err := window.GetSurface()
+        if err != nil {
+            panic(err)
+        }
+        surface.FillRect(nil, 0)
+    
+        rect := sdl.Rect{0, 0, 200, 200}
+        surface.FillRect(&rect, 0xffff0000)
+        window.UpdateSurface()
+    
+        running := true
+        println("Quit")
+
+        for running {
+            for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
+                switch event.(type) {
+                case *sdl.QuitEvent:
+                    println("Quit")
+                    running = false
+                    break
+                }
+            }
+        }
+    }
+    
+    // var myEntity = myengine.NewBasic()
 
     // var tom = person{ name: "lol", age: 40 }
     // fmt.Println( myScene.Preload() )
-    var ent_id uint64 = myEntity.ID()
+    // var ent_id uint64 = myEntity.ID()
     // fmt.Println( myEntity.ID )
-    fmt.Println( ent_id )
+    // fmt.Println( ent_id )
 
     // fmt.Println( tom.name )
     // fmt.Println( tom.age )
     
-    fmt.Println("Hello-World")
-}
+    // fmt.Println("Hello-World")
+// }
