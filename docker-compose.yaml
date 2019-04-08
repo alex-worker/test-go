@@ -1,15 +1,16 @@
 version: "3"
 services:
   go-server:
-    environment:
-     - DISPLAY=192.168.99.100:0
+    # environment:
+    #  - DISPLAY=192.168.99.100:0
     build:
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-       - ./src/:/go/src/app
-       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    # command: ["node", "./node_modules/.bin/mocha", "--timeout", "30000"]
+    # volumes:
+      #  - ./src/:/go/src/app
+      #  - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    # command: ["go", "get", "-d", "-v"]
+    # RUN go get -v github.com/veandco/go-sdl2/sdl
     command: ["go", "run", "main.go"]
     # ports:
       # - "8080:8080"
