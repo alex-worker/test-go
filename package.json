@@ -6,9 +6,8 @@
   "author": "alex-worker <43813540+alex-worker@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "restart": "docker-compose up --build",
-    "start": "docker-compose up",
     "build": "docker build -t gogame .",
-    "test": "docker rm gogame && ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -it --name gogame -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix gogame"
+    "start": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -it --rm -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix gogame",
+    "test": "yarn build && yarn start"
   }
 }
