@@ -4,7 +4,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    # volumes:
-      #  - ./src/:/go/src/app
+    volumes:
+       - ./src/:/go/src/app
+    # command: ["node", "./node_modules/.bin/mocha", "--timeout", "30000"]
+    command: ["go", "run", "main.go"]
     # ports:
       # - "8080:8080"
