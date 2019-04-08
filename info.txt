@@ -1,0 +1,5 @@
+docker build -t my-golang-app .
+
+docker run -v /boot2dockerfolder:/root/containerfolder -i -t imagename
+
+docker-compose exec <container name> <command>
