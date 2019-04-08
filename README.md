@@ -1,0 +1,2 @@
+# TestGo
+some golang test
