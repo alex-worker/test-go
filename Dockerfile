@@ -23,13 +23,13 @@ USER appuser
 
 #build the binary
 # RUN go run main.go
-RUN go build -o /go/bin/hello
+# RUN go build -o /go/bin/hello
 
 # STEP 2 build a small image
 # start from scratch
 # FROM scratch
 # Copy our static executable
 # COPY --from=builder /go/bin/hello /go/bin/hello
-ENTRYPOINT ["/go/bin/hello"]
+# ENTRYPOINT ["/go/bin/hello"]
 # ENTRYPOINT ["sh"]
-# ENTRYPOINT ["go", "run", "main.go"]
+ENTRYPOINT ["go", "run", "main.go"]
