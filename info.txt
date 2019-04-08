@@ -3,3 +3,7 @@ docker build -t my-golang-app .
 docker run -v /boot2dockerfolder:/root/containerfolder -i -t imagename
 
 docker-compose exec <container name> <command>
+
+docker run -it -e "DISPLAY=unix:0.0" -v="/tmp/.X11-unix:/tmp/.X11-unix:rw" activatedgeek/videostack bash
+
+docker system prune
