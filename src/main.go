@@ -10,7 +10,7 @@ import (
 
 func main(){
 
-    ui := &ui.Ui{}
+    // ui := &ui.Ui{}
 
     ui.Init()
 
