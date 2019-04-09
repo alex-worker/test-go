@@ -5,13 +5,12 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	"os"
 	"image/png"
+	"../world"
 )
 
 var window *sdl.Window = nil
 var renderer *sdl.Renderer = nil
 var textureAtlas *sdl.Texture = nil
-
-// return false when window is closed
 
 func imgFileToTexture(filename string) *sdl.Texture {
 	infile, err := os.Open( filename )
@@ -57,12 +56,13 @@ func imgFileToTexture(filename string) *sdl.Texture {
 	return tex
 }
 
+// return false when window is closed
 func Update() bool {
 
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch event.(type) {
 		default:
-			fmt.Println( event )
+			// fmt.Println( event )
 			break
 		case *sdl.QuitEvent:
 			println("Quit")
@@ -83,7 +83,6 @@ func Destroy(){
 func Init(){
 
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
-
 	err := sdl.Init(sdl.INIT_EVERYTHING); 
 	if err != nil {
 		panic(err)
@@ -108,7 +107,7 @@ func Init(){
 	// surface.FillRect(nil, 0)
 	// window.UpdateSurface()
 
-	sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
+	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 
 	textureAtlas = imgFileToTexture("ui/assets/tiles.png")
 	
@@ -121,4 +120,13 @@ func Init(){
 }
 
 type Ui struct {
+}
+
+
+func Draw(scene world.Scene){
+
+	for i, c := range *scene.Map{
+		// fmt.Println( i, c )
+	}
+
 }
