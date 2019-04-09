@@ -3,67 +3,122 @@ package ui
 import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
+	"os"
+	"image/png"
 )
 
-type Ui struct {
-	Window *sdl.Window
-	Surface *sdl.Surface
+var window *sdl.Window = nil
+var renderer *sdl.Renderer = nil
+var textureAtlas *sdl.Texture = nil
+
+// return false when window is closed
+
+func imgFileToTexture(filename string) *sdl.Texture {
+	infile, err := os.Open( filename )
+	if err != nil {
+		panic(err)
+	}
+
+	img, err := png.Decode(infile)
+	if err != nil {
+		panic(err)
+	}
+
+	w := img.Bounds().Max.X
+	h := img.Bounds().Max.Y
+
+	pixels := make([]byte,w*h*4)
+	bIndex := 0
+	for y:=0; y < h; y++ {
+		for x:=0; x < w; x++ {
+			r, g, b, a := img.At(x, y).RGBA()
+			pixels[bIndex] = byte(r / 256 )
+			bIndex++
+			pixels[bIndex] = byte(g / 256 )
+			bIndex++
+			pixels[bIndex] = byte(b / 256 )
+			bIndex++
+			pixels[bIndex] = byte(a / 256 )
+			bIndex++
+		}
+	}
+
+	tex,err := renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STATIC, int32(w), int32(h) )
+	if err != nil {
+		panic(err)
+	}
+	tex.Update(nil, pixels, w*4)
+
+	err = tex.SetBlendMode(sdl.BLENDMODE_BLEND)
+	if err != nil {
+		panic(err)
+	}
+
+	return tex
 }
 
-func ( *Ui ) Update() bool {
+func Update() bool {
 
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch event.(type) {
 		default:
-			// evt := event.(type)
-			fmt.Println( event.GetTimestamp() )
+			fmt.Println( event )
 			break
 		case *sdl.QuitEvent:
 			println("Quit")
-			// running = false
 			return false
-			break
 		}
 	}
 
 	return true
 }
 
-func ( ui *Ui) Destroy(){
-	ui.Window.Destroy()
+func Destroy(){
+	renderer.Destroy()
+	window.Destroy()
 	sdl.Quit()
 	fmt.Println("Ui offline...")
 }
 
-func ( ui *Ui) Init(){
+func Init(){
 
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 
-	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
+	err := sdl.Init(sdl.INIT_EVERYTHING); 
+	if err != nil {
 		panic(err)
 	}
-	// defer sdl.Quit()
 
-	window, err := sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+	window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
     800, 600, sdl.WINDOW_SHOWN )
     if err != nil {
         panic(err)
     }
-	// defer window.Destroy()
-
-	ui.Window = window
 	
-	surface, err := window.GetSurface()
+	// SDL_RENDERER_ACCELERATED для хардварной поддержки
+	renderer, err = sdl.CreateRenderer( window, -1, sdl.RENDERER_SOFTWARE)
     if err != nil {
         panic(err)
-    }
-	ui.Surface = surface
+	}
 
-	ui.Surface.FillRect(nil, 0)
+	// surface, err := window.GetSurface()
+    // if err != nil {
+        // panic(err)
+    // }
 	// surface.FillRect(nil, 0)
+	// window.UpdateSurface()
 
-    // rect := sdl.Rect{0, 0, 200, 200}
+	sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
+
+	textureAtlas = imgFileToTexture("ui/assets/tiles.png")
+	
+	renderer.Copy(textureAtlas, nil, nil)
+	renderer.Present()
+	// surface.FillRect(nil, 0)
+    // // rect := sdl.Rect{0, 0, 200, 200}
     // surface.FillRect(&rect, 0xffff0000)
-    window.UpdateSurface()
 
+}
+
+type Ui struct {
 }
