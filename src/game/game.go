@@ -1,17 +1,17 @@
 package game
 
 import (
-	"fmt"
-	"bufio"
+	// "fmt"
+	// "bufio"
 	"os"
 )
 
-type Tile rune
-const (
-	StoneWall Tile = '#'
-	DirtFloof Tile = '.'
-	Door Tile = '|'
-)
+// type Tile rune
+// const (
+// 	StoneWall Tile = '#'
+// 	DirtFloof Tile = '.'
+// 	Door Tile = '|'
+// )
 
 type Level struct {
 	Map[][]Tile
@@ -24,9 +24,9 @@ func LoadLevelFromFile(filename string) *Level {
 	}
 	defer file.Close()
 
-	scanner :=  bufio.NewScanner(file)
-	for ( scanner.Scan() ){
-		fmt.Println(scanner.Text())
-	}
+	// scanner :=  bufio.NewScanner(file)
+	// for ( scanner.Scan() ){
+	// 	fmt.Println(scanner.Text())
+	// }
 	return nil
 }
