@@ -6,9 +6,9 @@
   "author": "alex-worker <43813540+alex-worker@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
+    "glxgears": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -e DISPLAY=$ip:0 jamesbrink/opengl:demos glxgears -info",
     "build": "docker build -t gogame .",
     "start": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -it --rm -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix gogame",
-    "test": "yarn build && yarn start",
-    "glxgears": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -e DISPLAY=$ip:0 jamesbrink/opengl:demos glxgears -info"
+    "test": "yarn build && yarn start"
   }
 }
