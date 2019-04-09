@@ -109,10 +109,10 @@ func Init(){
 
 	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 
-	textureAtlas = imgFileToTexture("ui/assets/tiles.png")
+	textureAtlas = imgFileToTexture("ui/assets/tiles_many.png")
 	
-	renderer.Copy(textureAtlas, nil, nil)
-	renderer.Present()
+	// renderer.Copy(textureAtlas, nil, nil)
+	// renderer.Present()
 	// surface.FillRect(nil, 0)
     // // rect := sdl.Rect{0, 0, 200, 200}
     // surface.FillRect(&rect, 0xffff0000)
@@ -122,10 +122,30 @@ func Init(){
 type Ui struct {
 }
 
+func DrawTile(cell world.Cell, x uint32, y uint32){
+	var mapY uint32 = uint32(cell/16)
+	var mapX uint32 = uint32(cell) - mapY*16
+
+	// fmt.Println( mapX, mapY )
+
+	srcRect := sdl.Rect{ int32(mapX*16), int32(mapY*16), 16, 16 }
+	dstRect := sdl.Rect{ int32(x*16), int32(y*16), 16, 16 }
+	renderer.Copy( textureAtlas, &srcRect, &dstRect )
+}
+
 func Draw(scene *world.Scene){
 
-	// for i, c := range *scene.Map{
-		// fmt.Println( *scene.Map )
-	// }
+	w := scene.Width
+	h := scene.Height
 
+	var x uint32 = 0
+	var y uint32 = 0
+
+	for x = 0 ; x < w; x++ {
+		for y = 0 ; y < h; y++ {
+			cell := (*scene.Map)[y][x]
+			DrawTile( cell, x, y)
+		}
+	}
+	renderer.Present()
 }
