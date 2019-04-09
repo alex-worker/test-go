@@ -1,9 +1,10 @@
-FROM golang:alpine
+# FROM golang:alpine
+FROM alpine:latest
 # RUN mkdir -p /go/src/app
 
 RUN apk update && \
     apk upgrade && \
-    apk add git libx11-dev alpine-sdk xterm && \
+    apk add git libx11-dev alpine-sdk mesa-gl xterm && \
     apk add sdl2-dev
 
 RUN adduser -D -g '' appuser
