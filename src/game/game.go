@@ -6,13 +6,6 @@ import (
 	"os"
 )
 
-// type Tile rune
-// const (
-// 	StoneWall Tile = '#'
-// 	DirtFloof Tile = '.'
-// 	Door Tile = '|'
-// )
-
 type Level struct {
 	Map[][]Tile
 }
