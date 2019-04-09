@@ -89,7 +89,7 @@ func loadTmxMap(filename string) (*[][]Cell, uint32, uint32) {
 		if err != nil {
 			panic(err)
 		}
-		myMap[y][x] = Cell(cell)
+		myMap[y][x] = Cell(cell-1)
 		x++
 		if ( x == w ){
 			y++
