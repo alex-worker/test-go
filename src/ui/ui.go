@@ -122,11 +122,10 @@ func Init(){
 type Ui struct {
 }
 
+func Draw(scene *world.Scene){
 
-func Draw(scene world.Scene){
-
-	for i, c := range *scene.Map{
-		// fmt.Println( i, c )
-	}
+	// for i, c := range *scene.Map{
+		// fmt.Println( *scene.Map )
+	// }
 
 }

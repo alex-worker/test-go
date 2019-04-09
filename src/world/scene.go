@@ -1,18 +1,17 @@
 package world
 
-type Cell uint64
+type Cell uint32
 
 type Scene struct {
-	Map *[]Cell
+	Map *[][]Cell
 	Width uint32
 	Height uint32
 }
 
-func LoadScene(filename string) Scene{
+func LoadScene(filename string) *Scene{
 
-	mymap, w, h := loadMap(filename)
-	return Scene{ Map: mymap, Width: w, Height: h }
-
-	// return nil
+	mymap, w, h := loadTmxMap(filename)
+	scene := Scene{ Map: mymap, Width: w, Height: h }
+	return &scene;
 
 }

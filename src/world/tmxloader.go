@@ -29,7 +29,19 @@ type tmxLayer struct {
 	Data string `xml:"data"`
 }
 
-func loadMap(filename string) (*[]Cell, uint32, uint32) {
+func createMap( w uint32, h uint32) [][]Cell{
+
+	myMap := make([][]Cell, h)
+
+	for i := range myMap {
+		myMap[i] = make([]Cell, w)
+	}
+
+	return myMap
+
+}
+
+func loadTmxMap(filename string) (*[][]Cell, uint32, uint32) {
 	fmt.Println("Loading map...")
 
 	xmlFile, err := os.Open(filename)
@@ -47,32 +59,44 @@ func loadMap(filename string) (*[]Cell, uint32, uint32) {
 	xml.Unmarshal(byteValue, &tmxmap)
 
 	re := regexp.MustCompile(`\r?\n`)
-	
 	normalizedMap := re.ReplaceAllString(tmxmap.Layer.Data, "")
 
+	// fmt.Println( strings.Trim( tmxmap.Layer.Data, "" ) )
+	// fmt.Println( "ok" )
 	myMapStr := strings.Split(normalizedMap, ",")
-	
-	w, err := strconv.ParseUint(tmxmap.Width, 10, 32)
+
+	// fmt.Println( myMapStr )
+
+	w64, err := strconv.ParseUint(tmxmap.Width, 10, 32)
     if err != nil {
         panic(err)
 	}
-	
-	h, err := strconv.ParseUint(tmxmap.Height, 10, 32)
+	var w uint32 = uint32(w64)
+
+	h64, err := strconv.ParseUint(tmxmap.Height, 10, 32)
     if err != nil {
         panic(err)
 	}
+	var h uint32 = uint32(h64)
 
-	myMap := make([]Cell, w * h )
+	myMap := createMap( w, h )
+	// myMapRow := make([]Cell, w )
 
-	for i, c := range myMapStr {
+	var x uint32 = 0
+	var y uint32 = 0
+	for _, c := range myMapStr {
 		cell, err := strconv.ParseUint(c, 10, 32)
-		// fmt.Println( err, i, cell )
 		if err != nil {
 			panic(err)
-		}	
-		myMap[i] = Cell( cell ) 
+		}
+		myMap[y][x] = Cell(cell)
+		x++
+		if ( x == w ){
+			y++
+			x = 0
+		}
 	}
 
-	return &myMap, uint32(w), uint32(h)
+	return &myMap, w, h
 	
 }
