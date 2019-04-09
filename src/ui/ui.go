@@ -83,7 +83,7 @@ func Destroy(){
 func Init(){
 
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
-	err := sdl.Init(sdl.INIT_EVERYTHING); 
+	err := sdl.Init(sdl.INIT_EVERYTHING)
 	if err != nil {
 		panic(err)
 	}
@@ -123,14 +123,15 @@ type Ui struct {
 }
 
 func DrawTile(cell world.Cell, x uint32, y uint32){
-	var mapY uint32 = uint32(cell/16)
-	var mapX uint32 = uint32(cell) - mapY*16
 
-	// fmt.Println( mapX, mapY )
+	mapY := int(cell) >> 4
+	mapX := int(cell) - mapY << 4
 
 	srcRect := sdl.Rect{ int32(mapX*16), int32(mapY*16), 16, 16 }
-	dstRect := sdl.Rect{ int32(x*16), int32(y*16), 16, 16 }
+	dstRect := sdl.Rect{ int32(x*32), int32(y*32), 32, 32 }
+
 	renderer.Copy( textureAtlas, &srcRect, &dstRect )
+
 }
 
 func Draw(scene *world.Scene){
@@ -147,5 +148,6 @@ func Draw(scene *world.Scene){
 			DrawTile( cell, x, y)
 		}
 	}
+
 	renderer.Present()
 }

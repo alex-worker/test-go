@@ -15,12 +15,12 @@ func main(){
     fmt.Println("Hello!")
     scene = world.LoadScene("game/maps/laboratory3.tmx")
 
-    // fmt.Println( scene.Map )
+    fmt.Println( scene.Map )
 
     ui.Init()
 
     for true {
-        ui.Draw( scene )
+        ui.Draw(scene)
         if !ui.Update( ) {
 			break
 		}
