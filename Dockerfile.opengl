@@ -1,0 +1,33 @@
+FROM jamesbrink/opengl:demos
+
+RUN apk update; \
+    apk upgrade
+
+ENV GOPATH=/go
+
+RUN mkdir -p /go/src/app
+
+RUN apk add git go 
+
+RUN apk add libx11-dev alpine-sdk sdl2-dev
+
+# RUN apk update && \
+    # apk upgrade && \
+    # apk add git libx11-dev alpine-sdk xterm && \
+    # apk add sdl2-dev
+
+RUN adduser -D -g '' appuser
+
+WORKDIR /go/src/app
+
+RUN go get -v github.com/veandco/go-sdl2/sdl
+# RUN go get -v github.com/veandco/go-sdl2/img
+# RUN go get -v github.com/veandco/go-sdl2/mix
+# RUN go get -v github.com/veandco/go-sdl2/ttf
+
+COPY ./src/ /go/src/app
+
+USER appuser
+
+ENTRYPOINT ["go", "run", "main.go"]
+# ENTRYPOINT ["glxgears"]

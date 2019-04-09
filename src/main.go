@@ -34,7 +34,7 @@ var myScene Scene
         defer sdl.Quit()
     
         window, err := sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-            800, 600, sdl.WINDOW_SHOWN | sdl.WINDOW_OPENGL )
+            800, 600, sdl.WINDOW_SHOWN )
         if err != nil {
             panic(err)
         }
