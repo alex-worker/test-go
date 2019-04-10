@@ -36,7 +36,7 @@ func HeroDo( dir def.Direction, act def.HeroAction ){
 
 }
 
-// HeroRotMove герой что-то делает
-func HeroRotMove( dir def.Direction ){
+// HeroMove герой поворачивается или двигается
+func HeroMove( dir def.Direction ){
 
 }
