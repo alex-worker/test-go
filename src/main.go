@@ -13,5 +13,6 @@ func main(){
     loadInfo := engine.LoadInfo{ MapName: mapName, TileName: tileName }
     fmt.Println("Hello!")
     engine.Init(loadInfo)
+    engine.Run()
 
 }
