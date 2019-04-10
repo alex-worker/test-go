@@ -2,30 +2,16 @@ package main
 
 import (
     "fmt"
-    // "github.com/veandco/go-sdl2/sdl"
-    // "./game"
-    // "./world"
-    // "./ui"
+    "./engine"
 )
 
-// var scene *world.Scene
+const mapName string = "data/laboratory3.tmx"
+const tileName string = "data/tiles_many.png"
 
 func main(){
 
+    loadInfo := engine.LoadInfo{ MapName: mapName, TileName: tileName }
     fmt.Println("Hello!")
-    // scene = world.LoadScene("game/maps/laboratory3.tmx")
-
-    // fmt.Println( scene.Map )
-
-    // ui.Init()
-
-    // for true {
-    //     ui.Draw(scene)
-    //     if !ui.Update( ) {
-	// 		break
-	// 	}
-    // }
-
-    // ui.Destroy()
+    engine.Init(loadInfo)
 
 }
