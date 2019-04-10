@@ -25,3 +25,9 @@ func LoadMap(filename string){
 func GetMap() *[][]def.Cell{
 	return cells
 }
+
+// GetHero указатель на героя
+func GetHero() *def.Hero {
+	return &hero
+}
+ 

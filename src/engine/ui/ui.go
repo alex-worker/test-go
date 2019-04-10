@@ -97,14 +97,14 @@ func DrawTile(cell def.Cell, x uint32, y uint32){
 }
 
 // Draw рисуем карту
-func Draw(calls *[][]def.Cell){
+func Draw(calls *[][]def.Cell, hero *def.Hero){
 
 	var x uint32
 	var y uint32
 
 	for x = 0 ; x < scrTilesWidth; x++ {
 		for y = 0 ; y < scrTilesHeight; y++ {
-			cell := (*calls)[y][x]
+			cell := (*calls)[y+hero.Y][x+hero.X]
 			DrawTile( cell, x, y)
 		}
 	}
