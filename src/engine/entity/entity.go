@@ -16,7 +16,7 @@ func LoadMap(filename string){
 	fmt.Println("Load map", filename)
 	cells, mapX, mapY = loadTmxMap( filename )
 	
-	hero = def.Hero{ X:5, Y:5 }
+	hero = def.Hero{ X:5, Y:5, Dir: def.DirDown }
 	
 	// fmt.Println( mapX, mapY, cells )
 }
