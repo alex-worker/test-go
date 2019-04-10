@@ -6,10 +6,22 @@ import (
 	"../def"
 )
 
-var window *sdl.Window = nil
-var renderer *sdl.Renderer = nil
-var textureAtlas *sdl.Texture = nil
+// размеры экрана в пикселях
+var scrPixelWidth int32
+var scrPixelHeight int32
 
+// размеры экрана в тайлах
+var scrTilesWidth uint32 = 15
+var scrTilesHeight uint32 = 11
+
+// размер одного тайла в пикселях
+var tilePixelSize int32
+
+var window *sdl.Window
+var renderer *sdl.Renderer
+var textureAtlas *sdl.Texture
+
+// Destroy уничтожаем ui
 func Destroy(){
 	renderer.Destroy()
 	window.Destroy()
@@ -17,20 +29,25 @@ func Destroy(){
 	fmt.Println("Ui offline...")
 }
 
+// Init инициализируем ui
 func Init(scr def.Rect){
 	fmt.Println("UI Init...")
-		// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
+		sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 		err := sdl.Init(sdl.INIT_EVERYTHING)
 		if err != nil {
 			panic(err)
 		}
 	
+		scrPixelWidth = int32(scr.Width)
+		scrPixelHeight = int32(scr.Height)
+
+		tilePixelSize = int32( uint32(scrPixelWidth) / scrTilesWidth )
+
 		window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		int32(scr.Width), int32(scr.Height), sdl.WINDOW_SHOWN )
+		scrPixelWidth, scrPixelHeight, sdl.WINDOW_SHOWN )
 		if err != nil {
 			panic(err)
 		}
-		
 		
 		// SDL_RENDERER_ACCELERATED для хардварной поддержки
 		renderer, err = sdl.CreateRenderer( window, -1, sdl.RENDERER_SOFTWARE)
@@ -39,13 +56,14 @@ func Init(scr def.Rect){
 		}
 	
 		// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
-		// textureAtlas = imgFileToTexture("ui/assets/tiles_many.png")
 }
 
+// LoadTiles загрузить файл тайлов
 func LoadTiles(filename string){
 	textureAtlas = imgFileToTexture(filename)
 }
 
+// Update обновление событий экрана
 // return false when window is closed
 func Update() bool {
 
@@ -63,31 +81,27 @@ func Update() bool {
 	return true
 }
 
+// DrawTile рисуем один тайл
 func DrawTile(cell def.Cell, x uint32, y uint32){
 
 	mapY := int(cell) >> 4
 	mapX := int(cell) - mapY << 4
 
-	srcRect := sdl.Rect{ int32(mapX*16), int32(mapY*16), 16, 16 }
-	dstRect := sdl.Rect{ int32(x*32), int32(y*32), 32, 32 }
+	srcRect := sdl.Rect{ X:int32(mapX*16), Y:int32(mapY*16), W:16, H:16 }
+	dstRect := sdl.Rect{ X:int32(x*32), Y:int32(y*32), W:32, H:32 }
 
 	renderer.Copy( textureAtlas, &srcRect, &dstRect )
 
 }
 
+// Draw рисуем карту
 func Draw(calls *[][]def.Cell){
 
-	// w := scene.Width
-	// h := scene.Height
+	var x uint32
+	var y uint32
 
-	var w uint32 = 15
-	var h uint32 = 11
-
-	var x uint32 = 0
-	var y uint32 = 0
-
-	for x = 0 ; x < w; x++ {
-		for y = 0 ; y < h; y++ {
+	for x = 0 ; x < scrTilesWidth; x++ {
+		for y = 0 ; y < scrTilesHeight; y++ {
 			cell := (*calls)[y][x]
 			DrawTile( cell, x, y)
 		}
