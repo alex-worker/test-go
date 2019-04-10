@@ -61,11 +61,7 @@ func loadTmxMap(filename string) (*[][]Cell, uint32, uint32) {
 	re := regexp.MustCompile(`\r?\n`)
 	normalizedMap := re.ReplaceAllString(tmxmap.Layer.Data, "")
 
-	// fmt.Println( strings.Trim( tmxmap.Layer.Data, "" ) )
-	// fmt.Println( "ok" )
 	myMapStr := strings.Split(normalizedMap, ",")
-
-	// fmt.Println( myMapStr )
 
 	w64, err := strconv.ParseUint(tmxmap.Width, 10, 32)
     if err != nil {
@@ -80,7 +76,6 @@ func loadTmxMap(filename string) (*[][]Cell, uint32, uint32) {
 	var h uint32 = uint32(h64)
 
 	myMap := createMap( w, h )
-	// myMapRow := make([]Cell, w )
 
 	var x uint32 = 0
 	var y uint32 = 0

@@ -4,28 +4,28 @@ import (
     "fmt"
     // "github.com/veandco/go-sdl2/sdl"
     // "./game"
-    "./world"
-    "./ui"
+    // "./world"
+    // "./ui"
 )
 
-var scene *world.Scene
+// var scene *world.Scene
 
 func main(){
 
     fmt.Println("Hello!")
-    scene = world.LoadScene("game/maps/laboratory3.tmx")
+    // scene = world.LoadScene("game/maps/laboratory3.tmx")
 
-    fmt.Println( scene.Map )
+    // fmt.Println( scene.Map )
 
-    ui.Init()
+    // ui.Init()
 
-    for true {
-        ui.Draw(scene)
-        if !ui.Update( ) {
-			break
-		}
-    }
+    // for true {
+    //     ui.Draw(scene)
+    //     if !ui.Update( ) {
+	// 		break
+	// 	}
+    // }
 
-    ui.Destroy()
+    // ui.Destroy()
 
 }
