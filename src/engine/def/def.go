@@ -15,3 +15,11 @@ type LoadInfo struct {
 	TileName string
 	ScreenSize Rect
 }
+
+// Hero герои и прочие npc
+type Hero struct {
+	X uint32
+	Y uint32
+	Dir uint8
+	Sprite Cell
+}

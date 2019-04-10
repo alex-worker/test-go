@@ -15,9 +15,10 @@ func Init(info def.LoadInfo){
 	fmt.Println(info)
 }
 
+// Run цикл
 func Run(){
 	
-	for true {
+	for true {	
 		ui.Draw( entity.GetMap() )
 		if !ui.Update() {
 			break
