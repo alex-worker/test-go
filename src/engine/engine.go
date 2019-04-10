@@ -29,6 +29,17 @@ func Run(){
 			break
 		}
 
+		switch evt {
+		case def.EventPressDown:
+			entity.HeroRotMove( def.DirDown )
+		case def.EventPressUp:
+			entity.HeroRotMove( def.DirUp )
+		case def.EventPressLeft:
+			entity.HeroRotMove( def.DirLeft )
+		case def.EventPressRight:
+			entity.HeroRotMove( def.DirRight )
+		}
+
 		ui.LookAtHero( entity.GetMap(), entity.GetHero() )
 
 	}

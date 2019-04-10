@@ -4,7 +4,7 @@ package def
 type GameEvent uint8
 const (
 
-	// EventEvent нет событий
+	// EventNo нет событий
 	EventNo GameEvent = iota
 
 	// EventPressUp вверх

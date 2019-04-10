@@ -31,3 +31,12 @@ func GetHero() *def.Hero {
 	return &hero
 }
  
+// HeroDo герой что-то делает
+func HeroDo( dir def.Direction, act def.HeroAction ){
+
+}
+
+// HeroRotMove герой что-то делает
+func HeroRotMove( dir def.Direction ){
+
+}
