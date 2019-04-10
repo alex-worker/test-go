@@ -65,9 +65,9 @@ func LoadTiles(filename string){
 	textureAtlas = imgFileToTexture(filename)
 }
 
-// Update обновление событий экрана
+// GetInput обновление событий экрана
 // return false when window is closed
-func Update() bool {
+func GetInput() def.GameEvent {
 
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch event.(type) {
@@ -75,12 +75,11 @@ func Update() bool {
 			// fmt.Println( event )
 			break
 		case *sdl.QuitEvent:
-			println("Quit")
-			return false
+			return def.EventQuit
 		}
 	}
 
-	return true
+	return def.EventNo
 }
 
 // DrawTile рисуем один тайл
@@ -96,8 +95,8 @@ func DrawTile(cell def.Cell, x uint32, y uint32){
 
 }
 
-// Draw рисуем карту
-func Draw(calls *[][]def.Cell, hero *def.Hero){
+// LookAtHero рисуем карту и героя
+func LookAtHero(calls *[][]def.Cell, hero *def.Hero){
 
 	var x uint32
 	var y uint32

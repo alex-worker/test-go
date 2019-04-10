@@ -19,11 +19,18 @@ func Init(info def.LoadInfo){
 // Run цикл
 func Run(){
 
+	var evt def.GameEvent
+
 	for true {
-		ui.Draw( entity.GetMap(), entity.GetHero() ) 
-		if !ui.Update() {
+		
+		evt = ui.GetInput()
+
+		if evt == def.EventQuit {
 			break
 		}
+
+		ui.LookAtHero( entity.GetMap(), entity.GetHero() )
+
 	}
 
 	ui.Destroy()
