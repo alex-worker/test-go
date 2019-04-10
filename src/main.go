@@ -9,12 +9,16 @@ import (
 const mapName string = "data/laboratory3.tmx"
 const tileName string = "data/tiles_many.png"
 
-const screenWidth uint32 = 640
-const screenHeight uint32 = 480
+var screenSize = def.Rect{ 
+    Width: 800,
+    Height: 600,
+}
 
 func main(){
-    loadInfo := def.LoadInfo{ MapName: mapName, TileName: tileName,
-        ScreenSize: def.Rect{ Width: screenWidth, Height:screenHeight },
+    loadInfo := def.LoadInfo{ 
+        MapName: mapName,
+        TileName: tileName,
+        ScreenSize: screenSize,
     }
     fmt.Println("Hello!")
     engine.Init(loadInfo)

@@ -17,7 +17,7 @@ func Destroy(){
 	fmt.Println("Ui offline...")
 }
 
-func Init(screenSize def.Rect){
+func Init(scr def.Rect){
 	fmt.Println("UI Init...")
 		// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 		err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -26,7 +26,7 @@ func Init(screenSize def.Rect){
 		}
 	
 		window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		800, 600, sdl.WINDOW_SHOWN )
+		int32(scr.Width), int32(scr.Height), sdl.WINDOW_SHOWN )
 		if err != nil {
 			panic(err)
 		}
