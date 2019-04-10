@@ -9,14 +9,14 @@ var cells *[][]def.Cell
 var mapX uint32 // размер карты
 var mapY uint32
 
+// LoadMap загрузить карту из файла
 func LoadMap(filename string){
 	fmt.Println("Load map", filename)
 	cells, mapX, mapY = loadTmxMap( filename )
 	// fmt.Println( mapX, mapY, cells )
 }
 
-// а может в common все перекинуть? %)
-
+// GetMap получаем карту
 func GetMap() *[][]def.Cell{
 	return cells
 }
