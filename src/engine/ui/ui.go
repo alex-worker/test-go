@@ -100,12 +100,40 @@ func DrawTile(cell def.Cell, x int, y int){
 }
 
 // LookAtHero рисуем карту и героя
-func LookAtHero(calls *[][]def.Cell, hero *def.Hero){
+func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
+
+	// mapWidth := len( *cells )
+	// mapWidthHalf := mapWidth / 32
+
+// половина экрана в тайлах
+	scrHalfWidth := scrTilesWidth / 2
+
+// максимальное смещение 
+	scrWindowPosMax := scrTilesWidth - scrHalfWidth
+
+	mapPosX = hero.X - scrHalfWidth
+	mapPosY = hero.Y - scrHalfWidth
+
+	if ( mapPosX < 0 ) {
+		mapPosX = 0
+	}
+
+	if ( mapPosY < 0 ) {
+		mapPosY = 0
+	}
+
+	if ( mapPosX > scrWindowPosMax ){
+		mapPosX = scrWindowPosMax
+	}
+
+	if ( mapPosY > scrWindowPosMax ){
+		mapPosY = scrWindowPosMax
+	}
 
 	renderer.Clear()
 	for x := 0; x < scrTilesWidth; x++ {
 		for y := 0 ; y < scrTilesHeight; y++ {
-			cell := (*calls)[y+mapPosX][x+mapPosY]
+			cell := (*cells)[y+mapPosX][x+mapPosY]
 			DrawTile( cell, x, y)
 		}
 	}

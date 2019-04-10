@@ -13,7 +13,6 @@ func Init(info def.LoadInfo){
 	ui.Init(info.ScreenSize)
 	ui.LoadTiles(info.TileName)
 	entity.LoadMap(info.MapName)
-	// fmt.Println(info)
 }
 
 // Run цикл

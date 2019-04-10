@@ -17,7 +17,7 @@ const (
 type HeroAction uint8
 const (
 	// DoStand встать
-	DoStand Direction = iota
+	DoStand HeroAction = iota
 	// DoGet взять
 	DoGet
 	// DoDrop бросить
