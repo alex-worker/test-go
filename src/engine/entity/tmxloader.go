@@ -10,6 +10,7 @@ import (
 	"strings"
 	"strconv"
 	"regexp"
+	"../def"
 )
 
 type tmxMap struct {
@@ -29,19 +30,19 @@ type tmxLayer struct {
 	Data string `xml:"data"`
 }
 
-func createMap( w uint32, h uint32) [][]Cell{
+func createMap( w uint32, h uint32) [][]def.Cell{
 
-	myMap := make([][]Cell, h)
+	myMap := make([][]def.Cell, h)
 
 	for i := range myMap {
-		myMap[i] = make([]Cell, w)
+		myMap[i] = make([]def.Cell, w)
 	}
 
 	return myMap
 
 }
 
-func loadTmxMap(filename string) (*[][]Cell, uint32, uint32) {
+func loadTmxMap(filename string) (*[][]def.Cell, uint32, uint32) {
 	fmt.Println("Loading map...")
 
 	xmlFile, err := os.Open(filename)
@@ -84,7 +85,7 @@ func loadTmxMap(filename string) (*[][]Cell, uint32, uint32) {
 		if err != nil {
 			panic(err)
 		}
-		myMap[y][x] = Cell(cell-1)
+		myMap[y][x] = def.Cell(cell-1)
 		x++
 		if ( x == w ){
 			y++

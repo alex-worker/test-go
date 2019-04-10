@@ -4,16 +4,12 @@ import (
 	"fmt"
 	"./entity"
 	"./ui"
+	"./def"
 )
 
-type LoadInfo struct {
-	MapName string
-	TileName string
-}
-
-func Init(info LoadInfo){
+func Init(info def.LoadInfo){
 	fmt.Println("Engine init...")
-	ui.Init()
+	ui.Init( info.ScreenSize )
 	ui.LoadTiles(info.TileName)
 	entity.LoadMap(info.MapName)
 	fmt.Println(info)

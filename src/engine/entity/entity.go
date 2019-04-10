@@ -2,11 +2,10 @@ package entity
 
 import (
 	"fmt"
+	"../def"
 )
 
-type Cell uint32
-
-var cells *[][]Cell
+var cells *[][]def.Cell
 var mapX uint32 // размер карты
 var mapY uint32
 
@@ -16,6 +15,8 @@ func LoadMap(filename string){
 	fmt.Println( mapX, mapY, cells )
 }
 
-func GetMap() *[][]Cell{
+// а может в common все перекинуть? %)
+
+func GetMap() *[][]def.Cell{
 	return cells
 }

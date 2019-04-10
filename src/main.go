@@ -3,16 +3,20 @@ package main
 import (
     "fmt"
     "./engine"
+    "./engine/def"
 )
 
 const mapName string = "data/laboratory3.tmx"
 const tileName string = "data/tiles_many.png"
 
-func main(){
+const screenWidth uint32 = 640
+const screenHeight uint32 = 480
 
-    loadInfo := engine.LoadInfo{ MapName: mapName, TileName: tileName }
+func main(){
+    loadInfo := def.LoadInfo{ MapName: mapName, TileName: tileName,
+        ScreenSize: def.Rect{ Width: screenWidth, Height:screenHeight },
+    }
     fmt.Println("Hello!")
     engine.Init(loadInfo)
     engine.Run()
-
 }

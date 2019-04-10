@@ -3,7 +3,7 @@ package ui
 import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
-	"../entity"
+	"../def"
 )
 
 var window *sdl.Window = nil
@@ -17,7 +17,7 @@ func Destroy(){
 	fmt.Println("Ui offline...")
 }
 
-func Init(){
+func Init(screenSize def.Rect){
 	fmt.Println("UI Init...")
 		// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 		err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -30,6 +30,7 @@ func Init(){
 		if err != nil {
 			panic(err)
 		}
+		
 		
 		// SDL_RENDERER_ACCELERATED для хардварной поддержки
 		renderer, err = sdl.CreateRenderer( window, -1, sdl.RENDERER_SOFTWARE)
@@ -62,7 +63,7 @@ func Update() bool {
 	return true
 }
 
-func DrawTile(cell entity.Cell, x uint32, y uint32){
+func DrawTile(cell def.Cell, x uint32, y uint32){
 
 	mapY := int(cell) >> 4
 	mapX := int(cell) - mapY << 4
@@ -74,13 +75,13 @@ func DrawTile(cell entity.Cell, x uint32, y uint32){
 
 }
 
-func Draw(calls *[][]entity.Cell){
+func Draw(calls *[][]def.Cell){
 
 	// w := scene.Width
 	// h := scene.Height
 
-	var w uint32 = 10
-	var h uint32 = 10
+	var w uint32 = 15
+	var h uint32 = 11
 
 	var x uint32 = 0
 	var y uint32 = 0
