@@ -68,18 +68,22 @@ func loadTmxMap(filename string) (*[][]def.Cell, uint32, uint32) {
     if err != nil {
         panic(err)
 	}
-	var w uint32 = uint32(w64)
+
+	var w uint32
+	var h uint32
+
+	w = uint32(w64)
 
 	h64, err := strconv.ParseUint(tmxmap.Height, 10, 32)
     if err != nil {
         panic(err)
 	}
-	var h uint32 = uint32(h64)
+	h = uint32(h64)
 
 	myMap := createMap( w, h )
 
-	var x uint32 = 0
-	var y uint32 = 0
+	var x uint32
+	var y uint32
 	for _, c := range myMapStr {
 		cell, err := strconv.ParseUint(c, 10, 32)
 		if err != nil {
