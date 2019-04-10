@@ -13,7 +13,7 @@ func Init(info def.LoadInfo){
 	ui.Init(info.ScreenSize)
 	ui.LoadTiles(info.TileName)
 	entity.LoadMap(info.MapName)
-	fmt.Println(info)
+	// fmt.Println(info)
 }
 
 // Run цикл
@@ -31,13 +31,13 @@ func Run(){
 
 		switch evt {
 		case def.EventPressDown:
-			entity.HeroRotMove( def.DirDown )
+			entity.HeroMove( def.DirDown )
 		case def.EventPressUp:
-			entity.HeroRotMove( def.DirUp )
+			entity.HeroMove( def.DirUp )
 		case def.EventPressLeft:
-			entity.HeroRotMove( def.DirLeft )
+			entity.HeroMove( def.DirLeft )
 		case def.EventPressRight:
-			entity.HeroRotMove( def.DirRight )
+			entity.HeroMove( def.DirRight )
 		}
 
 		ui.LookAtHero( entity.GetMap(), entity.GetHero() )
