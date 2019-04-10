@@ -5,8 +5,8 @@ type Cell uint32
 
 // Rect длина и ширина
 type Rect struct {
-	Width uint32
-	Height uint32
+	Width int
+	Height int
 }
 
 // LoadInfo структура хранения настроек игры

@@ -13,8 +13,8 @@ const (
 	DirDown
 )
 
-// Action действия
-type Action uint8
+// HeroAction действия
+type HeroAction uint8
 const (
 	// DoStand встать
 	DoStand Direction = iota
@@ -26,8 +26,8 @@ const (
 
 // Hero герои и прочие npc
 type Hero struct {
-	X uint32
-	Y uint32
+	X int
+	Y int
 	Dir Direction
 	Sprite Cell
 }

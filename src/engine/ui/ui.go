@@ -7,19 +7,23 @@ import (
 )
 
 // размеры экрана в пикселях
-var scrPixelWidth int32
-var scrPixelHeight int32
+var scrPixelWidth int
+var scrPixelHeight int
 
 // размеры экрана в тайлах
-var scrTilesWidth uint32 = 15
-var scrTilesHeight uint32 = 11
+var scrTilesWidth = 15
+var scrTilesHeight = 11
 
 // размер одного тайла в пикселях
-var tilePixelSize uint32
+var tilePixelSize int
 
 var window *sdl.Window
 var renderer *sdl.Renderer
 var textureAtlas *sdl.Texture
+
+// сдвиг на карте когда центрируемся на герое
+var mapPosX int
+var mapPosY int
 
 // Destroy уничтожаем ui
 func Destroy(){
@@ -38,15 +42,15 @@ func Init(scr def.Rect){
 			panic(err)
 		}
 	
-		scrPixelWidth = int32(scr.Width)
-		scrPixelHeight = int32(scr.Height)
+		scrPixelWidth = scr.Width
+		scrPixelHeight = scr.Height
 
-		tilePixelSize = uint32(scrPixelWidth) / scrTilesWidth
+		tilePixelSize = scrPixelWidth / scrTilesWidth
 
 		// fmt.Println( tilePixelSize )
 
 		window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		scrPixelWidth, scrPixelHeight, sdl.WINDOW_SHOWN )
+		int32(scrPixelWidth), int32(scrPixelHeight), sdl.WINDOW_SHOWN )
 		if err != nil {
 			panic(err)
 		}
@@ -83,7 +87,7 @@ func GetInput() def.GameEvent {
 }
 
 // DrawTile рисуем один тайл
-func DrawTile(cell def.Cell, x uint32, y uint32){
+func DrawTile(cell def.Cell, x int, y int){
 
 	mapY := int(cell) >> 4
 	mapX := int(cell) - mapY << 4
@@ -98,12 +102,10 @@ func DrawTile(cell def.Cell, x uint32, y uint32){
 // LookAtHero рисуем карту и героя
 func LookAtHero(calls *[][]def.Cell, hero *def.Hero){
 
-	var x uint32
-	var y uint32
-
-	for x = 0 ; x < scrTilesWidth; x++ {
-		for y = 0 ; y < scrTilesHeight; y++ {
-			cell := (*calls)[y+hero.Y][x+hero.X]
+	renderer.Clear()
+	for x := 0; x < scrTilesWidth; x++ {
+		for y := 0 ; y < scrTilesHeight; y++ {
+			cell := (*calls)[y+mapPosX][x+mapPosY]
 			DrawTile( cell, x, y)
 		}
 	}
