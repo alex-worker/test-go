@@ -3,6 +3,7 @@ package ui
 import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
+	"../entity"
 )
 
 var window *sdl.Window = nil
@@ -41,7 +42,7 @@ func Init(){
 }
 
 func LoadTiles(filename string){
-
+	textureAtlas = imgFileToTexture(filename)
 }
 
 // return false when window is closed
@@ -59,4 +60,37 @@ func Update() bool {
 	}
 
 	return true
+}
+
+func DrawTile(cell entity.Cell, x uint32, y uint32){
+
+	mapY := int(cell) >> 4
+	mapX := int(cell) - mapY << 4
+
+	srcRect := sdl.Rect{ int32(mapX*16), int32(mapY*16), 16, 16 }
+	dstRect := sdl.Rect{ int32(x*32), int32(y*32), 32, 32 }
+
+	renderer.Copy( textureAtlas, &srcRect, &dstRect )
+
+}
+
+func Draw(calls *[][]entity.Cell){
+
+	// w := scene.Width
+	// h := scene.Height
+
+	var w uint32 = 10
+	var h uint32 = 10
+
+	var x uint32 = 0
+	var y uint32 = 0
+
+	for x = 0 ; x < w; x++ {
+		for y = 0 ; y < h; y++ {
+			cell := (*calls)[y][x]
+			DrawTile( cell, x, y)
+		}
+	}
+
+	renderer.Present()
 }

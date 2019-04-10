@@ -12,6 +12,10 @@ var mapY uint32
 
 func LoadMap(filename string){
 	fmt.Println("Load map", filename)
-	cells, mapX, mapY := loadTmxMap( filename )
+	cells, mapX, mapY = loadTmxMap( filename )
 	fmt.Println( mapX, mapY, cells )
+}
+
+func GetMap() *[][]Cell{
+	return cells
 }

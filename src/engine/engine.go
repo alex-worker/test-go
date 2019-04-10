@@ -14,17 +14,20 @@ type LoadInfo struct {
 func Init(info LoadInfo){
 	fmt.Println("Engine init...")
 	ui.Init()
-	entity.LoadMap( info.MapName)
+	ui.LoadTiles(info.TileName)
+	entity.LoadMap(info.MapName)
 	fmt.Println(info)
-
 }
 
 func Run(){
 	
 	for true {
+		ui.Draw( entity.GetMap() )
 		if !ui.Update() {
 			break
 		}
 	}
+
+	ui.Destroy()
 	
 }
