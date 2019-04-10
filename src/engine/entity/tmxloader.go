@@ -1,4 +1,4 @@
-package world
+package entity
 
 // https://tutorialedge.net/golang/parsing-xml-with-golang/ 
 
