@@ -5,14 +5,20 @@ import (
 	"./entity"
 	"./ui"
 	"./def"
+	"./loaders"
 )
 
 // Init engine
 func Init(info def.LoadInfo){
 	fmt.Println("Engine init...")
 	ui.Init(info.ScreenSize)
-	ui.LoadTiles(info.TileName)
-	entity.LoadMap(info.MapName)
+
+	cells, tsxName := loaders.LoadTmx(info.MapName)
+
+	entity.SetMap( cells )
+
+	// ui.LoadTiles(info.TileName)
+	// entity.LoadMap(info.MapName)
 }
 
 // Run цикл
