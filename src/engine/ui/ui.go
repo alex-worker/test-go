@@ -108,10 +108,10 @@ func GetInput() def.GameEvent {
 // DrawTile рисуем один тайл
 func DrawTile(cell def.Cell, x int, y int){
 
-	mapY := int(cell) >> 4
-	mapX := int(cell) - mapY << 4
+	mapY := int32(cell) >> 4
+	mapX := int32(cell) - mapY << 4
 
-	srcRect := sdl.Rect{ X:int32(mapX*16), Y:int32(mapY*16), W:tileW, H:tileH }
+	srcRect := sdl.Rect{ X:int32(mapX*tileW), Y:int32(mapY*tileH), W:tileW, H:tileH }
 	dstRect := sdl.Rect{ X:int32(x*tilePixelSize), Y:int32(y*tilePixelSize), W:int32(tilePixelSize), H:int32(tilePixelSize) }
 
 	renderer.Copy( textureAtlas, &srcRect, &dstRect )
