@@ -8,13 +8,20 @@ import (
 	"./loaders"
 )
 
+var resPath string
+
 // Init engine
 func Init(info def.LoadInfo){
 	fmt.Println("Engine init...")
+	
+	resPath = info.ResourceFolder
+
 	ui.Init(info.ScreenSize)
 
-	cells, tsxName := loaders.LoadTmx(info.MapName)
+	cells, tsxName := loaders.LoadTmx(resPath+info.MapName)
+	tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)
 
+	println( tileFileName, tileW, tileH )
 	entity.SetMap( cells )
 
 	// ui.LoadTiles(info.TileName)

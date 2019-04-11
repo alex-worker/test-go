@@ -13,13 +13,31 @@ import (
 	"../def"
 )
 
+type tsxTileSet struct {
+	XMLName xml.Name `xml:"tileset"`
+	Width string `xml:"tilewidth,attr"`
+	Height string `xml:"tileheight,attr"`	
+	Image tsxImage `xml:"image"`
+}
+
+type tsxImage struct {
+	XMLName xml.Name `xml:"image"`	
+	Source string `xml:"source,attr"`
+}
+
 type tmxMap struct {
 	XMLName xml.Name `xml:"map"`
 	Width string `xml:"width,attr"`
 	Height string `xml:"height,attr"`
 	TileWidth string `xml:"tilewidth,attr"`
 	TileHeight string `xml:"tileheight,attr"`
-    Layer      tmxLayer `xml:"layer"`
+	TileSet tileSet `xml:"tileset"`
+    Layer tmxLayer `xml:"layer"`
+}
+
+type tileSet struct {
+	XMLName xml.Name `xml:"tileset"`
+	Source string `xml:"source,attr"`
 }
 
 type tmxLayer struct {
@@ -42,18 +60,50 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 
 }
 
-// LoadTmxMap по файлу возвращаются 
+// LoadTSX загружаем файл описания тайлов
+func LoadTSX(filename string) (tileName string, w uint32, h uint32) {
+	fmt.Println("Loading TSX...")
+
+	xmlFile, err := os.Open(filename)
+	if err != nil {
+		panic(err)
+	}	
+	defer xmlFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(xmlFile)
+
+	var tsxmap tsxTileSet
+	xml.Unmarshal(byteValue, &tsxmap)
+
+	w64, err := strconv.ParseUint(tsxmap.Width, 10, 32)
+    if err != nil {
+        panic(err)
+	}
+
+	w = uint32(w64)
+
+	h64, err := strconv.ParseUint(tsxmap.Height, 10, 32)
+    if err != nil {
+        panic(err)
+	}
+	
+	h = uint32(h64)
+
+	tileName = tsxmap.Image.Source
+	return
+
+}
+
+// LoadTmx по файлу возвращаются 
 // cells - карта width x height
 // tsxFileName - имя файла описания
 func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
 	fmt.Println("Loading map...")
 
 	xmlFile, err := os.Open(filename)
-
 	if err != nil {
 		panic(err)
-	}
-	
+	}	
 	defer xmlFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(xmlFile)
@@ -71,9 +121,6 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
     if err != nil {
         panic(err)
 	}
-
-	// var w uint32
-	// var h uint32
 
 	w := uint32(w64)
 
@@ -102,6 +149,7 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
 	}
 
 	cells = &myMap
+	tsxFileName = tmxmap.TileSet.Source
 	
 	return
 	
