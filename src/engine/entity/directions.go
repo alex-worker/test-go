@@ -2,9 +2,10 @@ package entity
 
 import (
 	"../def"
+	"errors"
 )
 
-func calcNewPos( pos *def.Pos, dir def.Direction )( *def.Pos, bool){
+func calcNewPos( pos *def.Pos, dir def.Direction )( *def.Pos, error){
 
 	x := pos.X
 	y := pos.Y
@@ -20,10 +21,14 @@ func calcNewPos( pos *def.Pos, dir def.Direction )( *def.Pos, bool){
 	}
 
 	if ( x<0 ) {
-		return nil, false
+		return nil, errors.New("Туда нельзя")
+	}
+
+	if ( y<0 ) {
+		return nil, errors.New("Туда нельзя")
 	}
 
 	newPos := def.Pos{ X: x, Y: y}
-	return &newPos, true
+	return &newPos, nil
 
 }
