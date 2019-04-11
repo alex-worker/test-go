@@ -46,7 +46,8 @@ func HeroMove( dir def.Direction ){
 	oldPos := curHero.Pos
 
 	newPos,err := calcNewPos( &oldPos, dir )
-	if !err {
+	if err != nil {
+		fmt.Print(err)
 		return
 	}
 
@@ -59,7 +60,7 @@ func heroAction(pos *def.Pos, act def.HeroAction){
 }
 
 func heroStand(pos *def.Pos){
-
+	curHero.Pos = *pos
 }
 
 func heroGet(pos *def.Pos){

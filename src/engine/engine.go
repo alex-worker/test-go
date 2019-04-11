@@ -39,6 +39,8 @@ func Run(){
 			entity.HeroMove( def.DirRight )
 		}
 
+		entity.HeroMove( def.DirRight)
+
 		ui.LookAtHero( entity.GetMap(), entity.GetHero() )
 
 	}
