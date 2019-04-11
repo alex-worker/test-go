@@ -61,7 +61,7 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 }
 
 // LoadTSX загружаем файл описания тайлов
-func LoadTSX(filename string) (tileName string, w uint32, h uint32) {
+func LoadTSX(filename string) (tileName string, w int32, h int32) {
 	fmt.Println("Loading TSX...")
 
 	xmlFile, err := os.Open(filename)
@@ -80,14 +80,14 @@ func LoadTSX(filename string) (tileName string, w uint32, h uint32) {
         panic(err)
 	}
 
-	w = uint32(w64)
+	w = int32(w64)
 
 	h64, err := strconv.ParseUint(tsxmap.Height, 10, 32)
     if err != nil {
         panic(err)
 	}
 	
-	h = uint32(h64)
+	h = int32(h64)
 
 	tileName = tsxmap.Image.Source
 	return
