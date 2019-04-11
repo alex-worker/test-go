@@ -20,4 +20,5 @@ type LoadInfo struct {
 	MapName string
 	ResourceFolder string
 	ScreenSize Rect
+	FontName string
 }
