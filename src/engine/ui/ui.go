@@ -8,6 +8,7 @@ import (
 
 var tileW int32
 var tileH int32
+var tileShift uint
 
 var keyboardState []uint8
 
@@ -75,7 +76,18 @@ func Init(scr def.Rect){
 func LoadTiles(filename string, w int32, h int32){
 	tileW = w
 	tileH = h
-	textureAtlas = imgFileToTexture(filename)
+
+	texture, texW, _ := imgFileToTexture(filename)
+	
+	tileInTexture := texW / int(tileW)
+	tileShift = 1
+
+	for tileInTexture>2 { // ручной логарифм по основанию 2 !
+		tileInTexture = tileInTexture / 2
+		tileShift++
+	}
+	
+	textureAtlas = texture
 }
 
 // GetInput обновление событий экрана
@@ -108,8 +120,8 @@ func GetInput() def.GameEvent {
 // DrawTile рисуем один тайл
 func DrawTile(cell def.Cell, x int, y int){
 
-	mapY := int32(cell) >> 4
-	mapX := int32(cell) - mapY << 4
+	mapY := int32(cell) >> tileShift
+	mapX := int32(cell) - mapY << tileShift
 
 	srcRect := sdl.Rect{ X:int32(mapX*tileW), Y:int32(mapY*tileH), W:tileW, H:tileH }
 	dstRect := sdl.Rect{ X:int32(x*tilePixelSize), Y:int32(y*tilePixelSize), W:int32(tilePixelSize), H:int32(tilePixelSize) }
