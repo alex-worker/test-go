@@ -1,4 +1,4 @@
-package entity
+package loaders
 
 // https://tutorialedge.net/golang/parsing-xml-with-golang/ 
 
@@ -42,7 +42,10 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 
 }
 
-func loadTmxMap(filename string) (*[][]def.Cell, uint32, uint32) {
+// LoadTmxMap по файлу возвращаются 
+// cells - карта width x height
+// tsxFileName - имя файла описания
+func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
 	fmt.Println("Loading map...")
 
 	xmlFile, err := os.Open(filename)
@@ -69,16 +72,17 @@ func loadTmxMap(filename string) (*[][]def.Cell, uint32, uint32) {
         panic(err)
 	}
 
-	var w uint32
-	var h uint32
+	// var w uint32
+	// var h uint32
 
-	w = uint32(w64)
+	w := uint32(w64)
 
 	h64, err := strconv.ParseUint(tmxmap.Height, 10, 32)
     if err != nil {
         panic(err)
 	}
-	h = uint32(h64)
+	
+	h := uint32(h64)
 
 	myMap := createMap( w, h )
 
@@ -97,6 +101,10 @@ func loadTmxMap(filename string) (*[][]def.Cell, uint32, uint32) {
 		}
 	}
 
-	return &myMap, w, h
+	cells = &myMap
+	
+	return
+	
+	// return &myMap, w, h, "lol"
 	
 }

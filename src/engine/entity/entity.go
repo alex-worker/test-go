@@ -11,19 +11,29 @@ var mapY uint32
 
 var curHero *def.Hero
 
-// LoadMap загрузить карту из файла
-func LoadMap(filename string){
-	fmt.Println("Load map", filename)
-	cells, mapX, mapY = loadTmxMap( filename )
-	
-	hero := def.Hero{ 
-		Pos: def.Pos{X:177, Y:542},
-		Dir: def.DirDown }
-
-	curHero = &hero
-	
-	// fmt.Println( mapX, mapY, cells )
+// SetMap устанавливаем карту
+func SetMap( mycells *[][]def.Cell ){
+	cells = mycells
+	mapX = uint32(len (*mycells))
+	mapY = uint32(len ((*mycells)[0]))
 }
+
+// // LoadMap загрузить карту из файла
+// func LoadMap(filename string){
+// 	fmt.Println("Load map", filename)
+
+// 	var tsxName string
+
+// 	cells, mapX, mapY, tsxName = loadTmxMap( filename )
+	
+// 	hero := def.Hero{
+// 		Pos: def.Pos{X:177, Y:542},
+// 		Dir: def.DirDown }
+
+// 	curHero = &hero
+	
+// 	// fmt.Println( mapX, mapY, cells )
+// }
 
 // GetMap получаем карту
 func GetMap() *[][]def.Cell{

@@ -73,6 +73,11 @@ func LoadTiles(filename string){
 	textureAtlas = imgFileToTexture(filename)
 }
 
+// LoadTilesFromTiledMap загружаем по имени файла в карте 
+func LoadTilesFromTiledMap(filename string){
+	
+}
+
 // GetInput обновление событий экрана
 // return false when window is closed
 func GetInput() def.GameEvent {
