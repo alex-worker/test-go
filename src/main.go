@@ -6,8 +6,8 @@ import (
     "./engine/def"
 )
 
-// const mapName string = "mycastle.tmx"
-const mapName string = "laboratory3.tmx"
+const mapName string = "mycastle.tmx"
+// const mapName string = "laboratory3.tmx"
 const resPath string = "data/"
 
 var screenSize = def.Rect{ 

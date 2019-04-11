@@ -6,7 +6,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-func imgFileToTexture(filename string) *sdl.Texture {
+func imgFileToTexture(filename string) (texture *sdl.Texture, w int, h int ) {
 	infile, err := os.Open( filename )
 	if err != nil {
 		panic(err)
@@ -17,8 +17,8 @@ func imgFileToTexture(filename string) *sdl.Texture {
 		panic(err)
 	}
 
-	w := img.Bounds().Max.X
-	h := img.Bounds().Max.Y
+	w = img.Bounds().Max.X
+	h = img.Bounds().Max.Y
 
 	pixels := make([]byte,w*h*4)
 	bIndex := 0
@@ -36,16 +36,16 @@ func imgFileToTexture(filename string) *sdl.Texture {
 		}
 	}
 
-	tex,err := renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STATIC, int32(w), int32(h) )
+	texture,err = renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STATIC, int32(w), int32(h) )
 	if err != nil {
 		panic(err)
 	}
-	tex.Update(nil, pixels, w*4)
+	texture.Update(nil, pixels, w*4)
 
-	err = tex.SetBlendMode(sdl.BLENDMODE_BLEND)
+	err = texture.SetBlendMode(sdl.BLENDMODE_BLEND)
 	if err != nil {
 		panic(err)
 	}
 
-	return tex
+	return
 }
