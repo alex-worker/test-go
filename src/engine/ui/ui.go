@@ -116,10 +116,12 @@ func DrawTile(cell def.Cell, x int, y int){
 // LookAtHero рисуем карту и героя
 func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 
-	mapWidth := len( *cells )
-	mapHeight := len( *cells ) // lol
+	mymap := *cells
 
-	// mapWidthHalf := mapWidth / 32
+	mapWidth := len( mymap )
+	mapHeight := len( mymap[0] ) 
+
+	// println( mapHeight )
 
 // половина экрана в тайлах
 	scrHalfWidth := scrTilesWidth / 2
@@ -148,12 +150,12 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 		mapPosY = scrWindowPosMaxY
 	}
 
-	println( mapPosX, mapPosY)
+	// println( mapPosX, mapPosY)
 
 	renderer.Clear()
 	for x := 0; x < scrTilesWidth; x++ {
 		for y := 0 ; y < scrTilesHeight; y++ {
-			cell := (*cells)[y+mapPosY][x+mapPosX]
+			cell := mymap[y+mapPosY][x+mapPosX]
 			DrawTile( cell, x, y)
 		}
 	}
