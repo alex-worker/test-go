@@ -16,7 +16,9 @@ func LoadMap(filename string){
 	fmt.Println("Load map", filename)
 	cells, mapX, mapY = loadTmxMap( filename )
 	
-	hero := def.Hero{ X:5, Y:5, Dir: def.DirDown }
+	hero := def.Hero{ 
+		Pos: def.Pos{X:5, Y:5},
+		Dir: def.DirDown }
 
 	curHero = &hero
 	
@@ -41,7 +43,7 @@ func HeroDo( dir def.Direction, act def.HeroAction ){
 // HeroMove герой поворачивается или двигается
 func HeroMove( dir def.Direction ){
 
-	oldPos := def.Pos{ X: curHero.X, Y: curHero.Y }
+	oldPos := curHero.Pos
 
 	newPos,err := calcNewPos( &oldPos, dir )
 	if !err {
