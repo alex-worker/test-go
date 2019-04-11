@@ -17,7 +17,7 @@ func LoadMap(filename string){
 	cells, mapX, mapY = loadTmxMap( filename )
 	
 	hero := def.Hero{ 
-		Pos: def.Pos{X:5, Y:5},
+		Pos: def.Pos{X:177, Y:542},
 		Dir: def.DirDown }
 
 	curHero = &hero
