@@ -2,7 +2,11 @@ package ui
 
 import (
 	"fmt"
+
+	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/veandco/go-sdl2/ttf"
+	// "github.com/veandco/go-sdl2/mix"
 	"../def"
 )
 
@@ -35,7 +39,7 @@ var mapPosX int
 var mapPosY int
 
 // Destroy уничтожаем ui
-func Destroy(){
+func Destroy() {
 	renderer.Destroy()
 	window.Destroy()
 	sdl.Quit()
@@ -43,53 +47,65 @@ func Destroy(){
 }
 
 // Init инициализируем ui
-func Init(scr def.Rect){
+func Init(scr def.Rect) {
 	fmt.Println("UI Init...")
-		// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
-		err := sdl.Init(sdl.INIT_EVERYTHING)
-		if err != nil {
-			panic(err)
-		}
-	
-		scrPixelWidth = scr.Width
-		scrPixelHeight = scr.Height
+	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
+	err := sdl.Init(sdl.INIT_EVERYTHING)
+	if err != nil {
+		panic(err)
+	}
 
-		tilePixelSize = scrPixelWidth / scrTilesWidth
+	img.Init(img.INIT_PNG)
 
-		// fmt.Println( tilePixelSize )
+	// err = mix.Init(mix.INIT_MP3)
+	// if err != nil {
+		// panic(err)
+	// }
 
-		window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		int32(scrPixelWidth), int32(scrPixelHeight), sdl.WINDOW_SHOWN )
-		if err != nil {
-			panic(err)
-		}
-		
-		// SDL_RENDERER_ACCELERATED для хардварной поддержки
-		renderer, err = sdl.CreateRenderer( window, -1, sdl.RENDERER_SOFTWARE)
-		if err != nil {
-			panic(err)
-		}
-	
-		// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
+	err = ttf.Init()
+	if err != nil {
+		panic(err)
+	}
 
-		keyboardState = sdl.GetKeyboardState()
+	scrPixelWidth = scr.Width
+	scrPixelHeight = scr.Height
+
+	tilePixelSize = scrPixelWidth / scrTilesWidth
+
+	// fmt.Println( tilePixelSize )
+
+	window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+		int32(scrPixelWidth), int32(scrPixelHeight), sdl.WINDOW_SHOWN)
+	if err != nil {
+		panic(err)
+	}
+
+	// SDL_RENDERER_ACCELERATED для хардварной поддержки
+	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE)
+	if err != nil {
+		panic(err)
+	}
+
+	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
+
+	keyboardState = sdl.GetKeyboardState()
 }
 
 // LoadTiles загрузить файл тайлов
-func LoadTiles(filename string, w int32, h int32){
+func LoadTiles(filename string, w int32, h int32) {
 	tileW = w
 	tileH = h
 
 	texture, texW, _ := imgFileToTexture(filename)
-	
+
 	tileInTexture := texW / int(tileW)
 	tileShift = 1
 
-	for tileInTexture>2 { // ручной логарифм по основанию 2 !
+	for tileInTexture > 2 { // ручной логарифм по основанию 2 !
 		tileInTexture = tileInTexture / 2
 		tileShift++
 	}
-	
+
 	textureAtlas = texture
 }
 
@@ -121,50 +137,50 @@ func GetInput() def.GameEvent {
 }
 
 // DrawTile рисуем один тайл
-func DrawTile(cell def.Cell, x int, y int){
+func DrawTile(cell def.Cell, x int, y int) {
 
 	mapY := int32(cell) >> tileShift
-	mapX := int32(cell) - mapY << tileShift
+	mapX := int32(cell) - mapY<<tileShift
 
-	srcRect := sdl.Rect{ X:int32(mapX*tileW), Y:int32(mapY*tileH), W:tileW, H:tileH }
-	dstRect := sdl.Rect{ X:int32(x*tilePixelSize), Y:int32(y*tilePixelSize), W:int32(tilePixelSize), H:int32(tilePixelSize) }
+	srcRect := sdl.Rect{X: int32(mapX * tileW), Y: int32(mapY * tileH), W: tileW, H: tileH}
+	dstRect := sdl.Rect{X: int32(x * tilePixelSize), Y: int32(y * tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
 
-	renderer.Copy( textureAtlas, &srcRect, &dstRect )
+	renderer.Copy(textureAtlas, &srcRect, &dstRect)
 
 }
 
 // LookAtHero рисуем карту и героя
-func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
+func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 
 	mymap := *cells
 
-	mapWidth := len( mymap )
-	mapHeight := len( mymap[0] ) 
+	mapWidth := len(mymap)
+	mapHeight := len(mymap[0])
 
-// половина экрана в тайлах
+	// половина экрана в тайлах
 	scrHalfWidth := scrTilesWidth / 2
-	scrHalfHeight := scrTilesHeight / 2 
+	scrHalfHeight := scrTilesHeight / 2
 
-// максимальное смещение 
+	// максимальное смещение
 	scrWindowPosMaxX := mapWidth - scrTilesWidth
 	scrWindowPosMaxY := mapHeight - scrTilesHeight
 
 	mapPosX = hero.Pos.X - scrHalfWidth
 	mapPosY = hero.Pos.Y - scrHalfHeight
 
-	if ( mapPosX < 0 ) {
+	if mapPosX < 0 {
 		mapPosX = 0
 	}
 
-	if ( mapPosY < 0 ) {
+	if mapPosY < 0 {
 		mapPosY = 0
 	}
 
-	if ( mapPosX > scrWindowPosMaxX ){
+	if mapPosX > scrWindowPosMaxX {
 		mapPosX = scrWindowPosMaxX
 	}
 
-	if ( mapPosY > scrWindowPosMaxY ){
+	if mapPosY > scrWindowPosMaxY {
 		mapPosY = scrWindowPosMaxY
 	}
 
@@ -173,24 +189,24 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 	renderer.Clear()
 
 	for x := 0; x < scrTilesWidth; x++ {
-		for y := 0 ; y < scrTilesHeight; y++ {
+		for y := 0; y < scrTilesHeight; y++ {
 			cell := mymap[y+mapPosY][x+mapPosX]
-			DrawTile( cell, x, y)
+			DrawTile(cell, x, y)
 		}
 	}
 
 	renderer.Present()
 	currentTime = sdl.GetTicks()
-	
+
 	delta := currentTime - lastTime
-	
-	if( delta > 0){
+
+	if delta > 0 {
 		fps = 1000 / delta
 	} else {
 		fps = 100500
 	}
 
-	println( fps )
-	
+	println(fps)
+
 	lastTime = currentTime
 }
