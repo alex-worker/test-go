@@ -33,6 +33,7 @@ var tilePixelSize int
 var window *sdl.Window
 var renderer *sdl.Renderer
 var textureAtlas *sdl.Texture
+var curFont *ttf.Font
 
 // сдвиг на карте когда центрируемся на герое
 var mapPosX int
@@ -40,6 +41,10 @@ var mapPosY int
 
 // Destroy уничтожаем ui
 func Destroy() {
+	
+	curFont.Close()
+	ttf.Quit()
+
 	renderer.Destroy()
 	window.Destroy()
 	sdl.Quit()
@@ -89,6 +94,16 @@ func Init(scr def.Rect) {
 	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 
 	keyboardState = sdl.GetKeyboardState()
+}
+
+// LoadFont грузим шрифт
+func LoadFont(fontname string) {
+	fmt.Println( "Loading font...", fontname)
+	font,err := ttf.OpenFont(fontname+".ttf", 24)
+	if err != nil {
+		sdl.LogError(sdl.LOG_CATEGORY_APPLICATION, "OpenFont: %s\n", err)
+	}
+	curFont = font
 }
 
 // LoadTiles загрузить файл тайлов
@@ -195,7 +210,6 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 		}
 	}
 
-	renderer.Present()
 	currentTime = sdl.GetTicks()
 
 	delta := currentTime - lastTime
@@ -206,7 +220,44 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 		fps = 100500
 	}
 
-	println(fps)
+	fpsStr := fmt.Sprintf("fps: %v", fps)
+	// println(fps)
+	printAt( fpsStr, 0, 0)
 
 	lastTime = currentTime
+
+	renderer.Present()
+}
+
+
+func printAt(text string, x int32, y int32){
+	
+	grapText, err := renderText( text,
+		sdl.Color{R:255, G:255, B:255, A:0},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	_, _, tW, tH, _ := grapText.Query()
+
+	// const n = 128
+
+	rect := sdl.Rect{ X: 10, Y:10, W: tW, H: tH}
+
+	grapText.SetAlphaMod(255)
+	renderer.Copy(grapText, nil, &rect)
+
+}
+
+func renderText(text string, color sdl.Color) (texture *sdl.Texture, err error) {
+	surface, err := curFont.RenderUTF8Blended(text, color)
+	if err != nil {
+		panic(err)
+	}
+
+	defer surface.Free()
+
+	texture, err = renderer.CreateTextureFromSurface(surface)
+	return
 }

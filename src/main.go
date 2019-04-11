@@ -6,6 +6,7 @@ import (
     "./engine/def"
 )
 
+const fontName string = "CaslonBold"
 const mapName string = "mycastle.tmx"
 // const mapName string = "laboratory3.tmx"
 const resPath string = "data/"
@@ -18,6 +19,7 @@ var screenSize = def.Rect{
 func main(){
     loadInfo := def.LoadInfo{ 
         MapName: mapName,
+        FontName: fontName,
         ResourceFolder: resPath,
         ScreenSize: screenSize,
     }

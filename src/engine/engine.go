@@ -27,6 +27,8 @@ func Init(info def.LoadInfo){
 	
 	entity.SetHero( &hero )
 	entity.SetMap( cells )
+
+	ui.LoadFont(resPath+info.FontName)
 	ui.LoadTiles(resPath+tileFileName, tileW, tileH)
 
 }
