@@ -206,7 +206,9 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 	for x := 0; x < scrTilesWidth; x++ {
 		for y := 0; y < scrTilesHeight; y++ {
 			cell := mymap[y+mapPosY][x+mapPosX]
-			DrawTile(cell, x, y)
+			if cell != 0 {
+				DrawTile(cell, x, y)
+			}
 		}
 	}
 
