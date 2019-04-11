@@ -111,8 +111,8 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 // максимальное смещение 
 	scrWindowPosMax := scrTilesWidth - scrHalfWidth
 
-	mapPosX = hero.X - scrHalfWidth
-	mapPosY = hero.Y - scrHalfWidth
+	mapPosX = hero.Pos.X - scrHalfWidth
+	mapPosY = hero.Pos.Y - scrHalfWidth
 
 	if ( mapPosX < 0 ) {
 		mapPosX = 0

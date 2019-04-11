@@ -26,8 +26,9 @@ const (
 
 // Hero герои и прочие npc
 type Hero struct {
-	X int
-	Y int
+	// X int
+	// Y int
+	Pos Pos
 	Dir Direction
 	Sprite Cell
 }
