@@ -19,17 +19,22 @@ func Init(info def.LoadInfo){
 	ui.Init(info.ScreenSize)
 
 	cells, tsxName := loaders.LoadTmx(resPath+info.MapName)
-	tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)
+	tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)	
+	
+	hero := def.Hero{
+		Pos: def.Pos{X:177, Y:542},
+		Dir: def.DirDown }
 
-	println( tileFileName, tileW, tileH )
+	entity.SetHero( &hero )
 	entity.SetMap( cells )
+	ui.LoadTiles(resPath+tileFileName, tileW, tileH)
 
-	// ui.LoadTiles(info.TileName)
-	// entity.LoadMap(info.MapName)
 }
 
 // Run цикл
 func Run(){
+
+	fmt.Println("Engine run...")
 
 	var evt def.GameEvent
 

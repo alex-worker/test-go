@@ -6,6 +6,9 @@ import (
 	"../def"
 )
 
+var tileW int32
+var tileH int32
+
 var keyboardState []uint8
 
 // размеры экрана в пикселях
@@ -69,13 +72,10 @@ func Init(scr def.Rect){
 }
 
 // LoadTiles загрузить файл тайлов
-func LoadTiles(filename string){
+func LoadTiles(filename string, w int32, h int32){
+	tileW = w
+	tileH = h
 	textureAtlas = imgFileToTexture(filename)
-}
-
-// LoadTilesFromTiledMap загружаем по имени файла в карте 
-func LoadTilesFromTiledMap(filename string){
-	
 }
 
 // GetInput обновление событий экрана
@@ -111,7 +111,7 @@ func DrawTile(cell def.Cell, x int, y int){
 	mapY := int(cell) >> 4
 	mapX := int(cell) - mapY << 4
 
-	srcRect := sdl.Rect{ X:int32(mapX*16), Y:int32(mapY*16), W:16, H:16 }
+	srcRect := sdl.Rect{ X:int32(mapX*16), Y:int32(mapY*16), W:tileW, H:tileH }
 	dstRect := sdl.Rect{ X:int32(x*tilePixelSize), Y:int32(y*tilePixelSize), W:int32(tilePixelSize), H:int32(tilePixelSize) }
 
 	renderer.Copy( textureAtlas, &srcRect, &dstRect )
@@ -125,8 +125,6 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 
 	mapWidth := len( mymap )
 	mapHeight := len( mymap[0] ) 
-
-	// println( mapHeight )
 
 // половина экрана в тайлах
 	scrHalfWidth := scrTilesWidth / 2
@@ -158,6 +156,7 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 	// println( mapPosX, mapPosY)
 
 	renderer.Clear()
+
 	for x := 0; x < scrTilesWidth; x++ {
 		for y := 0 ; y < scrTilesHeight; y++ {
 			cell := mymap[y+mapPosY][x+mapPosX]

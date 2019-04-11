@@ -18,6 +18,11 @@ func SetMap( mycells *[][]def.Cell ){
 	mapY = uint32(len ((*mycells)[0]))
 }
 
+// SetHero устанавливаем главного героя
+func SetHero( hero *def.Hero ){
+	curHero = hero
+}
+
 // // LoadMap загрузить карту из файла
 // func LoadMap(filename string){
 // 	fmt.Println("Load map", filename)
