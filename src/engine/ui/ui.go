@@ -6,6 +6,9 @@ import (
 	"../def"
 )
 
+var fps uint32
+var lastTime, currentTime uint32
+
 var tileW int32
 var tileH int32
 var tileShift uint
@@ -177,4 +180,17 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 	}
 
 	renderer.Present()
+	currentTime = sdl.GetTicks()
+	
+	delta := currentTime - lastTime
+	
+	if( delta > 0){
+		fps = 1000 / delta
+	} else {
+		fps = 100500
+	}
+
+	println( fps )
+	
+	lastTime = currentTime
 }
