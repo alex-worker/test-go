@@ -6,6 +6,8 @@ import (
 	"../def"
 )
 
+var keyboardState []uint8
+
 // размеры экрана в пикселях
 var scrPixelWidth int
 var scrPixelHeight int
@@ -62,6 +64,8 @@ func Init(scr def.Rect){
 		}
 	
 		// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
+
+		keyboardState = sdl.GetKeyboardState()
 }
 
 // LoadTiles загрузить файл тайлов
@@ -83,6 +87,16 @@ func GetInput() def.GameEvent {
 		}
 	}
 
+	if keyboardState[sdl.SCANCODE_UP] != 0 {
+		return def.EventPressUp
+	} else if keyboardState[sdl.SCANCODE_DOWN] != 0 {
+		return def.EventPressDown
+	} else if keyboardState[sdl.SCANCODE_LEFT] != 0 {
+		return def.EventPressLeft
+	} else if keyboardState[sdl.SCANCODE_RIGHT] != 0 {
+		return def.EventPressRight
+	}
+
 	return def.EventNo
 }
 
@@ -102,17 +116,21 @@ func DrawTile(cell def.Cell, x int, y int){
 // LookAtHero рисуем карту и героя
 func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 
-	// mapWidth := len( *cells )
+	mapWidth := len( *cells )
+	mapHeight := len( *cells ) // lol
+
 	// mapWidthHalf := mapWidth / 32
 
 // половина экрана в тайлах
 	scrHalfWidth := scrTilesWidth / 2
+	scrHalfHeight := scrTilesHeight / 2 
 
 // максимальное смещение 
-	scrWindowPosMax := scrTilesWidth - scrHalfWidth
+	scrWindowPosMaxX := mapWidth - scrTilesWidth
+	scrWindowPosMaxY := mapHeight - scrTilesHeight
 
 	mapPosX = hero.Pos.X - scrHalfWidth
-	mapPosY = hero.Pos.Y - scrHalfWidth
+	mapPosY = hero.Pos.Y - scrHalfHeight
 
 	if ( mapPosX < 0 ) {
 		mapPosX = 0
@@ -122,18 +140,20 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero){
 		mapPosY = 0
 	}
 
-	if ( mapPosX > scrWindowPosMax ){
-		mapPosX = scrWindowPosMax
+	if ( mapPosX > scrWindowPosMaxX ){
+		mapPosX = scrWindowPosMaxX
 	}
 
-	if ( mapPosY > scrWindowPosMax ){
-		mapPosY = scrWindowPosMax
+	if ( mapPosY > scrWindowPosMaxY ){
+		mapPosY = scrWindowPosMaxY
 	}
+
+	println( mapPosX, mapPosY)
 
 	renderer.Clear()
 	for x := 0; x < scrTilesWidth; x++ {
 		for y := 0 ; y < scrTilesHeight; y++ {
-			cell := (*cells)[y+mapPosX][x+mapPosY]
+			cell := (*cells)[y+mapPosY][x+mapPosX]
 			DrawTile( cell, x, y)
 		}
 	}

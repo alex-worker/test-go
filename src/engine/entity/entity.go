@@ -38,29 +38,44 @@ func GetHero() *def.Hero {
 // HeroDo герой что-то делает
 func HeroDo( dir def.Direction, act def.HeroAction ){
 
-}
-
-// HeroMove герой поворачивается или двигается
-func HeroMove( dir def.Direction ){
-
 	oldPos := curHero.Pos
 
-	newPos,err := calcNewPos( &oldPos, dir )
+	newPos,err := calcNewPos( &oldPos, dir, int(mapX), int(mapY) )
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
 
-	heroAction( newPos, def.DoStand )
+	heroAction( newPos, def.ActionStand )
 
 }
 
-func heroAction(pos *def.Pos, act def.HeroAction){
+// // HeroMove герой поворачивается или двигается
+// func HeroMove( dir def.Direction ){
 
+// 	oldPos := curHero.Pos
+
+// 	newPos,err := calcNewPos( &oldPos, dir )
+// 	if err != nil {
+// 		fmt.Print(err)
+// 		return
+// 	}
+
+// 	// fmt.Println( newPos )
+
+// 	heroAction( newPos, def.ActionStand )
+
+// }
+
+func heroAction(pos *def.Pos, act def.HeroAction){
+	if( act == def.ActionStand ){
+		heroStand(pos)
+	}
 }
 
 func heroStand(pos *def.Pos){
 	curHero.Pos = *pos
+	fmt.Println( *curHero )
 }
 
 func heroGet(pos *def.Pos){

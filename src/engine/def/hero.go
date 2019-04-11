@@ -16,12 +16,12 @@ const (
 // HeroAction действия
 type HeroAction uint8
 const (
-	// DoStand встать
-	DoStand HeroAction = iota
-	// DoGet взять
-	DoGet
-	// DoDrop бросить
-	DoDrop
+	// ActionStand встать
+	ActionStand HeroAction = iota
+	// ActionGet взять
+	ActionGet
+	// ActionDrop бросить
+	ActionDrop
 )
 
 // Hero герои и прочие npc
