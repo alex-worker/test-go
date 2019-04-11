@@ -18,6 +18,6 @@ type Rect struct {
 // LoadInfo структура хранения настроек игры
 type LoadInfo struct {
 	MapName string
-	// TileName string
+	ResourceFolder string
 	ScreenSize Rect
 }
