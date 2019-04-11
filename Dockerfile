@@ -4,17 +4,17 @@ FROM golang:alpine
 
 RUN apk update && \
     apk upgrade && \
-    apk add git libx11-dev alpine-sdk xterm && \
-    apk add sdl2-dev
+    apk add git libx11-dev alpine-sdk xterm mpg123-dev && \
+    apk add sdl2-dev sdl2_mixer-dev sdl2_image-dev sdl2_ttf-dev
 
 RUN adduser -D -g '' appuser
 
 WORKDIR /go/src/app
 
 RUN go get -v github.com/veandco/go-sdl2/sdl
-# RUN go get -v github.com/veandco/go-sdl2/img
-# RUN go get -v github.com/veandco/go-sdl2/mix
-# RUN go get -v github.com/veandco/go-sdl2/ttf
+RUN go get -v github.com/veandco/go-sdl2/img
+RUN go get -v github.com/veandco/go-sdl2/mix
+RUN go get -v github.com/veandco/go-sdl2/ttf
 
 COPY ./src/ /go/src/app
 
