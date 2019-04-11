@@ -28,11 +28,11 @@ func calcNewPos( pos *def.Pos, dir def.Direction, maxPosX int, maxPosY int )( *d
 		return nil, errors.New("Туда нельзя")
 	}
 
-	if ( x> maxPosX ){
+	if ( x >= maxPosX ){
 		return nil, errors.New("Туда нельзя")
 	}
 
-	if ( y> maxPosY ){
+	if ( y >= maxPosY ){
 		return nil, errors.New("Туда нельзя")
 	}
 
