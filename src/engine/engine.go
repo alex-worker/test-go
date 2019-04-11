@@ -8,6 +8,10 @@ import (
 	"./loaders"
 )
 
+var hero = def.Hero{
+	Pos: def.Pos{X:5, Y:5},
+	Dir: def.DirDown }
+
 var resPath string
 
 // Init engine
@@ -21,10 +25,6 @@ func Init(info def.LoadInfo){
 	cells, tsxName := loaders.LoadTmx(resPath+info.MapName)
 	tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)	
 	
-	hero := def.Hero{
-		Pos: def.Pos{X:177, Y:542},
-		Dir: def.DirDown }
-
 	entity.SetHero( &hero )
 	entity.SetMap( cells )
 	ui.LoadTiles(resPath+tileFileName, tileW, tileH)
