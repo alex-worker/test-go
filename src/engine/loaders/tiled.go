@@ -62,7 +62,7 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 
 // LoadTSX загружаем файл описания тайлов
 func LoadTSX(filename string) (tileName string, w int32, h int32) {
-	fmt.Println("Loading TSX...")
+	fmt.Println("Loading TSX...", filename)
 
 	xmlFile, err := os.Open(filename)
 	if err != nil {
@@ -98,7 +98,7 @@ func LoadTSX(filename string) (tileName string, w int32, h int32) {
 // cells - карта width x height
 // tsxFileName - имя файла описания
 func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
-	fmt.Println("Loading map...")
+	fmt.Println("Loading map...", filename)
 
 	xmlFile, err := os.Open(filename)
 	if err != nil {

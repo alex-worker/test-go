@@ -23,23 +23,6 @@ func SetHero( hero *def.Hero ){
 	curHero = hero
 }
 
-// // LoadMap загрузить карту из файла
-// func LoadMap(filename string){
-// 	fmt.Println("Load map", filename)
-
-// 	var tsxName string
-
-// 	cells, mapX, mapY, tsxName = loadTmxMap( filename )
-	
-// 	hero := def.Hero{
-// 		Pos: def.Pos{X:177, Y:542},
-// 		Dir: def.DirDown }
-
-// 	curHero = &hero
-	
-// 	// fmt.Println( mapX, mapY, cells )
-// }
-
 // GetMap получаем карту
 func GetMap() *[][]def.Cell{
 	return cells
@@ -64,23 +47,6 @@ func HeroDo( dir def.Direction, act def.HeroAction ){
 	heroAction( newPos, def.ActionStand )
 
 }
-
-// // HeroMove герой поворачивается или двигается
-// func HeroMove( dir def.Direction ){
-
-// 	oldPos := curHero.Pos
-
-// 	newPos,err := calcNewPos( &oldPos, dir )
-// 	if err != nil {
-// 		fmt.Print(err)
-// 		return
-// 	}
-
-// 	// fmt.Println( newPos )
-
-// 	heroAction( newPos, def.ActionStand )
-
-// }
 
 func heroAction(pos *def.Pos, act def.HeroAction){
 	if( act == def.ActionStand ){
