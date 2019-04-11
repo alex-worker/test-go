@@ -30,16 +30,14 @@ func Run(){
 
 		switch evt {
 		case def.EventPressDown:
-			entity.HeroMove( def.DirDown )
+			entity.HeroDo( def.DirDown, def.ActionStand )
 		case def.EventPressUp:
-			entity.HeroMove( def.DirUp )
+			entity.HeroDo( def.DirUp, def.ActionStand )
 		case def.EventPressLeft:
-			entity.HeroMove( def.DirLeft )
+			entity.HeroDo( def.DirLeft, def.ActionStand )
 		case def.EventPressRight:
-			entity.HeroMove( def.DirRight )
+			entity.HeroDo( def.DirRight, def.ActionStand )
 		}
-
-		entity.HeroMove( def.DirRight)
 
 		ui.LookAtHero( entity.GetMap(), entity.GetHero() )
 

@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-func calcNewPos( pos *def.Pos, dir def.Direction )( *def.Pos, error){
+func calcNewPos( pos *def.Pos, dir def.Direction, maxPosX int, maxPosY int )( *def.Pos, error){
 
 	x := pos.X
 	y := pos.Y
@@ -25,6 +25,14 @@ func calcNewPos( pos *def.Pos, dir def.Direction )( *def.Pos, error){
 	}
 
 	if ( y<0 ) {
+		return nil, errors.New("Туда нельзя")
+	}
+
+	if ( x> maxPosX ){
+		return nil, errors.New("Туда нельзя")
+	}
+
+	if ( y> maxPosY ){
 		return nil, errors.New("Туда нельзя")
 	}
 
