@@ -7,8 +7,8 @@ import (
 )
 
 const fontName string = "CaslonBold"
-// const mapName string = "swamp.tmx"
-const mapName string = "laboratory3.tmx"
+const mapName string = "swamp.tmx"
+// const mapName string = "laboratory3.tmx"
 const resPath string = "data/"
 
 var screenSize = def.Rect{ 
