@@ -82,6 +82,13 @@
     <frame tileid="97" duration="100"/>
    </animation>
   </tile>
+  <tile id="708">
+   <animation>
+    <frame tileid="708" duration="100"/>
+    <frame tileid="709" duration="100"/>
+    <frame tileid="710" duration="100"/>
+   </animation>
+  </tile>
   <tile id="1359">
    <animation>
     <frame tileid="1359" duration="100"/>
@@ -95,6 +102,13 @@
     <frame tileid="1493" duration="100"/>
     <frame tileid="1494" duration="100"/>
     <frame tileid="1495" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1507">
+   <animation>
+    <frame tileid="1507" duration="100"/>
+    <frame tileid="1508" duration="100"/>
+    <frame tileid="1509" duration="100"/>
    </animation>
   </tile>
   <tile id="1510">
@@ -111,6 +125,58 @@
     <frame tileid="1518" duration="100"/>
     <frame tileid="1519" duration="100"/>
     <frame tileid="1520" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1521">
+   <animation>
+    <frame tileid="1521" duration="100"/>
+    <frame tileid="1522" duration="100"/>
+    <frame tileid="1523" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1524">
+   <animation>
+    <frame tileid="1524" duration="100"/>
+    <frame tileid="1525" duration="100"/>
+    <frame tileid="1526" duration="100"/>
+    <frame tileid="1527" duration="100"/>
+    <frame tileid="1528" duration="100"/>
+    <frame tileid="1529" duration="100"/>
+    <frame tileid="1530" duration="100"/>
+    <frame tileid="1531" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1532">
+   <animation>
+    <frame tileid="1532" duration="100"/>
+    <frame tileid="1533" duration="100"/>
+    <frame tileid="1534" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1535">
+   <animation>
+    <frame tileid="1535" duration="100"/>
+    <frame tileid="1536" duration="100"/>
+    <frame tileid="1537" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1538">
+   <animation>
+    <frame tileid="1538" duration="100"/>
+    <frame tileid="1539" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1540">
+   <animation>
+    <frame tileid="1540" duration="100"/>
+    <frame tileid="1541" duration="100"/>
+    <frame tileid="1542" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1543">
+   <animation>
+    <frame tileid="1543" duration="100"/>
+    <frame tileid="1544" duration="100"/>
    </animation>
   </tile>
  </tileset>

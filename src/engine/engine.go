@@ -42,7 +42,7 @@ func Init(info def.LoadInfo){
 	if ( tileFileName != "" ){
 		ui.LoadTiles(tileFileName, tileW, tileH)
 	} else {
-		println( "tileFileName is empty!", tileW, tileH )
+		println( "tileFileName is empty!" )
 	}
 
 }

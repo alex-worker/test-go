@@ -4,7 +4,6 @@ package loaders
 
 import (
 	"fmt"
-	// "os"
 	"io/ioutil"
 	"encoding/xml"
 	"strings"
@@ -17,6 +16,7 @@ type tsxTileSet struct {
 	XMLName xml.Name `xml:"tileset"`
 	Width string `xml:"tilewidth,attr"`
 	Height string `xml:"tileheight,attr"`	
+	Source string `xml:"source,attr"`
 	Image tsxImage `xml:"image"`
 }
 
@@ -31,14 +31,14 @@ type tmxMap struct {
 	Height string `xml:"height,attr"`
 	TileWidth string `xml:"tilewidth,attr"`
 	TileHeight string `xml:"tileheight,attr"`
-	TileSet tileSet `xml:"tileset"`
+	TileSet tsxTileSet `xml:"tileset"`
     Layer tmxLayer `xml:"layer"`
 }
 
-type tileSet struct {
-	XMLName xml.Name `xml:"tileset"`
-	Source string `xml:"source,attr"`
-}
+// type tileSet struct {
+	// XMLName xml.Name `xml:"tileset"`
+	// Source string `xml:"source,attr"`
+// }
 
 type tmxLayer struct {
 	XMLName xml.Name `xml:"layer"`
@@ -60,20 +60,7 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 
 }
 
-// LoadTSX загружаем файл описания тайлов
-func LoadTSX(filename string) (tileName string, w int32, h int32) {
-	fmt.Println("Loading TSX...", filename)
-
-	xmlFile, err := def.OpenFile(filename)
-	if err != nil {
-		panic(err)
-	}	
-	defer xmlFile.Close()
-
-	byteValue, _ := ioutil.ReadAll(xmlFile)
-
-	var tsxmap tsxTileSet
-	xml.Unmarshal(byteValue, &tsxmap)
+func getTileInfo(tsxmap tsxTileSet) (tileName string, w int32, h int32 ) {
 
 	w64, err := strconv.ParseUint(tsxmap.Width, 10, 32)
     if err != nil {
@@ -90,8 +77,26 @@ func LoadTSX(filename string) (tileName string, w int32, h int32) {
 	h = int32(h64)
 
 	tileName = tsxmap.Image.Source
-	return
 
+	return 
+}
+
+// LoadTSX загружаем файл описания тайлов
+func LoadTSX(filename string) (tileName string, w int32, h int32) {
+	fmt.Println("Loading TSX...", filename)
+
+	xmlFile, err := def.OpenFile(filename)
+	if err != nil {
+		panic(err)
+	}	
+	defer xmlFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(xmlFile)
+
+	var tsxmap tsxTileSet
+	xml.Unmarshal(byteValue, &tsxmap)
+
+	return getTileInfo(tsxmap)
 }
 
 // LoadTmx по файлу возвращаются 
@@ -151,7 +156,7 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tiles *[]def.Tile, tileFileN
 	var tsxFileName = tmxmap.TileSet.Source
 	if tsxFileName == "" {
 		// тайлы прямо в файле 
-
+		tileFileName, tileW, tileH = getTileInfo( tmxmap.TileSet )
 	} else {
 		// println( tsxFileName )
 		tileFileName, tileW, tileH = LoadTSX( tsxFileName )
