@@ -2,6 +2,8 @@ package def
 
 import (
 	"path/filepath"
+	"os"
+	// "errors"
 )
 
 // Cell ячейка карты
@@ -42,8 +44,13 @@ func SetResourceFolder(path string){
 	resFolder = path
 }
 
-// GetPath возвращаем путь к файлу на основе имени файла и глобального пути
+// GetPath для SDL-библиотек которые сами открывают файлы
 func GetPath(filename string) string {
-	println("make path: ", filepath.Join(resFolder,filename) )
 	return filepath.Join(resFolder,filename)
+}
+
+// OpenFile открываем файл
+func OpenFile(filename string) (*os.File, error) {
+	path := filepath.Join(resFolder,filename)
+	return os.Open( path )
 }

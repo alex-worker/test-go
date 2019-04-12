@@ -4,7 +4,7 @@ package loaders
 
 import (
 	"fmt"
-	"os"
+	// "os"
 	"io/ioutil"
 	"encoding/xml"
 	"strings"
@@ -64,7 +64,7 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 func LoadTSX(filename string) (tileName string, w int32, h int32) {
 	fmt.Println("Loading TSX...", filename)
 
-	xmlFile, err := os.Open(filename)
+	xmlFile, err := def.OpenFile(filename)
 	if err != nil {
 		panic(err)
 	}	
@@ -100,7 +100,7 @@ func LoadTSX(filename string) (tileName string, w int32, h int32) {
 func LoadTmx(filename string) (cells *[][]def.Cell, tiles *[]def.Tile, tileFileName string, tileW int32, tileH int32 ) {
 	fmt.Println("Loading map...", filename)
 
-	xmlFile, err := os.Open(def.GetPath(filename))
+	xmlFile, err := def.OpenFile(filename)
 	if err != nil {
 		panic(err)
 	}	
@@ -148,7 +148,14 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tiles *[]def.Tile, tileFileN
 		}
 	}
 
-	// var tsxFileName = tmxmap.TileSet.Source
+	var tsxFileName = tmxmap.TileSet.Source
+	if tsxFileName == "" {
+		// тайлы прямо в файле 
+
+	} else {
+		// println( tsxFileName )
+		tileFileName, tileW, tileH = LoadTSX( tsxFileName )
+	}
 
 	cells = &myMap
 	
