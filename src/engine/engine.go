@@ -38,7 +38,12 @@ func Init(info def.LoadInfo){
 	entity.SetMap( cells )
 
 	ui.LoadFont(info.FontName)
-	ui.LoadTiles(tileFileName, tileW, tileH)
+	
+	if ( tileFileName != "" ){
+		ui.LoadTiles(tileFileName, tileW, tileH)
+	} else {
+		println( "tileFileName is empty!", tileW, tileH )
+	}
 
 }
 
