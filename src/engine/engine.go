@@ -12,24 +12,33 @@ var hero = def.Hero{
 	Pos: def.Pos{X:5, Y:5},
 	Dir: def.DirDown }
 
-var resPath string
+// var resPath string
+
+var cells *[][]def.Cell
+var tiles *[]def.Tile
 
 // Init engine
 func Init(info def.LoadInfo){
 	fmt.Println("Engine init...")
-	
-	resPath = info.ResourceFolder
+
+	def.SetResourceFolder( info.ResourceFolder )
 
 	ui.Init(info.ScreenSize)
 
-	cells, tsxName := loaders.LoadTmx(resPath+info.MapName)
-	tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)	
-	
+	var (
+		tileFileName string
+		tileW int32
+		tileH int32
+	)
+
+	cells, tiles, tileFileName, tileW, tileH = loaders.LoadTmx(info.MapName)
+	// tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)
+
 	entity.SetHero( &hero )
 	entity.SetMap( cells )
 
-	ui.LoadFont(resPath+info.FontName)
-	ui.LoadTiles(resPath+tileFileName, tileW, tileH)
+	ui.LoadFont(info.FontName)
+	ui.LoadTiles(tileFileName, tileW, tileH)
 
 }
 
