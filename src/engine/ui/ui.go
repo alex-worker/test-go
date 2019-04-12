@@ -99,7 +99,7 @@ func Init(scr def.Rect) {
 // LoadFont грузим шрифт
 func LoadFont(fontname string) {
 	fmt.Println( "Loading font...", fontname)
-	font,err := ttf.OpenFont(fontname+".ttf", 24)
+	font,err := ttf.OpenFont(def.GetPath(fontname+".ttf"), 24)
 	if err != nil {
 		sdl.LogError(sdl.LOG_CATEGORY_APPLICATION, "OpenFont: %s\n", err)
 	}

@@ -97,10 +97,10 @@ func LoadTSX(filename string) (tileName string, w int32, h int32) {
 // LoadTmx по файлу возвращаются 
 // cells - карта width x height
 // tsxFileName - имя файла описания
-func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
+func LoadTmx(filename string) (cells *[][]def.Cell, tiles *[]def.Tile, tileFileName string, tileW int32, tileH int32 ) {
 	fmt.Println("Loading map...", filename)
 
-	xmlFile, err := os.Open(filename)
+	xmlFile, err := os.Open(def.GetPath(filename))
 	if err != nil {
 		panic(err)
 	}	
@@ -148,8 +148,9 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tsxFileName string ) {
 		}
 	}
 
+	// var tsxFileName = tmxmap.TileSet.Source
+
 	cells = &myMap
-	tsxFileName = tmxmap.TileSet.Source
 	
 	return
 	
