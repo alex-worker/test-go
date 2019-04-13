@@ -16,7 +16,8 @@ RUN go get -v github.com/veandco/go-sdl2/img
 RUN go get -v github.com/veandco/go-sdl2/mix
 RUN go get -v github.com/veandco/go-sdl2/ttf
 
-COPY ./src/ /go/src/app
+COPY ./src/ /go/src/app/src
+COPY ./data/ /go/src/app/data
 
 USER appuser
 
@@ -33,7 +34,7 @@ USER appuser
 # COPY --from=builder /go/bin/hello /go/bin/hello
 # ENTRYPOINT ["/go/bin/hello"]
 # ENTRYPOINT ["sh"]
-ENTRYPOINT ["go", "run", "main.go"]
+ENTRYPOINT ["go", "run", "src/main.go"]
 
 # ----
 
