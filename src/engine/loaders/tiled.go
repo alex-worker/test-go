@@ -81,6 +81,15 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tiles *[]def.Tile, tileFileN
 
 	xml.Unmarshal(byteValue, &tmxmap)
 
+	for _, layer := range tmxmap.Layers {
+
+		re := regexp.MustCompile(`\r?\n`)
+		normalizedMap := re.ReplaceAllString(layer.Data, "")
+		myMapStr := strings.Split(normalizedMap, ",")
+
+		fmt.Println( myMapStr )
+	}
+/*
 	re := regexp.MustCompile(`\r?\n`)
 	normalizedMap := re.ReplaceAllString(tmxmap.Layer.Data, "")
 
@@ -127,7 +136,7 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tiles *[]def.Tile, tileFileN
 	}
 
 	cells = &myMap
-	
+	*/
 	return
 	
 	// return &myMap, w, h, "lol"
