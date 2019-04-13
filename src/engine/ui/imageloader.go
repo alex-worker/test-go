@@ -2,11 +2,13 @@ package ui
 
 import (
 	"../def"
+	"fmt"
 	"image/png"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
 func imgFileToTexture(filename string) (texture *sdl.Texture, w int, h int ) {
+	fmt.Println("Load texture...", filename)
 	infile, err := def.OpenFile( filename )
 	if err != nil {
 		panic(err)

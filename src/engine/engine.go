@@ -15,7 +15,7 @@ var hero = def.Hero{
 // var resPath string
 
 var cells *[][]def.Cell
-// var tiles *[]def.Tile
+var tiles *[]def.Tile
 
 // Init engine
 func Init(info def.LoadInfo){
@@ -31,14 +31,13 @@ func Init(info def.LoadInfo){
 	// 	tileH int32
 	// )
 
-	var tilesets *[]loaders.TileSetInfo
-	// cells, tiles, tileFileName, tileW, tileH = 
+	var tilesets *map[string]loaders.TileSetInfo
 	cells, tilesets = loaders.LoadTmx(info.MapName)
 
 	loadTiles(tilesets)
 
-	// entity.SetHero( &hero )
-	// entity.SetMap( cells )
+	entity.SetHero( &hero )
+	entity.SetMap( cells )
 
 	ui.LoadFont(info.FontName)
 	
@@ -84,6 +83,10 @@ func Run(){
 
 }
 
-func loadTiles( tilesets *[]loaders.TileSetInfo ){
+func loadTiles( tilesets *map[string]loaders.TileSetInfo ){
+
+	for _, tileset := range *tilesets {
+		ui.LoadTiles(tileset.Filename, tileset.TileW , tileset.TileH )
+	}
 
 }

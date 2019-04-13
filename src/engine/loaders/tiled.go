@@ -112,7 +112,7 @@ func loadTSX(filename string) TileSetInfo {
 	xmlFile, err := def.OpenFile(filename)
 	if err != nil {
 		panic(err)
-	}	
+	}
 	defer xmlFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(xmlFile)
@@ -126,7 +126,7 @@ func loadTSX(filename string) TileSetInfo {
 // LoadTmx по файлу возвращаются 
 // cells - карта width x height
 // tsxFileName - имя файла описания
-func LoadTmx(filename string) (cells *[][]def.Cell, tsets *[]TileSetInfo ) {
+func LoadTmx(filename string) (cells *[][]def.Cell, tsets *map[string]TileSetInfo ) {
 	fmt.Println("Loading map...", filename)
 
 	xmlFile, err := def.OpenFile(filename)
@@ -147,11 +147,13 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tsets *[]TileSetInfo ) {
 		layers = parseLayer( layer )
 	}
 
-	tilesetLen := len( tmxmap.Layers )
-	tilesets := make([]TileSetInfo, tilesetLen)
+	// tilesetLen := len( tmxmap.Layers )
+	
+	tilesets := make(map[string]TileSetInfo)
 
 	for i, tileset := range tmxmap.TileSets {
-		tilesets[i] = parseTileSet( tileset )
+		fmt.Println(i)
+		tilesets[tileset.Name] = parseTileSet( tileset )
 	}
 
 	cells = layers
