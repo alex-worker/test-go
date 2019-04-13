@@ -6,7 +6,8 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "echo Hello"
+            "command": "go run src/main.go -dir data",
+            "problemMatcher": []
         }
     ]
 }
