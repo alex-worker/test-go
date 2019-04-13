@@ -15,7 +15,7 @@ var hero = def.Hero{
 // var resPath string
 
 var cells *[][]def.Cell
-var tiles *[]def.Tile
+// var tiles *[]def.Tile
 
 // Init engine
 func Init(info def.LoadInfo){
@@ -25,25 +25,28 @@ func Init(info def.LoadInfo){
 
 	ui.Init(info.ScreenSize)
 
-	var (
-		tileFileName string
-		tileW int32
-		tileH int32
-	)
+	// var (
+	// 	tileFileName string
+	// 	tileW int32
+	// 	tileH int32
+	// )
 
-	cells, tiles, tileFileName, tileW, tileH = loaders.LoadTmx(info.MapName)
-	// tileFileName, tileW, tileH := loaders.LoadTSX( resPath+tsxName)
+	var tilesets *[]loaders.TileSetInfo
+	// cells, tiles, tileFileName, tileW, tileH = 
+	cells, tilesets = loaders.LoadTmx(info.MapName)
 
-	entity.SetHero( &hero )
-	entity.SetMap( cells )
+	loadTiles(tilesets)
+
+	// entity.SetHero( &hero )
+	// entity.SetMap( cells )
 
 	ui.LoadFont(info.FontName)
 	
-	if ( tileFileName != "" ){
-		ui.LoadTiles(tileFileName, tileW, tileH)
-	} else {
-		println( "tileFileName is empty!" )
-	}
+	// if ( tileFileName != "" ){
+	// 	ui.LoadTiles(tileFileName, tileW, tileH)
+	// } else {
+	// 	println( "tileFileName is empty!" )
+	// }
 
 }
 
@@ -78,5 +81,9 @@ func Run(){
 	}
 
 	ui.Destroy()
+
+}
+
+func loadTiles( tilesets *[]loaders.TileSetInfo ){
 
 }
