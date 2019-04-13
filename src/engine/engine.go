@@ -78,7 +78,7 @@ func Run(){
 
 		mymap, w, h := entity.GetMap()
 		
-		ui.LookAtHero( mymap, w, h, &hero )
+		ui.LookAtHero( mymap, int(w), int(h), &hero )
 
 	}
 

@@ -168,8 +168,20 @@ func DrawTile(cell def.Cell, x int, y int) {
 
 }
 
-func drawLayer(layer *def.Layer, x int, y int){
+func drawLayer(layer *def.Layer, mapPosX int, mapPosY int){
 
+	mydata := (*layer).Data
+	mymap := *mydata
+
+	// fmt.Println( mapPosX, mapPosY )
+	for x := 0; x < scrTilesWidth; x++ {
+		for y := 0; y < scrTilesHeight; y++ {
+			cell := mymap[y+mapPosY][x+mapPosX]
+			if cell != 0 {
+				DrawTile(cell, x, y)
+			}
+		}
+	}
 
 }
 
@@ -187,6 +199,8 @@ func getMapPos(mapWidth int, mapHeight int, pos def.Pos) (posX int, posY int) {
 	posX = pos.X - scrHalfWidth
 	posY = pos.Y - scrHalfHeight
 
+	// println( posX, posY )
+
 	if posX < 0 {
 		posX = 0
 	}
@@ -203,7 +217,8 @@ func getMapPos(mapWidth int, mapHeight int, pos def.Pos) (posX int, posY int) {
 		posY = scrWindowPosMaxY
 	}
 
-	return
+	// println( posX, posY )
+	return posX, posY
 }
 
 
@@ -213,6 +228,7 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 	mapPosX, mapPosY := getMapPos(mapWidth, mapHeight, hero.Pos )
 	renderer.Clear()
 
+	// println( mapPosX, mapPosX )
 	for _, layer := range *layers {
 		drawLayer( layer, mapPosX, mapPosY )
 	}
