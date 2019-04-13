@@ -9,6 +9,14 @@ import (
 // Cell ячейка карты
 type Cell uint32
 
+// Layer слой
+type Layer struct {
+	Data *[][]Cell
+}
+
+// Layers список слоев
+type Layers map[string]*Layer
+
 // Tile анимированый тайл ну или нет...
 type Tile struct {
 	Tick uint32 // текущий таймер

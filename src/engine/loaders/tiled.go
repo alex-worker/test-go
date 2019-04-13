@@ -31,7 +31,7 @@ func createMap( w uint32, h uint32) [][]def.Cell{
 
 }
 
-func parseLayer( layer *tmxLayer ) *[][]def.Cell {
+func parseLayer( layer *tmxLayer ) *def.Layer {
 
 	re := regexp.MustCompile(`\r?\n`)
 	normalizedMap := re.ReplaceAllString(layer.Data, "")
@@ -68,7 +68,7 @@ func parseLayer( layer *tmxLayer ) *[][]def.Cell {
 		}
 	}
 	
-	return &myMap
+	return &def.Layer{ Data: &myMap }
 
 }
 
@@ -124,9 +124,9 @@ func loadTSX(filename string) TileSetInfo {
 }
 
 // LoadTmx по файлу возвращаются 
-// cells - карта width x height
+// layers - карта width x height
 // tsxFileName - имя файла описания
-func LoadTmx(filename string) (cells *[][]def.Cell, tsets *map[string]TileSetInfo ) {
+func LoadTmx(filename string) (layersPtr *map[string]*def.Layer, tsetsPtr *map[string]TileSetInfo ) {
 	fmt.Println("Loading map...", filename)
 
 	xmlFile, err := def.OpenFile(filename)
@@ -138,26 +138,24 @@ func LoadTmx(filename string) (cells *[][]def.Cell, tsets *map[string]TileSetInf
 	byteValue, _ := ioutil.ReadAll(xmlFile)
 
 	var tmxmap tmxMap
-	var layers *[][]def.Cell
+	// var layers *[][]def.Cell
 	// var tilesets []*TileSetInfo
 
 	xml.Unmarshal(byteValue, &tmxmap)
 
+	layers := make(map[string]*def.Layer)
 	for _, layer := range tmxmap.Layers {
-		layers = parseLayer( layer )
+		layers[layer.Name] = parseLayer( layer )
 	}
 
-	// tilesetLen := len( tmxmap.Layers )
-	
 	tilesets := make(map[string]TileSetInfo)
 
-	for i, tileset := range tmxmap.TileSets {
-		fmt.Println(i)
+	for _, tileset := range tmxmap.TileSets {
 		tilesets[tileset.Name] = parseTileSet( tileset )
 	}
 
-	cells = layers
-	tsets = &tilesets
+	layersPtr = &layers
+	tsetsPtr = &tilesets
 
 	return
 	

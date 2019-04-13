@@ -14,7 +14,8 @@ var hero = def.Hero{
 
 // var resPath string
 
-var cells *[][]def.Cell
+// var cells *[][]def.Cell
+var layers *map[string]*def.Layer
 var tiles *[]def.Tile
 
 // Init engine
@@ -32,12 +33,12 @@ func Init(info def.LoadInfo){
 	// )
 
 	var tilesets *map[string]loaders.TileSetInfo
-	cells, tilesets = loaders.LoadTmx(info.MapName)
+	layers, tilesets = loaders.LoadTmx(info.MapName)
 
 	loadTiles(tilesets)
 
-	entity.SetHero( &hero )
-	entity.SetMap( cells )
+	entity.SetHero(&hero)
+	entity.SetMap(layers)
 
 	ui.LoadFont(info.FontName)
 	
