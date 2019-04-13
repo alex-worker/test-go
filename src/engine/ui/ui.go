@@ -11,7 +11,8 @@ import (
 )
 
 var fps uint32
-var lastTime, currentTime uint32
+var deltaTime uint32
+var lastTime uint32
 
 var tileW int32
 var tileH int32
@@ -84,9 +85,13 @@ func Init(scr def.Rect) {
 	if err != nil {
 		panic(err)
 	}
+	
+	// SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1" or "0");
+	// sdl.SetHint(sdl.HINT_RENDER_VSYNC, "1")
+
 
 	// SDL_RENDERER_ACCELERATED для хардварной поддержки
-	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE)
+	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE )
 	if err != nil {
 		panic(err)
 	}
@@ -212,17 +217,17 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 		}
 	}
 
-	currentTime = sdl.GetTicks()
+	currentTime := sdl.GetTicks()
 
-	delta := currentTime - lastTime
+	deltaTime = currentTime - lastTime
 
-	if delta > 0 {
-		fps = 1000 / delta
+	if deltaTime > 0 {
+		fps = 1000 / deltaTime
 	} else {
-		fps = 100500
+		fps = 0
 	}
 
-	fpsStr := fmt.Sprintf("fps: %v", fps)
+	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime) 
 	// println(fps)
 	printAt( fpsStr, 0, 0)
 
