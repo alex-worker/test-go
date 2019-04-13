@@ -5,17 +5,27 @@ import (
 	"../def"
 )
 
-var cells *[][]def.Cell
+var layers *map[string]*def.Layer
 var mapX uint32 // размер карты
 var mapY uint32
 
 var curHero *def.Hero
 
 // SetMap устанавливаем карту
-func SetMap( mycells *[][]def.Cell ){
-	cells = mycells
-	mapX = uint32(len (*mycells))
-	mapY = uint32(len ((*mycells)[0]))
+func SetMap( layersList *map[string]*def.Layer ){
+	layers = layersList
+
+	var firstLayer *def.Layer
+	for _, firstLayer = range *layers{
+		break
+	}
+
+	data := *firstLayer.Data
+	mapX = uint32(len(data))
+	mapY = uint32(len(data[0]))
+
+	fmt.Println( mapX, mapY )
+
 }
 
 // SetHero устанавливаем главного героя
@@ -25,7 +35,7 @@ func SetHero( hero *def.Hero ){
 
 // GetMap получаем карту
 func GetMap() *[][]def.Cell{
-	return cells
+	return nil
 }
 
 // GetHero указатель на героя
