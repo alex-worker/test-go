@@ -25,6 +25,8 @@ func SetMap(layersList *map[string]*def.Layer){
 	mapW = uint32(len(data))
 	mapH = uint32(len(data[0]))
 
+	println( mapW, mapH )
+
 }
 
 // SetHero устанавливаем главного героя
@@ -33,7 +35,7 @@ func SetHero( hero *def.Hero ){
 }
 
 // GetMap получаем карту
-func GetMap() ( layerList *map[string]*def.Layer, mapW int, mapH int){
+func GetMap() ( layerList *map[string]*def.Layer, w uint32, h uint32){
 	return layers, mapW, mapH
 }
 
