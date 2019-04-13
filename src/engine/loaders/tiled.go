@@ -12,42 +12,6 @@ import (
 	"../def"
 )
 
-type tsxTileSet struct {
-	XMLName xml.Name `xml:"tileset"`
-	Width string `xml:"tilewidth,attr"`
-	Height string `xml:"tileheight,attr"`	
-	Source string `xml:"source,attr"`
-	Image tsxImage `xml:"image"`
-}
-
-type tsxImage struct {
-	XMLName xml.Name `xml:"image"`	
-	Source string `xml:"source,attr"`
-}
-
-type tmxMap struct {
-	XMLName xml.Name `xml:"map"`
-	Width string `xml:"width,attr"`
-	Height string `xml:"height,attr"`
-	TileWidth string `xml:"tilewidth,attr"`
-	TileHeight string `xml:"tileheight,attr"`
-	TileSet tsxTileSet `xml:"tileset"`
-    Layer tmxLayer `xml:"layer"`
-}
-
-// type tileSet struct {
-	// XMLName xml.Name `xml:"tileset"`
-	// Source string `xml:"source,attr"`
-// }
-
-type tmxLayer struct {
-	XMLName xml.Name `xml:"layer"`
-	Name string `xml:"name,attr"`
-	Width string `xml:"width,attr"`
-	Height string `xml:"height,attr"`
-	Data string `xml:"data"`
-}
-
 func createMap( w uint32, h uint32) [][]def.Cell{
 
 	myMap := make([][]def.Cell, h)

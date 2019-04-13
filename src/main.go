@@ -21,7 +21,7 @@ func main(){
 
     resDir := resPath
 
-    flag.StringVar(&resDir, "dir", resPath, "a string var")
+    flag.StringVar(&resDir, "dir", resPath, "directory path")
     flag.Parse()
 
     loadInfo := def.LoadInfo{ 
