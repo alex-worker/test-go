@@ -36,8 +36,8 @@ var textureAtlas *sdl.Texture
 var curFont *ttf.Font
 
 // сдвиг на карте когда центрируемся на герое
-var mapPosX int
-var mapPosY int
+// var mapPosX int
+// var mapPosY int
 
 // Destroy уничтожаем ui
 func Destroy() {
@@ -168,14 +168,14 @@ func DrawTile(cell def.Cell, x int, y int) {
 
 }
 
-// LookAtHero рисуем карту и героя
-func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
+func drawLayer(layer *def.Layer, x int, y int){
 
-	mymap := *cells
 
-	mapWidth := len(mymap)
-	mapHeight := len(mymap[0])
+}
 
+// возвращаем x и y левой верхней точки view карты так чтобы x и y было в центре и не
+// выходил за границы карты
+func getMapPos(mapWidth int, mapHeight int, pos def.Pos) (posX int, posY int) {
 	// половина экрана в тайлах
 	scrHalfWidth := scrTilesWidth / 2
 	scrHalfHeight := scrTilesHeight / 2
@@ -184,36 +184,37 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 	scrWindowPosMaxX := mapWidth - scrTilesWidth
 	scrWindowPosMaxY := mapHeight - scrTilesHeight
 
-	mapPosX = hero.Pos.X - scrHalfWidth
-	mapPosY = hero.Pos.Y - scrHalfHeight
+	posX = pos.X - scrHalfWidth
+	posY = pos.Y - scrHalfHeight
 
-	if mapPosX < 0 {
-		mapPosX = 0
+	if posX < 0 {
+		posX = 0
 	}
 
-	if mapPosY < 0 {
-		mapPosY = 0
+	if posY < 0 {
+		posY = 0
 	}
 
-	if mapPosX > scrWindowPosMaxX {
-		mapPosX = scrWindowPosMaxX
+	if posX > scrWindowPosMaxX {
+		posX = scrWindowPosMaxX
 	}
 
-	if mapPosY > scrWindowPosMaxY {
-		mapPosY = scrWindowPosMaxY
+	if posY > scrWindowPosMaxY {
+		posY = scrWindowPosMaxY
 	}
 
-	// println( mapPosX, mapPosY)
+	return
+}
 
+
+// LookAtHero рисуем карту и героя
+func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero *def.Hero) {
+
+	mapPosX, mapPosY := getMapPos(mapWidth, mapHeight, hero.Pos )
 	renderer.Clear()
 
-	for x := 0; x < scrTilesWidth; x++ {
-		for y := 0; y < scrTilesHeight; y++ {
-			cell := mymap[y+mapPosY][x+mapPosX]
-			if cell != 0 {
-				DrawTile(cell, x, y)
-			}
-		}
+	for _, layer := range *layers {
+		drawLayer( layer, mapPosX, mapPosY )
 	}
 
 	currentTime := sdl.GetTicks()
@@ -233,7 +234,31 @@ func LookAtHero(cells *[][]def.Cell, hero *def.Hero) {
 	lastTime = currentTime
 
 	renderer.Present()
+
 }
+
+// // LookAtHero рисуем карту и героя
+// func lookAtHeroOld(cells *[][]def.Cell, hero *def.Hero) {
+
+// 	mymap := *cells
+
+// 	// mapWidth := len(mymap)
+// 	// mapHeight := len(mymap[0])
+
+// 	// println( mapPosX, mapPosY)
+
+// 	renderer.Clear()
+
+// 	for x := 0; x < scrTilesWidth; x++ {
+// 		for y := 0; y < scrTilesHeight; y++ {
+// 			cell := mymap[y+mapPosY][x+mapPosX]
+// 			if cell != 0 {
+// 				DrawTile(cell, x, y)
+// 			}
+// 		}
+// 	}
+
+// }
 
 
 func printAt(text string, x int32, y int32){

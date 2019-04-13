@@ -6,25 +6,24 @@ import (
 )
 
 var layers *map[string]*def.Layer
-var mapX uint32 // размер карты
-var mapY uint32
+var mapW uint32 // размер карты
+var mapH uint32
 
 var curHero *def.Hero
 
 // SetMap устанавливаем карту
-func SetMap( layersList *map[string]*def.Layer ){
-	layers = layersList
+func SetMap(layersList *map[string]*def.Layer){
 
+	layers = layersList
+	
 	var firstLayer *def.Layer
 	for _, firstLayer = range *layers{
 		break
 	}
 
 	data := *firstLayer.Data
-	mapX = uint32(len(data))
-	mapY = uint32(len(data[0]))
-
-	fmt.Println( mapX, mapY )
+	mapW = uint32(len(data))
+	mapH = uint32(len(data[0]))
 
 }
 
@@ -34,8 +33,8 @@ func SetHero( hero *def.Hero ){
 }
 
 // GetMap получаем карту
-func GetMap() *[][]def.Cell{
-	return nil
+func GetMap() ( layerList *map[string]*def.Layer, mapW int, mapH int){
+	return layers, mapW, mapH
 }
 
 // GetHero указатель на героя
@@ -48,7 +47,7 @@ func HeroDo( dir def.Direction, act def.HeroAction ){
 
 	oldPos := curHero.Pos
 
-	newPos,err := calcNewPos( &oldPos, dir, int(mapX), int(mapY) )
+	newPos,err := calcNewPos( &oldPos, dir, int(mapW), int(mapH) )
 	if err != nil {
 		fmt.Print(err)
 		return

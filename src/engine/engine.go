@@ -58,7 +58,7 @@ func Run(){
 	var evt def.GameEvent
 
 	for true {
-		
+
 		evt = ui.GetInput()
 
 		if evt == def.EventQuit {
@@ -76,7 +76,9 @@ func Run(){
 			entity.HeroDo( def.DirRight, def.ActionStand )
 		}
 
-		ui.LookAtHero( entity.GetMap(), entity.GetHero() )
+		mymap, w, h := entity.GetMap()
+		
+		ui.LookAtHero( mymap, w, h, &hero )
 
 	}
 
