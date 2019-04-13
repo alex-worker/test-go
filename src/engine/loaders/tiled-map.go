@@ -10,6 +10,6 @@ type tmxMap struct {
 	Height string `xml:"height,attr"`
 	TileWidth string `xml:"tilewidth,attr"`
 	TileHeight string `xml:"tileheight,attr"`
-	TileSet tsxTileSet `xml:"tileset"`
-    Layer tmxLayer `xml:"layer"`
+	TileSets []*tsxTileSet `xml:"tileset"`
+    Layers []*tmxLayer `xml:"layer"`
 }
