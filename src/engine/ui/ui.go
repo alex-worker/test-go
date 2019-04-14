@@ -32,6 +32,7 @@ var tilePixelSize int
 
 var window *sdl.Window
 var renderer *sdl.Renderer
+var backScreen *sdl.Texture
 var textureAtlas *sdl.Texture
 var curFont *ttf.Font
 
@@ -54,7 +55,7 @@ func Destroy() {
 // Init инициализируем ui
 func Init(scr def.Rect) {
 	fmt.Println("UI Init...")
-	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
+	sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)
 	if err != nil {
 		panic(err)
@@ -84,17 +85,22 @@ func Init(scr def.Rect) {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	// SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1" or "0");
 	// sdl.SetHint(sdl.HINT_RENDER_VSYNC, "1")
 
-
 	// SDL_RENDERER_ACCELERATED для хардварной поддержки
-	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE )
+	// renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE )
+	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED | sdl.RENDERER_PRESENTVSYNC)
 	if err != nil {
 		panic(err)
 	}
 
+	backScreen,err = renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight) )
+	if err != nil {
+		panic(err)
+	}
+	
 	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 
 	keyboardState = sdl.GetKeyboardState()
@@ -111,7 +117,7 @@ func LoadFont(fontname string) {
 }
 
 // LoadTiles загрузить файл тайлов
-func LoadTiles(filename string, w int32, h int32) {
+func LoadTiles(filename string, w int32, h int32) *sdl.Texture {
 	tileW = w
 	tileH = h
 
@@ -125,7 +131,9 @@ func LoadTiles(filename string, w int32, h int32) {
 		tileShift++
 	}
 
+	// texture.SetBlendMode( sdl.BLENDMODE_BLEND )
 	textureAtlas = texture
+	return texture
 }
 
 // GetInput обновление событий экрана
@@ -165,6 +173,7 @@ func DrawTile(cell def.Cell, x int, y int) {
 	dstRect := sdl.Rect{X: int32(x * tilePixelSize), Y: int32(y * tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
 
 	renderer.Copy(textureAtlas, &srcRect, &dstRect)
+	// renderer.Co
 
 }
 
@@ -221,12 +230,30 @@ func getMapPos(mapWidth int, mapHeight int, pos def.Pos) (posX int, posY int) {
 	return posX, posY
 }
 
+// GetTickCount время со старта игры
+func GetTickCount() uint32{
+	return sdl.GetTicks()
+}
+
+// Delay спим!
+func Delay(time uint32){
+	println("Delay", time)
+	sdl.Delay( time )
+}
 
 // LookAtHero рисуем карту и героя
 func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero *def.Hero) {
 
 	mapPosX, mapPosY := getMapPos(mapWidth, mapHeight, hero.Pos )
-	renderer.Clear()
+
+	// renderer.Clear()
+	// renderer.SetRenderTarget( backScreen )
+	// renderer.Clear()
+
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// renderer.Clear()
 
 	// println( mapPosX, mapPosX )
 	for _, layer := range *layers {
@@ -244,38 +271,22 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 	}
 
 	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime) 
-	// println(fps)
 	printAt( fpsStr, 0, 0)
 
 	lastTime = currentTime
 
+	// renderer.SetRenderTarget( nil )
+	// rect := sdl.Rect{ X: 0, Y:0, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
+
+	// renderer.CopyEx( )
+	// backScreen.SetColorMod( 200,0,0 )
+	// renderer.Copy( backScreen, nil, nil )
 	renderer.Present()
-
+	// window.UpdateSurface()
+	// sdl.Delay(400)
+	// renderer.Clear()
+	// renderer.SetRenderTarget( backScreen )
 }
-
-// // LookAtHero рисуем карту и героя
-// func lookAtHeroOld(cells *[][]def.Cell, hero *def.Hero) {
-
-// 	mymap := *cells
-
-// 	// mapWidth := len(mymap)
-// 	// mapHeight := len(mymap[0])
-
-// 	// println( mapPosX, mapPosY)
-
-// 	renderer.Clear()
-
-// 	for x := 0; x < scrTilesWidth; x++ {
-// 		for y := 0; y < scrTilesHeight; y++ {
-// 			cell := mymap[y+mapPosY][x+mapPosX]
-// 			if cell != 0 {
-// 				DrawTile(cell, x, y)
-// 			}
-// 		}
-// 	}
-
-// }
-
 
 func printAt(text string, x int32, y int32){
 	
@@ -287,8 +298,6 @@ func printAt(text string, x int32, y int32){
 	}
 
 	_, _, tW, tH, _ := grapText.Query()
-
-	// const n = 128
 
 	rect := sdl.Rect{ X: 10, Y:10, W: tW, H: tH}
 
@@ -302,7 +311,6 @@ func renderText(text string, color sdl.Color) (texture *sdl.Texture, err error) 
 	if err != nil {
 		panic(err)
 	}
-
 	defer surface.Free()
 
 	texture, err = renderer.CreateTextureFromSurface(surface)
