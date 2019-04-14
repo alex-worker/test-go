@@ -150,8 +150,12 @@ func LoadTmx(filename string) (layersPtr *map[string]*def.Layer, tsetsPtr *map[s
 
 	tilesets := make(map[string]TileSetInfo)
 
-	for _, tileset := range tmxmap.TileSets {
-		tilesets[tileset.Name] = parseTileSet( tileset )
+	setlen := len( tmxmap.TileSets )
+
+	for i, tileset := range tmxmap.TileSets {
+		name := fmt.Sprint(setlen-i)
+		fmt.Println( tileset.Name )
+		tilesets[name] = parseTileSet( tileset )
 	}
 
 	layersPtr = &layers

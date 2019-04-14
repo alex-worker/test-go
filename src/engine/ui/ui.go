@@ -55,11 +55,42 @@ func Destroy() {
 // Init инициализируем ui
 func Init(scr def.Rect) {
 	fmt.Println("UI Init...")
-	sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
+	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)
 	if err != nil {
 		panic(err)
 	}
+
+
+	numdrivers,_ := sdl.GetNumRenderDrivers()
+// cout << "Render driver count: " << numdrivers << endl; 
+	for i:=0; i<numdrivers; i++ { 
+		var drinfo sdl.RendererInfo
+		sdl.GetRenderDriverInfo(i,&drinfo)
+		println("Driver name", drinfo.Name )
+		// if drinfo.Flags & sdl.RENDERER_SOFTWARE {
+			// println( "renderer is a software fallback")
+		// }
+// renderer is a software fallback" << endl; 
+    // if (drinfo.flags & SDL_RENDERER_ACCELERATED) cout << " the 
+// renderer uses hardware acceleration" << endl; 
+    // if (drinfo.flags & SDL_RENDERER_PRESENTVSYNC) cout << " present 
+// is synchronized with the refresh rate" << endl; 
+    // if (drinfo.flags & SDL_RENDERER_TARGETTEXTURE) cout << " the 
+// renderer supports rendering to texture" << endl; 
+	}
+    // SDL_RendererInfo drinfo; 
+    // SDL_GetRenderDriverInfo (0, &drinfo); 
+    // cout << "Driver name ("<<i<<"): " << drinfo.name << endl; 
+    // if (drinfo.flags & SDL_RENDERER_SOFTWARE) cout << " the 
+// renderer is a software fallback" << endl; 
+    // if (drinfo.flags & SDL_RENDERER_ACCELERATED) cout << " the 
+// renderer uses hardware acceleration" << endl; 
+    // if (drinfo.flags & SDL_RENDERER_PRESENTVSYNC) cout << " present 
+// is synchronized with the refresh rate" << endl; 
+    // if (drinfo.flags & SDL_RENDERER_TARGETTEXTURE) cout << " the 
+// renderer supports rendering to texture" << endl; 
+// } 
 
 	img.Init(img.INIT_PNG)
 
@@ -81,7 +112,10 @@ func Init(scr def.Rect) {
 	// fmt.Println( tilePixelSize )
 
 	window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		int32(scrPixelWidth), int32(scrPixelHeight), sdl.WINDOW_SHOWN)
+		int32(scrPixelWidth), int32(scrPixelHeight), 
+		sdl.WINDOW_SHOWN,
+		// sdl.WINDOW_OPENGL,
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -96,7 +130,7 @@ func Init(scr def.Rect) {
 		panic(err)
 	}
 
-	backScreen,err = renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight) )
+	backScreen,err = renderer.CreateTexture(sdl.PIXELFORMAT_BGR888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight) )
 	if err != nil {
 		panic(err)
 	}
@@ -248,7 +282,7 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 
 	// renderer.Clear()
 	// renderer.SetRenderTarget( backScreen )
-	// renderer.Clear()
+	renderer.Clear()
 
 	// if err != nil {
 	// 	panic(err)
@@ -276,12 +310,18 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 	lastTime = currentTime
 
 	// renderer.SetRenderTarget( nil )
+	// renderer.Clear()
+	
 	// rect := sdl.Rect{ X: 0, Y:0, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
-
 	// renderer.CopyEx( )
 	// backScreen.SetColorMod( 200,0,0 )
+	// backScreen.SetBlendMode( sdl.BLENDMODE_NONE )
 	// renderer.Copy( backScreen, nil, nil )
 	renderer.Present()
+	// sdl.GLSetSwapInterval(1)
+	// window.GLSwap()
+
+	// window.GetSurface()
 	// window.UpdateSurface()
 	// sdl.Delay(400)
 	// renderer.Clear()
