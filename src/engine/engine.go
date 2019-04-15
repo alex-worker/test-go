@@ -18,6 +18,8 @@ var hero = def.Hero{
 var layers *map[string]*def.Layer
 var tiles *[]def.Tile
 
+var view ui.View
+
 // Init engine
 func Init(info def.LoadInfo){
 	fmt.Println("Engine init...")
@@ -68,13 +70,23 @@ func updateGame() bool{
 	case def.EventPressRight:
 		entity.HeroDo( def.DirRight, def.ActionStand )
 	}
+
+	ui.DrawStart()
+
+	view.MakeView( hero.Pos, def.Size{10,10} )
+	view.GetView()
+
+	ui.DrawEnd( true )
+
 	return true
 }
 
 func drawGame(){
 
-	mymap, w, h := entity.GetMap()
-	ui.LookAtHero( mymap, int(w), int(h), &hero )
+
+
+	// mymap, w, h := entity.GetMap()
+	// ui.LookAtHero( mymap, int(w), int(h), &hero )
 
 }
 
