@@ -12,7 +12,7 @@ const mapName string = "mycastle.tmx"
 // const mapName string = "laboratory3.tmx"
 const resPath string = "data/"
 
-var screenSize = def.Rect{
+var screenSize = def.Size{
     Width: 800,
     Height: 600,
 }

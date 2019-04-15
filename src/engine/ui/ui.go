@@ -2,9 +2,11 @@ package ui
 
 import (
 	"fmt"
+
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
+
 	// "github.com/veandco/go-sdl2/mix"
 	"../def"
 )
@@ -28,13 +30,17 @@ var scrTilesWidth = 15
 var scrTilesHeight = 11
 
 // размер одного тайла в пикселях
-var tilePixelSize int
+var tilePixelSize int32
 
 var window *sdl.Window
 var renderer *sdl.Renderer
+
+// var surface *sdl.Surface
 var backScreen *sdl.Texture
 var textureAtlas *sdl.Texture
 var curFont *ttf.Font
+
+var view View
 
 // сдвиг на карте когда центрируемся на герое
 // var mapPosX int
@@ -42,7 +48,7 @@ var curFont *ttf.Font
 
 // Destroy уничтожаем ui
 func Destroy() {
-	
+
 	curFont.Close()
 	ttf.Quit()
 
@@ -53,7 +59,7 @@ func Destroy() {
 }
 
 // Init инициализируем ui
-func Init(scr def.Rect) {
+func Init(scr def.Size) {
 	fmt.Println("UI Init...")
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -61,43 +67,14 @@ func Init(scr def.Rect) {
 		panic(err)
 	}
 
-
-	numdrivers,_ := sdl.GetNumRenderDrivers()
-// cout << "Render driver count: " << numdrivers << endl; 
-	for i:=0; i<numdrivers; i++ { 
+	numdrivers, _ := sdl.GetNumRenderDrivers()
+	for i := 0; i < numdrivers; i++ {
 		var drinfo sdl.RendererInfo
-		sdl.GetRenderDriverInfo(i,&drinfo)
-		println("Driver name", drinfo.Name )
-		// if drinfo.Flags & sdl.RENDERER_SOFTWARE {
-			// println( "renderer is a software fallback")
-		// }
-// renderer is a software fallback" << endl; 
-    // if (drinfo.flags & SDL_RENDERER_ACCELERATED) cout << " the 
-// renderer uses hardware acceleration" << endl; 
-    // if (drinfo.flags & SDL_RENDERER_PRESENTVSYNC) cout << " present 
-// is synchronized with the refresh rate" << endl; 
-    // if (drinfo.flags & SDL_RENDERER_TARGETTEXTURE) cout << " the 
-// renderer supports rendering to texture" << endl; 
+		sdl.GetRenderDriverInfo(i, &drinfo)
+		println("Driver name", drinfo.Name)
 	}
-    // SDL_RendererInfo drinfo; 
-    // SDL_GetRenderDriverInfo (0, &drinfo); 
-    // cout << "Driver name ("<<i<<"): " << drinfo.name << endl; 
-    // if (drinfo.flags & SDL_RENDERER_SOFTWARE) cout << " the 
-// renderer is a software fallback" << endl; 
-    // if (drinfo.flags & SDL_RENDERER_ACCELERATED) cout << " the 
-// renderer uses hardware acceleration" << endl; 
-    // if (drinfo.flags & SDL_RENDERER_PRESENTVSYNC) cout << " present 
-// is synchronized with the refresh rate" << endl; 
-    // if (drinfo.flags & SDL_RENDERER_TARGETTEXTURE) cout << " the 
-// renderer supports rendering to texture" << endl; 
-// } 
 
 	img.Init(img.INIT_PNG)
-
-	// err = mix.Init(mix.INIT_MP3)
-	// if err != nil {
-		// panic(err)
-	// }
 
 	err = ttf.Init()
 	if err != nil {
@@ -107,12 +84,10 @@ func Init(scr def.Rect) {
 	scrPixelWidth = scr.Width
 	scrPixelHeight = scr.Height
 
-	tilePixelSize = scrPixelWidth / scrTilesWidth
-
-	// fmt.Println( tilePixelSize )
+	tilePixelSize = int32(scrPixelWidth / scrTilesWidth)
 
 	window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		int32(scrPixelWidth), int32(scrPixelHeight), 
+		int32(scrPixelWidth), int32(scrPixelHeight),
 		sdl.WINDOW_SHOWN,
 		// sdl.WINDOW_OPENGL,
 	)
@@ -125,16 +100,16 @@ func Init(scr def.Rect) {
 
 	// SDL_RENDERER_ACCELERATED для хардварной поддержки
 	// renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE )
-	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED | sdl.RENDERER_PRESENTVSYNC)
+	renderer, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED|sdl.RENDERER_PRESENTVSYNC)
 	if err != nil {
 		panic(err)
 	}
 
-	backScreen,err = renderer.CreateTexture(sdl.PIXELFORMAT_BGR888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight) )
+	backScreen, err = renderer.CreateTexture(sdl.PIXELFORMAT_BGR888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight))
 	if err != nil {
 		panic(err)
 	}
-	
+
 	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 
 	keyboardState = sdl.GetKeyboardState()
@@ -142,8 +117,8 @@ func Init(scr def.Rect) {
 
 // LoadFont грузим шрифт
 func LoadFont(fontname string) {
-	fmt.Println( "Loading font...", fontname)
-	font,err := ttf.OpenFont(def.GetPath(fontname+".ttf"), 24)
+	fmt.Println("Loading font...", fontname)
+	font, err := ttf.OpenFont(def.GetPath(fontname+".ttf"), 24)
 	if err != nil {
 		sdl.LogError(sdl.LOG_CATEGORY_APPLICATION, "OpenFont: %s\n", err)
 	}
@@ -197,21 +172,106 @@ func GetInput() def.GameEvent {
 	return def.EventNo
 }
 
-// DrawTile рисуем один тайл
-func DrawTile(cell def.Cell, x int, y int) {
+// DrawStart Начать отрисовку
+func DrawStart(){
+	renderer.Clear()
+}
 
-	mapY := int32(cell) >> tileShift
-	mapX := int32(cell) - mapY<<tileShift
+// DrawEnd Окончить отрисовку
+func DrawEnd( isShowFps bool ){
 
-	srcRect := sdl.Rect{X: int32(mapX * tileW), Y: int32(mapY * tileH), W: tileW, H: tileH}
-	dstRect := sdl.Rect{X: int32(x * tilePixelSize), Y: int32(y * tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
+	if isShowFps {
+		showFPS()
+	}
 
-	renderer.Copy(textureAtlas, &srcRect, &dstRect)
-	// renderer.Co
+	renderer.Present()
+	
+	currentTime := sdl.GetTicks()
+
+	deltaTime = currentTime - lastTime
+
+	if deltaTime > 0 {
+		fps = 1000 / deltaTime
+	} else {
+		fps = 0
+	}
+
+	lastTime = currentTime
 
 }
 
-func drawLayer(layer *def.Layer, mapPosX int, mapPosY int){
+// ShowFPS показать FPS
+func showFPS(){
+
+	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime)
+	printAt(fpsStr, 0, 0)
+
+}
+
+func printAt(text string, x int32, y int32) {
+
+	grapText, err := renderText(text,
+		sdl.Color{R: 255, G: 255, B: 255, A: 0},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	_, _, tW, tH, _ := grapText.Query()
+
+	rect := sdl.Rect{X: 10, Y: 10, W: tW, H: tH}
+
+	grapText.SetAlphaMod(255)
+	renderer.Copy(grapText, nil, &rect)
+
+}
+
+func renderText(text string, color sdl.Color) (texture *sdl.Texture, err error) {
+	surface, err := curFont.RenderUTF8Blended(text, color)
+	if err != nil {
+		panic(err)
+	}
+	defer surface.Free()
+
+	texture, err = renderer.CreateTextureFromSurface(surface)
+	return
+}
+
+
+/*
+
+// DrawTile рисуем один тайл
+func DrawTile(cell def.Cell, x int, y int) {
+
+	// mapY := int32(cell) >> tileShift
+	// mapX := int32(cell) - mapY<<tileShift
+
+	// srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
+
+	srcRect := sdl.Rect{X: 32, Y: 0, W: tileW, H: tileH}
+
+	dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
+
+	renderer.Copy(textureAtlas, &srcRect, &dstRect)
+
+}
+
+func DirectDrawTile(cell int32, x int, y int) {
+
+	// mapY := int32(cell) >> tileShift
+	// mapX := int32(cell) - mapY<<tileShift
+
+	// srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
+
+	srcRect := sdl.Rect{X: cell, Y: 0, W: tileW, H: tileH}
+
+	dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
+
+	renderer.Copy(textureAtlas, &srcRect, &dstRect)
+
+}
+
+func drawLayer(layer *def.Layer, mapPosX int, mapPosY int) {
 
 	mydata := (*layer).Data
 	mymap := *mydata
@@ -220,9 +280,14 @@ func drawLayer(layer *def.Layer, mapPosX int, mapPosY int){
 	for x := 0; x < scrTilesWidth; x++ {
 		for y := 0; y < scrTilesHeight; y++ {
 			cell := mymap[y+mapPosY][x+mapPosX]
-			if cell != 0 {
-				DrawTile(cell, x, y)
-			}
+			// if cell != 0 {
+			// DrawTile(cell, x, y)
+			// DirectDrawTile( int32(2), x, y)
+			// }
+			srcRect := sdl.Rect{X: int32(cell)+int32(x+mapPosX)*tileW, Y: int32(y+mapPosY)*tileH, W: tileW, H: tileH}
+			dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
+			renderer.Copy(textureAtlas, &srcRect, &dstRect)
+		
 		}
 	}
 
@@ -265,34 +330,34 @@ func getMapPos(mapWidth int, mapHeight int, pos def.Pos) (posX int, posY int) {
 }
 
 // GetTickCount время со старта игры
-func GetTickCount() uint32{
+func GetTickCount() uint32 {
 	return sdl.GetTicks()
 }
 
 // Delay спим!
-func Delay(time uint32){
+func Delay(time uint32) {
 	println("Delay", time)
-	sdl.Delay( time )
+	sdl.Delay(time)
 }
 
 // LookAtHero рисуем карту и героя
 func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero *def.Hero) {
 
-	mapPosX, mapPosY := getMapPos(mapWidth, mapHeight, hero.Pos )
+	// mapPosX, mapPosY := getMapPos(mapWidth, mapHeight, hero.Pos)
 
 	// renderer.Clear()
 	// renderer.SetRenderTarget( backScreen )
 	renderer.Clear()
-
+	// sdl.Delay(10)
 	// if err != nil {
 	// 	panic(err)
 	// }
 	// renderer.Clear()
 
 	// println( mapPosX, mapPosX )
-	for _, layer := range *layers {
-		drawLayer( layer, mapPosX, mapPosY )
-	}
+	// for _, layer := range *layers {
+		// drawLayer(layer, mapPosX, mapPosY)
+	// }
 
 	currentTime := sdl.GetTicks()
 
@@ -304,14 +369,21 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 		fps = 0
 	}
 
-	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime) 
-	printAt( fpsStr, 0, 0)
+	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime)
+	printAt(fpsStr, 0, 0)
 
 	lastTime = currentTime
 
 	// renderer.SetRenderTarget( nil )
 	// renderer.Clear()
-	
+	// src :=  sdl.Rect{X: 100, Y: i, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
+	// for i:=int32(0);i<100;i++ {
+	// 	renderer.Clear()
+	// 	dst := sdl.Rect{X: 100, Y: i, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
+	// 	renderer.Copy(textureAtlas, &src, &dst)
+	// 	renderer.Present()
+	// }
+
 	// rect := sdl.Rect{ X: 0, Y:0, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
 	// renderer.CopyEx( )
 	// backScreen.SetColorMod( 200,0,0 )
@@ -328,31 +400,4 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 	// renderer.SetRenderTarget( backScreen )
 }
 
-func printAt(text string, x int32, y int32){
-	
-	grapText, err := renderText( text,
-		sdl.Color{R:255, G:255, B:255, A:0},
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	_, _, tW, tH, _ := grapText.Query()
-
-	rect := sdl.Rect{ X: 10, Y:10, W: tW, H: tH}
-
-	grapText.SetAlphaMod(255)
-	renderer.Copy(grapText, nil, &rect)
-
-}
-
-func renderText(text string, color sdl.Color) (texture *sdl.Texture, err error) {
-	surface, err := curFont.RenderUTF8Blended(text, color)
-	if err != nil {
-		panic(err)
-	}
-	defer surface.Free()
-
-	texture, err = renderer.CreateTextureFromSurface(surface)
-	return
-}
+*/

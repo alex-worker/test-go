@@ -1,8 +1,8 @@
 package def
 
 import (
-	"path/filepath"
 	"os"
+	"path/filepath"
 	// "errors"
 )
 
@@ -12,15 +12,22 @@ type Cell uint32
 // Layer слой
 type Layer struct {
 	Data *[][]Cell
+	Name string
 }
 
 // Layers список слоев
-type Layers map[string]*Layer
+type Layers []*Layer
+// type Layers map[int]*Layer
+
+// Map прям вся карта ваще
+type Map struct {
+	Layers Layers
+}
 
 // Tile анимированый тайл ну или нет...
 type Tile struct {
-	Tick uint32 // текущий таймер
-	Tile Cell // текущий фрейм
+	Tick  uint32 // текущий таймер
+	Tile  Cell   // текущий фрейм
 	Frame []Cell // набор фреймов
 }
 
@@ -30,35 +37,35 @@ type Pos struct {
 	Y int
 }
 
-// Rect длина и ширина
-type Rect struct {
-	Width int
+// Size длина и ширина
+type Size struct {
+	Width  int
 	Height int
 }
 
 // LoadInfo структура хранения настроек игры
 type LoadInfo struct {
-	MapName string
+	MapName        string
 	ResourceFolder string
-	ScreenSize Rect
-	FontName string
+	ScreenSize     Size
+	FontName       string
 }
 
 // ResourceFolder указатель на папку с ресурсами
 var resFolder string
 
 // SetResourceFolder устанавливаем путь к файлам
-func SetResourceFolder(path string){
+func SetResourceFolder(path string) {
 	resFolder = path
 }
 
 // GetPath для SDL-библиотек которые сами открывают файлы
 func GetPath(filename string) string {
-	return filepath.Join(resFolder,filename)
+	return filepath.Join(resFolder, filename)
 }
 
 // OpenFile открываем файл
 func OpenFile(filename string) (*os.File, error) {
-	path := filepath.Join(resFolder,filename)
-	return os.Open( path )
+	path := filepath.Join(resFolder, filename)
+	return os.Open(path)
 }
