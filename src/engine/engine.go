@@ -2,7 +2,7 @@ package engine
 
 import (
 	"fmt"
-	"./entity"
+	// "./entity"
 	"./ui"
 	"./def"
 	"./loaders"
@@ -15,10 +15,11 @@ var hero = def.Hero{
 // var resPath string
 
 // var cells *[][]def.Cell
-var layers *map[string]*def.Layer
+var layers *def.Layers
 var tiles *[]def.Tile
 
 var view ui.View
+var myMap def.Map
 
 // Init engine
 func Init(info def.LoadInfo){
@@ -37,10 +38,13 @@ func Init(info def.LoadInfo){
 	var tilesets *map[string]loaders.TileSetInfo
 	layers, tilesets = loaders.LoadTmx(info.MapName)
 
+	myMap.Layers = *layers
+	view.SetMap( &myMap )
+
 	loadTiles(tilesets)
 
-	entity.SetHero(&hero)
-	entity.SetMap(layers)
+	// entity.SetHero(&hero)
+	// entity.SetMap(layers)
 
 	ui.LoadFont(info.FontName)
 	
@@ -59,7 +63,7 @@ func updateGame() bool{
 	if evt == def.EventQuit {
 		return false
 	}
-
+/*
 	switch evt {
 	case def.EventPressDown:
 		entity.HeroDo( def.DirDown, def.ActionStand )
@@ -70,11 +74,13 @@ func updateGame() bool{
 	case def.EventPressRight:
 		entity.HeroDo( def.DirRight, def.ActionStand )
 	}
-
+*/
 	ui.DrawStart()
 
-	view.MakeView( hero.Pos, def.Size{10,10} )
-	view.GetView()
+	// view.MakeView( hero.Pos, def.Size{10,10} )
+	// view.GetView()
+
+	ui.DrawView( &view )
 
 	ui.DrawEnd( true )
 

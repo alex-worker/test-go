@@ -68,7 +68,7 @@ func parseLayer( layer *tmxLayer ) *def.Layer {
 		}
 	}
 	
-	return &def.Layer{ Data: &myMap }
+	return &def.Layer{ Data: &myMap, Name: layer.Name }
 
 }
 
@@ -126,7 +126,7 @@ func loadTSX(filename string) TileSetInfo {
 // LoadTmx по файлу возвращаются 
 // layers - карта width x height
 // tsxFileName - имя файла описания
-func LoadTmx(filename string) (layersPtr *map[string]*def.Layer, tsetsPtr *map[string]TileSetInfo ) {
+func LoadTmx(filename string) (layersPtr *def.Layers, tsetsPtr *map[string]TileSetInfo ) {
 	fmt.Println("Loading map...", filename)
 
 	xmlFile, err := def.OpenFile(filename)
@@ -143,10 +143,16 @@ func LoadTmx(filename string) (layersPtr *map[string]*def.Layer, tsetsPtr *map[s
 
 	xml.Unmarshal(byteValue, &tmxmap)
 
-	layers := make(map[string]*def.Layer)
-	for _, layer := range tmxmap.Layers {
-		layers[layer.Name] = parseLayer( layer )
+	
+	lenLayers := len(tmxmap.Layers)
+	layers := def.Layers( make([]def.Layer, lenLayers ) )
+	
+	for i, layer := range tmxmap.Layers {
+		curlayer :=	parseLayer( layer )
+		layers[i] = *curlayer
 	}
+
+	// fmt.Println( layers )
 
 	tilesets := make(map[string]TileSetInfo)
 

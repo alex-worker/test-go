@@ -16,8 +16,7 @@ type Layer struct {
 }
 
 // Layers список слоев
-type Layers []*Layer
-// type Layers map[int]*Layer
+type Layers []Layer
 
 // Map прям вся карта ваще
 type Map struct {
