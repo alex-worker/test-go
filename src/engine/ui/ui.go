@@ -405,11 +405,12 @@ func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero
 // DrawView рисуем окошко героя
 func DrawView(v *View){
 
-	vSize := v.GetSize()
+	// vSize := v.GetSize()
 
 	// layer := v.Layers[0]
 
-	fmt.Println( vSize )
+
+	// fmt.Println( vSize )
 
 	// fmt.Println( layer )
 
