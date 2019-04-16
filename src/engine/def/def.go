@@ -13,6 +13,8 @@ type Cell uint32
 type Layer struct {
 	Data *[][]Cell
 	Name string
+	W uint32
+	H uint32
 }
 
 // Layers список слоев
@@ -21,6 +23,8 @@ type Layers []Layer
 // Map прям вся карта ваще
 type Map struct {
 	Layers Layers
+	W uint32
+	H uint32
 }
 
 // Tile анимированый тайл ну или нет...
