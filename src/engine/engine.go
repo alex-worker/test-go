@@ -65,21 +65,27 @@ func updateGame() bool{
 		return false
 	}
 
+	needRedraw := false
 	switch evt {
 	case def.EventPressDown:
 		entity.HeroDo( def.DirDown, def.ActionStand )
+		needRedraw = true
 	case def.EventPressUp:
 		entity.HeroDo( def.DirUp, def.ActionStand )
+		needRedraw = true
 	case def.EventPressLeft:
 		entity.HeroDo( def.DirLeft, def.ActionStand )
+		needRedraw = true
 	case def.EventPressRight:
 		entity.HeroDo( def.DirRight, def.ActionStand )
+		needRedraw = true
+	}
+
+	if needRedraw {
+		view.MakeView( hero.Pos, def.Size{ Width:10, Height:10} )
 	}
 
 	ui.DrawStart()
-
-	view.MakeView( hero.Pos, def.Size{10,10} )
-	// view.GetView()
 
 	ui.DrawView( &view )
 

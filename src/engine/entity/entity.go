@@ -16,12 +16,10 @@ var curHero *def.Hero
 func SetMap(mymap *def.Map){
 
 	myMap = mymap
-	
+	mapW = mymap.W
+	mapH = mymap.H
 
-	// mapW = 
-	// mapH = uint32(len(data[0]))
-
-	println( mapW, mapH )
+	// println( mapW, mapH )
 
 }
 
