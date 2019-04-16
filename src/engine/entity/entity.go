@@ -5,25 +5,21 @@ import (
 	"../def"
 )
 
-var layers *map[string]*def.Layer
+// var layers *map[string]*def.Layer
+var myMap *def.Map
 var mapW uint32 // размер карты
 var mapH uint32
 
 var curHero *def.Hero
 
 // SetMap устанавливаем карту
-func SetMap(layersList *map[string]*def.Layer){
+func SetMap(mymap *def.Map){
 
-	layers = layersList
+	myMap = mymap
 	
-	var firstLayer *def.Layer
-	for _, firstLayer = range *layers{
-		break
-	}
 
-	data := *firstLayer.Data
-	mapW = uint32(len(data))
-	mapH = uint32(len(data[0]))
+	// mapW = 
+	// mapH = uint32(len(data[0]))
 
 	println( mapW, mapH )
 
@@ -35,9 +31,9 @@ func SetHero( hero *def.Hero ){
 }
 
 // GetMap получаем карту
-func GetMap() ( layerList *map[string]*def.Layer, w uint32, h uint32){
-	return layers, mapW, mapH
-}
+// func GetMap() ( layerList *map[string]*def.Layer, w uint32, h uint32){
+	// return layers, mapW, mapH
+// }
 
 // GetHero указатель на героя
 func GetHero() *def.Hero {
