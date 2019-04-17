@@ -9,7 +9,7 @@ import (
 )
 
 var hero = def.Hero{
-	Pos: def.Pos{X:5, Y:5},
+	Pos: def.Pos{X:0, Y:0},
 	Dir: def.DirDown }
 
 var needReview bool
