@@ -36,7 +36,7 @@ func HeroDo( dir def.Direction, act def.HeroAction ){
 
 	oldPos := curHero.Pos
 
-	newPos,err := calcNewPos( &oldPos, dir, int(mapW), int(mapH) )
+	newPos,err := calcNewPos( &oldPos, dir, mapW, mapH )
 	if err != nil {
 		fmt.Print(err)
 		return

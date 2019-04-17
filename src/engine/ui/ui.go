@@ -22,15 +22,15 @@ var tileShift uint
 var keyboardState []uint8
 
 // размеры экрана в пикселях
-var scrPixelWidth int
-var scrPixelHeight int
+var scrPixelWidth uint32
+var scrPixelHeight uint32
 
 // размеры экрана в тайлах
-var scrTilesWidth = 15
-var scrTilesHeight = 11
+var scrTilesWidth = uint32(15)
+var scrTilesHeight = uint32(11)
 
 // размер одного тайла в пикселях
-var tilePixelSize int32
+var tilePixelSize uint32
 
 var window *sdl.Window
 var renderer *sdl.Renderer
@@ -84,7 +84,7 @@ func Init(scr def.Size) {
 	scrPixelWidth = scr.Width
 	scrPixelHeight = scr.Height
 
-	tilePixelSize = int32(scrPixelWidth / scrTilesWidth)
+	tilePixelSize = scrPixelWidth / scrTilesWidth
 
 	window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
 		int32(scrPixelWidth), int32(scrPixelHeight),
@@ -422,9 +422,8 @@ func drawLayer( l *Layer, size def.Size ){
 
 	layer:= *l
 
-	// index := 0
-	x:=0
-	y:= 0
+	x := uint32(0)
+	y := uint32(0)
 	for index:=0; index< len(layer); index++ {
 		drawTile( layer[index], def.Pos{ X:x, Y: y } )
 		x++
@@ -443,7 +442,7 @@ func drawTile( c def.Cell, pos def.Pos ){
 	srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
 
 	// srcRect := sdl.Rect{X: 32, Y: 0, W: tileW, H: tileH}
-	dstRect := sdl.Rect{X: int32(pos.X)*32, Y: int32(pos.Y)*32, W: tileW, H: tileH}
+	dstRect := sdl.Rect{X: int32(pos.X*tilePixelSize), Y: int32(pos.Y*tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
 
 	// dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
 

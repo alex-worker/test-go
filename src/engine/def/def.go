@@ -36,14 +36,14 @@ type Tile struct {
 
 // Pos координаты X Y
 type Pos struct {
-	X int
-	Y int
+	X uint32
+	Y uint32
 }
 
 // Size длина и ширина
 type Size struct {
-	Width  int
-	Height int
+	Width  uint32
+	Height uint32
 }
 
 // LoadInfo структура хранения настроек игры

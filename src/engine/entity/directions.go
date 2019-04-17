@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-func calcNewPos( pos *def.Pos, dir def.Direction, maxPosX int, maxPosY int )( *def.Pos, error){
+func calcNewPos( pos *def.Pos, dir def.Direction, maxPosX uint32, maxPosY uint32 )( *def.Pos, error){
 
 	x := pos.X
 	y := pos.Y
