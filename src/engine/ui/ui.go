@@ -409,9 +409,43 @@ func DrawView(v *View){
 
 	// layer := v.Layers[0]
 
+	for _, layer := range v.Layers {
+		drawLayer( layer , v.Size )
+	}
 
-	// fmt.Println( vSize )
-
+	// fmt.Println( v.W` )
 	// fmt.Println( layer )
 
+}
+
+func drawLayer( l *Layer, size def.Size ){
+
+	layer:= *l
+
+	// index := 0
+	x:=0
+	y:= 0
+	for index:=0; index< len(layer); index++ {
+		drawTile( layer[index], def.Pos{ X:x, Y: y } )
+		x++
+		if x == size.Width {
+			x = 0
+			y++
+		}
+	}
+
+}
+
+func drawTile( c def.Cell, pos def.Pos ){
+	mapY := int32(c) >> tileShift
+	mapX := int32(c) - mapY<<tileShift
+
+	srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
+
+	// srcRect := sdl.Rect{X: 32, Y: 0, W: tileW, H: tileH}
+	dstRect := sdl.Rect{X: int32(pos.X)*32, Y: int32(pos.Y)*32, W: tileW, H: tileH}
+
+	// dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
+
+	renderer.Copy(textureAtlas, &srcRect, &dstRect)
 }
