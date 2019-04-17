@@ -2,15 +2,15 @@ package engine
 
 import (
 	"fmt"
-	"./entity"
-	"./ui"
 	"./def"
+	"./entity"
 	"./loaders"
+	"./ui"
 )
 
 var hero = def.Hero{
-	Pos: def.Pos{X:0, Y:0},
-	Dir: def.DirDown }
+	Pos: def.Pos{X: 0, Y: 0},
+	Dir: def.DirDown}
 
 // размеры экрана в тайлах
 var scrTilesSize = def.Size{
@@ -25,10 +25,10 @@ var view ui.View
 var myMap def.Map
 
 // Init engine
-func Init(info def.LoadInfo){
+func Init(info def.LoadInfo) {
 	fmt.Println("Engine init...")
 
-	def.SetResourceFolder( info.ResourceFolder )
+	def.SetResourceFolder(info.ResourceFolder)
 
 	ui.Init(info.ScreenSize)
 
@@ -43,12 +43,12 @@ func Init(info def.LoadInfo){
 	entity.SetMap(&myMap)
 
 	ui.LoadFont(info.FontName)
-	
-	view.MakeView( &myMap, hero.Pos, scrTilesSize )
+
+	view.MakeView(&myMap, hero.Pos, scrTilesSize)
 
 }
 
-func updateGame() bool{
+func updateGame() bool {
 
 	evt := ui.GetInput()
 
@@ -58,43 +58,43 @@ func updateGame() bool{
 
 	switch evt {
 	case def.EventPressDown:
-		entity.HeroDo( def.DirDown, def.ActionStand )
+		entity.HeroDo(def.DirDown, def.ActionStand)
 		needReview = true
 	case def.EventPressUp:
-		entity.HeroDo( def.DirUp, def.ActionStand )
+		entity.HeroDo(def.DirUp, def.ActionStand)
 		needReview = true
 	case def.EventPressLeft:
-		entity.HeroDo( def.DirLeft, def.ActionStand )
+		entity.HeroDo(def.DirLeft, def.ActionStand)
 		needReview = true
 	case def.EventPressRight:
-		entity.HeroDo( def.DirRight, def.ActionStand )
+		entity.HeroDo(def.DirRight, def.ActionStand)
 		needReview = true
 	}
 
 	if needReview {
-		view.MakeView( &myMap, hero.Pos, scrTilesSize )
+		view.MakeView(&myMap, hero.Pos, scrTilesSize)
 		needReview = false
 	}
 	return true
 }
 
-func drawGame(){
+func drawGame() {
 
 	ui.DrawStart()
-	ui.DrawView( &view )
-	ui.DrawEnd( true )
+	ui.DrawView(&view)
+	ui.DrawEnd(true)
 
 }
 
 // Run цикл
-func Run(){
+func Run() {
 
 	fmt.Println("Engine run...")
 
 	for true {
 
 		// start := ui.GetTickCount()
-		if !updateGame(){
+		if !updateGame() {
 			break
 		}
 		drawGame()
@@ -105,7 +105,7 @@ func Run(){
 		// 	sleepTime := 1000/10 - time
 		// 	if sleepTime > 0 {
 		// 		// ui.Delay( uint32(sleepTime))
-		// 	}	
+		// 	}
 		// }
 	}
 
@@ -114,10 +114,10 @@ func Run(){
 
 }
 
-func loadTiles( tilesets *map[string]loaders.TileSetInfo ){
+func loadTiles(tilesets *map[string]loaders.TileSetInfo) {
 
 	for _, tileset := range *tilesets {
-		ui.LoadTiles(tileset.Filename, tileset.TileW , tileset.TileH )
+		ui.LoadTiles(tileset.Filename, tileset.TileW, tileset.TileH)
 	}
 
 }

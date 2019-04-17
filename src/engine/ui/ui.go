@@ -42,10 +42,6 @@ var curFont *ttf.Font
 
 var view View
 
-// сдвиг на карте когда центрируемся на герое
-// var mapPosX int
-// var mapPosY int
-
 // Destroy уничтожаем ui
 func Destroy() {
 
