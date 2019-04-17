@@ -19,19 +19,12 @@ func SetMap(mymap *def.Map){
 	mapW = mymap.W
 	mapH = mymap.H
 
-	// println( mapW, mapH )
-
 }
 
 // SetHero устанавливаем главного героя
 func SetHero( hero *def.Hero ){
 	curHero = hero
 }
-
-// GetMap получаем карту
-// func GetMap() ( layerList *map[string]*def.Layer, w uint32, h uint32){
-	// return layers, mapW, mapH
-// }
 
 // GetHero указатель на героя
 func GetHero() *def.Hero {

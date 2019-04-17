@@ -12,10 +12,8 @@ var hero = def.Hero{
 	Pos: def.Pos{X:5, Y:5},
 	Dir: def.DirDown }
 
-// var resPath string
+var needReview bool
 
-// var cells *[][]def.Cell
-// var layers *def.Layers
 var tiles *[]def.Tile
 
 var view ui.View
@@ -29,18 +27,10 @@ func Init(info def.LoadInfo){
 
 	ui.Init(info.ScreenSize)
 
-	// var (
-	// 	tileFileName string
-	// 	tileW int32
-	// 	tileH int32
-	// )
-
 	var tilesets *map[string]loaders.TileSetInfo
 	myMapPtr, tilesets := loaders.LoadTmx(info.MapName)
 
 	myMap = *myMapPtr
-
-	view.SetMap( &myMap )
 
 	loadTiles(tilesets)
 
@@ -49,11 +39,7 @@ func Init(info def.LoadInfo){
 
 	ui.LoadFont(info.FontName)
 	
-	// if ( tileFileName != "" ){
-	// 	ui.LoadTiles(tileFileName, tileW, tileH)
-	// } else {
-	// 	println( "tileFileName is empty!" )
-	// }
+	view.MakeView( &myMap, hero.Pos, def.Size{ Width:10, Height:10} )
 
 }
 
@@ -65,41 +51,33 @@ func updateGame() bool{
 		return false
 	}
 
-	needRedraw := false
 	switch evt {
 	case def.EventPressDown:
 		entity.HeroDo( def.DirDown, def.ActionStand )
-		needRedraw = true
+		needReview = true
 	case def.EventPressUp:
 		entity.HeroDo( def.DirUp, def.ActionStand )
-		needRedraw = true
+		needReview = true
 	case def.EventPressLeft:
 		entity.HeroDo( def.DirLeft, def.ActionStand )
-		needRedraw = true
+		needReview = true
 	case def.EventPressRight:
 		entity.HeroDo( def.DirRight, def.ActionStand )
-		needRedraw = true
+		needReview = true
 	}
 
-	if needRedraw {
-		view.MakeView( hero.Pos, def.Size{ Width:10, Height:10} )
+	if needReview {
+		view.MakeView( &myMap, hero.Pos, def.Size{ Width:10, Height:10} )
+		needReview = false
 	}
-
-	ui.DrawStart()
-
-	ui.DrawView( &view )
-
-	ui.DrawEnd( true )
-
 	return true
 }
 
 func drawGame(){
 
-
-
-	// mymap, w, h := entity.GetMap()
-	// ui.LookAtHero( mymap, int(w), int(h), &hero )
+	ui.DrawStart()
+	ui.DrawView( &view )
+	ui.DrawEnd( true )
 
 }
 
@@ -127,6 +105,7 @@ func Run(){
 	}
 
 	ui.Destroy()
+	fmt.Println("Have a nice day!..")
 
 }
 
