@@ -2,7 +2,6 @@ package ui
 
 import (
 	"../def"
-	"fmt"
 )
 
 // Layer Один слой
@@ -76,7 +75,6 @@ func (v *View) importLayer( src *def.Layer, pos def.Pos) *Layer {
 		}
 	}
 
-	fmt.Println( layer )
 	return &layer
 
 }

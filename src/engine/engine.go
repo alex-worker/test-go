@@ -12,6 +12,11 @@ var hero = def.Hero{
 	Pos: def.Pos{X:0, Y:0},
 	Dir: def.DirDown }
 
+// размеры экрана в тайлах
+var scrTilesSize = def.Size{
+	Width: 15, Height: 11,
+}
+
 var needReview bool
 
 var tiles *[]def.Tile
@@ -39,7 +44,7 @@ func Init(info def.LoadInfo){
 
 	ui.LoadFont(info.FontName)
 	
-	view.MakeView( &myMap, hero.Pos, def.Size{ Width:10, Height:10} )
+	view.MakeView( &myMap, hero.Pos, scrTilesSize )
 
 }
 
@@ -67,7 +72,7 @@ func updateGame() bool{
 	}
 
 	if needReview {
-		view.MakeView( &myMap, hero.Pos, def.Size{ Width:10, Height:10} )
+		view.MakeView( &myMap, hero.Pos, scrTilesSize )
 		needReview = false
 	}
 	return true

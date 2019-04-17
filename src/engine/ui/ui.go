@@ -436,15 +436,12 @@ func drawLayer( l *Layer, size def.Size ){
 }
 
 func drawTile( c def.Cell, pos def.Pos ){
+
 	mapY := int32(c) >> tileShift
 	mapX := int32(c) - mapY<<tileShift
 
 	srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
-
-	// srcRect := sdl.Rect{X: 32, Y: 0, W: tileW, H: tileH}
 	dstRect := sdl.Rect{X: int32(pos.X*tilePixelSize), Y: int32(pos.Y*tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
-
-	// dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
-
 	renderer.Copy(textureAtlas, &srcRect, &dstRect)
+
 }
