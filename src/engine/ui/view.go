@@ -52,9 +52,21 @@ var mockLayers = Layers{
 func (v *View) MakeView(m *def.Map, pos def.Pos, sz def.Size) {
 	v.pos = pos
 	v.Size = sz
+
+	maxPosX:= m.W - sz.Width -1
+	maxPosY:= m.H - sz.Height -1
+
+	if v.pos.X > maxPosX {
+		v.pos.X = maxPosX
+	}
+
+	if v.pos.Y > maxPosY {
+		v.pos.Y = maxPosY
+	}
+
 	v.Layers = make(Layers, len(m.Layers) )
 	for i:=0;i<len(m.Layers);i++{
-		v.Layers[i] = v.importLayer( &(m.Layers[i]), pos )
+		v.Layers[i] = v.importLayer( &(m.Layers[i]), v.pos )
 	}
 	
 }
