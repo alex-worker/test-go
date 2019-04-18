@@ -2,11 +2,9 @@ package ui
 
 import (
 	"fmt"
-
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
-
 	// "github.com/veandco/go-sdl2/mix"
 	"../def"
 )
@@ -39,6 +37,8 @@ var renderer *sdl.Renderer
 var backScreen *sdl.Texture
 var textureAtlas *sdl.Texture
 var curFont *ttf.Font
+
+var animateTiles *def.AnimateTiles
 
 var view View
 
@@ -121,8 +121,15 @@ func LoadFont(fontname string) {
 	curFont = font
 }
 
+// LoadTileset загрузить текстуру и запомнить анимацию
+// пока так, потом посмотрим
+func LoadTileset(filename string, w int32, h int32, anim *def.AnimateTiles){
+	animateTiles = anim
+	textureAtlas = loadTexture(filename, w, h)
+}
+
 // LoadTexture загрузить файл тайлов
-func LoadTexture(filename string, w int32, h int32) *sdl.Texture {
+func loadTexture(filename string, w int32, h int32) *sdl.Texture {
 	tileW = w
 	tileH = h
 
@@ -136,8 +143,6 @@ func LoadTexture(filename string, w int32, h int32) *sdl.Texture {
 		tileShift++
 	}
 
-	// texture.SetBlendMode( sdl.BLENDMODE_BLEND )
-	textureAtlas = texture
 	return texture
 }
 

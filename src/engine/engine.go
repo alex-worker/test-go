@@ -118,7 +118,12 @@ func loadTiles(tilesets *[]loaders.TileSetInfo) {
 
 // TODO на будущее как-то надо подправить если текстур вдруг будет несколько
 	for _, tileset := range *tilesets {
-		ui.LoadTexture(tileset.Filename, tileset.TileW, tileset.TileH)
+		ui.LoadTileset( 
+			tileset.Filename,
+			tileset.TileW,
+			tileset.TileH,
+			tileset.Tiles,
+		)
 	}
 
 }
