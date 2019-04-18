@@ -275,7 +275,21 @@ func drawLayer( l *Layer, size def.Size ){
 
 }
 
+func getAnimTile( c def.Cell, delta uint32 ) (tile def.Cell) {
+	
+	if anim, ok := (*animateTiles)[ uint32(c)]; ok {
+
+		tile = anim.Frame[ anim.Index ].Cell
+
+	} else {
+		tile = c
+	}
+	return 
+}
+
 func drawTile( c def.Cell, pos def.Pos ){
+
+	c  = getAnimTile(c, deltaTime )
 
 	mapY := int32(c) >> tileShift
 	mapX := int32(c) - mapY<<tileShift

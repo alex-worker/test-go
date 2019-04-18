@@ -40,7 +40,7 @@ type AnimateTile struct {
 }
 
 // AnimateTiles набор тайлов
-type AnimateTiles map[int]AnimateTile
+type AnimateTiles map[uint32]AnimateTile
 
 // Pos координаты X Y
 type Pos struct {
