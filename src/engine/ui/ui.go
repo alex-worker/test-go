@@ -121,8 +121,8 @@ func LoadFont(fontname string) {
 	curFont = font
 }
 
-// LoadTiles загрузить файл тайлов
-func LoadTiles(filename string, w int32, h int32) *sdl.Texture {
+// LoadTexture загрузить файл тайлов
+func LoadTexture(filename string, w int32, h int32) *sdl.Texture {
 	tileW = w
 	tileH = h
 
@@ -233,100 +233,8 @@ func renderText(text string, color sdl.Color) (texture *sdl.Texture, err error) 
 	return
 }
 
-
-/*
-
-// DrawTile рисуем один тайл
-func DrawTile(cell def.Cell, x int, y int) {
-
-	// mapY := int32(cell) >> tileShift
-	// mapX := int32(cell) - mapY<<tileShift
-
-	// srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
-
-	srcRect := sdl.Rect{X: 32, Y: 0, W: tileW, H: tileH}
-
-	dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
-
-	renderer.Copy(textureAtlas, &srcRect, &dstRect)
-
-}
-
-func DirectDrawTile(cell int32, x int, y int) {
-
-	// mapY := int32(cell) >> tileShift
-	// mapX := int32(cell) - mapY<<tileShift
-
-	// srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
-
-	srcRect := sdl.Rect{X: cell, Y: 0, W: tileW, H: tileH}
-
-	dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
-
-	renderer.Copy(textureAtlas, &srcRect, &dstRect)
-
-}
-
-func drawLayer(layer *def.Layer, mapPosX int, mapPosY int) {
-
-	mydata := (*layer).Data
-	mymap := *mydata
-
-	// fmt.Println( mapPosX, mapPosY )
-	for x := 0; x < scrTilesWidth; x++ {
-		for y := 0; y < scrTilesHeight; y++ {
-			cell := mymap[y+mapPosY][x+mapPosX]
-			// if cell != 0 {
-			// DrawTile(cell, x, y)
-			// DirectDrawTile( int32(2), x, y)
-			// }
-			srcRect := sdl.Rect{X: int32(cell)+int32(x+mapPosX)*tileW, Y: int32(y+mapPosY)*tileH, W: tileW, H: tileH}
-			dstRect := sdl.Rect{X: tilePixelSize * int32(x), Y: tilePixelSize * int32(y), W: int32(tilePixelSize), H: int32(tilePixelSize)}
-			renderer.Copy(textureAtlas, &srcRect, &dstRect)
-		
-		}
-	}
-
-}
-
-// возвращаем x и y левой верхней точки view карты так чтобы x и y было в центре и не
-// выходил за границы карты
-func getMapPos(mapWidth int, mapHeight int, pos def.Pos) (posX int, posY int) {
-	// половина экрана в тайлах
-	scrHalfWidth := scrTilesWidth / 2
-	scrHalfHeight := scrTilesHeight / 2
-
-	// максимальное смещение
-	scrWindowPosMaxX := mapWidth - scrTilesWidth
-	scrWindowPosMaxY := mapHeight - scrTilesHeight
-
-	posX = pos.X - scrHalfWidth
-	posY = pos.Y - scrHalfHeight
-
-	// println( posX, posY )
-
-	if posX < 0 {
-		posX = 0
-	}
-
-	if posY < 0 {
-		posY = 0
-	}
-
-	if posX > scrWindowPosMaxX {
-		posX = scrWindowPosMaxX
-	}
-
-	if posY > scrWindowPosMaxY {
-		posY = scrWindowPosMaxY
-	}
-
-	// println( posX, posY )
-	return posX, posY
-}
-
-// GetTickCount время со старта игры
-func GetTickCount() uint32 {
+// GetTicks время со старта игры
+func GetTicks() uint32 {
 	return sdl.GetTicks()
 }
 
@@ -336,81 +244,12 @@ func Delay(time uint32) {
 	sdl.Delay(time)
 }
 
-// LookAtHero рисуем карту и героя
-func LookAtHero(layers *map[string]*def.Layer, mapWidth int, mapHeight int, hero *def.Hero) {
-
-	// mapPosX, mapPosY := getMapPos(mapWidth, mapHeight, hero.Pos)
-
-	// renderer.Clear()
-	// renderer.SetRenderTarget( backScreen )
-	renderer.Clear()
-	// sdl.Delay(10)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// renderer.Clear()
-
-	// println( mapPosX, mapPosX )
-	// for _, layer := range *layers {
-		// drawLayer(layer, mapPosX, mapPosY)
-	// }
-
-	currentTime := sdl.GetTicks()
-
-	deltaTime = currentTime - lastTime
-
-	if deltaTime > 0 {
-		fps = 1000 / deltaTime
-	} else {
-		fps = 0
-	}
-
-	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime)
-	printAt(fpsStr, 0, 0)
-
-	lastTime = currentTime
-
-	// renderer.SetRenderTarget( nil )
-	// renderer.Clear()
-	// src :=  sdl.Rect{X: 100, Y: i, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
-	// for i:=int32(0);i<100;i++ {
-	// 	renderer.Clear()
-	// 	dst := sdl.Rect{X: 100, Y: i, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
-	// 	renderer.Copy(textureAtlas, &src, &dst)
-	// 	renderer.Present()
-	// }
-
-	// rect := sdl.Rect{ X: 0, Y:0, W: int32(scrPixelWidth), H: int32(scrPixelHeight) }
-	// renderer.CopyEx( )
-	// backScreen.SetColorMod( 200,0,0 )
-	// backScreen.SetBlendMode( sdl.BLENDMODE_NONE )
-	// renderer.Copy( backScreen, nil, nil )
-	renderer.Present()
-	// sdl.GLSetSwapInterval(1)
-	// window.GLSwap()
-
-	// window.GetSurface()
-	// window.UpdateSurface()
-	// sdl.Delay(400)
-	// renderer.Clear()
-	// renderer.SetRenderTarget( backScreen )
-}
-
-*/
-
 // DrawView рисуем окошко героя
 func DrawView(v *View){
-
-	// vSize := v.GetSize()
-
-	// layer := v.Layers[0]
 
 	for _, layer := range v.Layers {
 		drawLayer( layer , v.Size )
 	}
-
-	// fmt.Println( v.W` )
-	// fmt.Println( layer )
 
 }
 
