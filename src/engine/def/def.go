@@ -3,7 +3,6 @@ package def
 import (
 	"os"
 	"path/filepath"
-	// "errors"
 )
 
 // Cell ячейка карты
@@ -27,21 +26,21 @@ type Map struct {
 	H      uint32
 }
 
-// Frame анимационный фрейм тайла
-type Frame struct {
+// AnimateFrame анимационный фрейм тайла
+type AnimateFrame struct {
 	Cell     Cell   // номер тайла
 	Duration uint32 // задержка таймера
 }
 
-// Tile анимированый тайл ну или нет...
-type Tile struct {
+// AnimateTile анимированый тайл ну или нет...
+type AnimateTile struct {
 	Tick  uint32  // текущий таймер
 	Index uint32  // текущий индекс фрейма
-	Frame []Frame // набор фреймов
+	Frame []AnimateFrame // набор фреймов
 }
 
-// Tiles набор тайлов
-type Tiles map[int]Tile
+// AnimateTiles набор тайлов
+type AnimateTiles map[int]AnimateTile
 
 // Pos координаты X Y
 type Pos struct {

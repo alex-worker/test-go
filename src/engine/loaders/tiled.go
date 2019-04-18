@@ -9,13 +9,13 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
 	"../def"
 )
 
-// TileSetInfo описание тайлсета
+// TileSetInfo описание тайлсета для дальнейшей обработки
 type TileSetInfo struct {
 	Filename string
+	Tiles *def.AnimateTiles
 	TileW    int32
 	TileH    int32
 }
@@ -85,14 +85,14 @@ func parseTileSet(tileset *tsxTileSet) TileSetInfo {
 		return loadTSX(tsxFileName)
 	}
 
-	w64, err := strconv.ParseUint(tileset.Width, 10, 32)
+	w64, err := strconv.ParseUint(tileset.TileWidth, 10, 32)
 	if err != nil {
 		panic(err)
 	}
 
 	w := int32(w64)
 
-	h64, err := strconv.ParseUint(tileset.Height, 10, 32)
+	h64, err := strconv.ParseUint(tileset.TileHeight, 10, 32)
 	if err != nil {
 		panic(err)
 	}
@@ -132,7 +132,7 @@ func loadTSX(filename string) TileSetInfo {
 // LoadTmx по файлу возвращаются
 // layers - карта width x height
 // tsxFileName - имя файла описания
-func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *map[string]TileSetInfo) {
+func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 	fmt.Println("Loading map...", filename)
 
 	xmlFile, err := def.OpenFile(filename)
@@ -155,14 +155,15 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *map[string]TileSetInfo)
 		layers[i] = *curlayer
 	}
 
-	tilesets := make(map[string]TileSetInfo)
+	tilesets := make([]TileSetInfo, len(tmxmap.TileSets) )
 
 	setlen := len(tmxmap.TileSets)
 
 	for i, tileset := range tmxmap.TileSets {
 		name := fmt.Sprint(setlen - i)
 		fmt.Println(tileset.Name)
-		tilesets[name] = parseTileSet(tileset)
+		tilesets[i] = parseTileSet(tileset)
+		fmt.Println( "tileset name:", name )
 	}
 
 	mymap = &def.Map{

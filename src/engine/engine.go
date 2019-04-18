@@ -19,7 +19,7 @@ var scrTilesSize = def.Size{
 
 var needReview bool
 
-var tiles *[]def.Tile
+// var tiles *[]def.Tile
 
 var view ui.View
 var myMap def.Map
@@ -32,7 +32,7 @@ func Init(info def.LoadInfo) {
 
 	ui.Init(info.ScreenSize)
 
-	var tilesets *map[string]loaders.TileSetInfo
+	var tilesets *[]loaders.TileSetInfo
 	myMapPtr, tilesets := loaders.LoadTmx(info.MapName)
 
 	myMap = *myMapPtr
@@ -114,7 +114,7 @@ func Run() {
 
 }
 
-func loadTiles(tilesets *map[string]loaders.TileSetInfo) {
+func loadTiles(tilesets *[]loaders.TileSetInfo) {
 
 // TODO на будущее как-то надо подправить если текстур вдруг будет несколько
 	for _, tileset := range *tilesets {
