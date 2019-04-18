@@ -13,8 +13,8 @@ type Cell uint32
 type Layer struct {
 	Data *[][]Cell
 	Name string
-	W uint32
-	H uint32
+	W    uint32
+	H    uint32
 }
 
 // Layers список слоев
@@ -23,16 +23,25 @@ type Layers []Layer
 // Map прям вся карта ваще
 type Map struct {
 	Layers Layers
-	W uint32
-	H uint32
+	W      uint32
+	H      uint32
+}
+
+// Frame анимационный фрейм тайла
+type Frame struct {
+	Cell     Cell   // номер тайла
+	Duration uint32 // задержка таймера
 }
 
 // Tile анимированый тайл ну или нет...
 type Tile struct {
-	Tick  uint32 // текущий таймер
-	Tile  Cell   // текущий фрейм
-	Frame []Cell // набор фреймов
+	Tick  uint32  // текущий таймер
+	Index uint32  // текущий индекс фрейма
+	Frame []Frame // набор фреймов
 }
+
+// Tiles набор тайлов
+type Tiles map[int]Tile
 
 // Pos координаты X Y
 type Pos struct {
