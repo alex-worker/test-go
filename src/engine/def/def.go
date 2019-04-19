@@ -36,6 +36,7 @@ type AnimateFrame struct {
 type AnimateTile struct {
 	Tick  uint32  // текущий таймер
 	Index uint32  // текущий индекс фрейма
+	NeedUpdate bool
 	Frame []AnimateFrame // набор фреймов
 }
 

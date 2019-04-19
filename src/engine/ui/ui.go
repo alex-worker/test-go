@@ -199,6 +199,18 @@ func DrawEnd( isShowFps bool ){
 
 	lastTime = currentTime
 
+	updateAnimation(deltaTime)
+
+}
+
+func updateAnimation(delta uint32){
+
+	// var animateTiles *def.AnimateTiles
+	for _, t := range *animateTiles{
+		if t.NeedUpdate {
+			println("anim!")
+		}
+	}
 }
 
 // ShowFPS показать FPS
@@ -279,6 +291,7 @@ func getAnimTile( c def.Cell, delta uint32 ) (tile def.Cell) {
 	
 	if anim, ok := (*animateTiles)[ uint32(c)]; ok {
 
+		(*animateTiles)[ uint32(c)].NeedUpdate = true
 		tile = anim.Frame[ anim.Index ].Cell
 
 	} else {

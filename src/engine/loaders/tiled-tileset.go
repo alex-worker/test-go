@@ -18,7 +18,7 @@ type tsxAnimation struct {
 type tsxTile struct {
 	XMLName xml.Name `xml:"tile"`
 	ID string `xml:"id,attr"`
-	Animations []*tsxAnimation `xml:"animation"`
+	Animations tsxAnimation `xml:"animation"`
 }
 
 type tsxTileSet struct {
