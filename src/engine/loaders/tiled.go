@@ -96,10 +96,10 @@ func loafFrames( t *tsxTile) *[]def.AnimateFrame{
 func parseAnimateTiles(tileset *tsxTileSet) *def.AnimateTiles{
 	fmt.Println("parse animate tileset")
 
-	tiles := make(def.AnimateTiles, len(tileset.Tiles) )
+	tiles := make(def.AnimateTiles)
 
 	for index, tile := range tileset.Tiles {
-		tiles[ uint32(index)] = def.AnimateTile{
+		tiles[ uint32(index)] = &def.AnimateTile{
 			Tick: 0,
 			Index: 0,
 			Frame: *loafFrames(tile),

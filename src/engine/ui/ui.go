@@ -289,14 +289,23 @@ func drawLayer( l *Layer, size def.Size ){
 
 func getAnimTile( c def.Cell, delta uint32 ) (tile def.Cell) {
 	
-	if anim, ok := (*animateTiles)[ uint32(c)]; ok {
+	tile = c
 
-		(*animateTiles)[ uint32(c)].NeedUpdate = true
-		tile = anim.Frame[ anim.Index ].Cell
+	fmt.Println("cell")
+	fmt.Println( int(c) )
 
-	} else {
-		tile = c
+	animate := *animateTiles
+
+	if anim, ok := animate[ uint32(c) ]; ok {
+		anim.NeedUpdate = true
+		// fmt.Println(anim)
 	}
+	// 	(*animateTiles)[ uint32(c)].NeedUpdate = true
+	// 	tile = anim.Frame[ anim.Index ].Cell
+
+	// } else {
+	// 	tile = c
+	// }
 	return 
 }
 
