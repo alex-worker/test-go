@@ -296,10 +296,9 @@ func getAnimTile(c def.Cell, delta uint32) (tile def.Cell) {
 	if anim, ok := animate[c]; ok {
 		anim.NeedUpdate = true
 		index := anim.Index
-		tile = anim.Frame[index].Cell
-		println("anim")
+		tile = anim.Frames[index].Cell
+		// println("anim")
 	}
-	// println( uint32(c), "not-anim")
 	return
 }
 
