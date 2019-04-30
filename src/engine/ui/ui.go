@@ -200,9 +200,29 @@ func DrawEnd(isShowFps bool) {
 	}
 
 	lastTime = currentTime
-	
+
 	UpdateUI(deltaTime)
 
+}
+
+// timing - отрицательное число которое осталось от предыдущего тайминга
+func nextTile(timing int, t *def.AnimateTile) {
+	t.Index++
+	if t.Index > len(t.Frames)-1 {
+		t.Index = 0
+	}
+	t.Tick = int(t.Frames[t.Index].Duration) + timing
+}
+
+func updateTile(delta uint32, t *def.AnimateTile) {
+	t.NeedUpdate = false
+	timing := t.Tick - int(delta)
+
+	if timing < 0 {
+		nextTile(timing, t)
+	} else {
+		t.Tick = timing
+	}
 }
 
 func updateAnimation(delta uint32) {
@@ -210,7 +230,8 @@ func updateAnimation(delta uint32) {
 	// var animateTiles *def.AnimateTiles
 	for _, t := range *animateTiles {
 		if t.NeedUpdate {
-			println("anim!")
+			updateTile(delta, t)
+			// println("anim!")
 		}
 	}
 }
@@ -319,5 +340,5 @@ func drawTile(c def.Cell, pos def.Pos) {
 
 // UpdateUI обновление UI
 func UpdateUI(delta uint32) {
-	updateAnimation(deltaTime);
+	updateAnimation(deltaTime)
 }
