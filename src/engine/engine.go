@@ -32,19 +32,21 @@ func Init(info def.LoadInfo) {
 
 	ui.Init(info.ScreenSize)
 
-	var tilesets *[]loaders.TileSetInfo
-	myMapPtr, tilesets := loaders.LoadTmx(info.MapName)
+	// var tilesets *[]loaders.TileSetInfo
+	myMapPtr, _ := loaders.LoadTmx(info.MapName)
 
 	myMap = *myMapPtr
 
-	loadTiles(tilesets)
+	fmt.Println( myMap.Layers[1].Data )
 
-	entity.SetHero(&hero)
-	entity.SetMap(&myMap)
+	// loadTiles(tilesets)
 
-	ui.LoadFont(info.FontName)
+	// entity.SetHero(&hero)
+	// entity.SetMap(&myMap)
 
-	view.MakeView(&myMap, hero.Pos, scrTilesSize)
+	// ui.LoadFont(info.FontName)
+
+	// view.MakeView(&myMap, hero.Pos, scrTilesSize)
 
 }
 
@@ -86,6 +88,15 @@ func drawGame() {
 
 }
 
+// RunOnce цикл
+func RunOnce() {
+	fmt.Println("Engine run once...")
+	updateGame()
+	drawGame()
+	ui.Destroy()
+	fmt.Println("Have a nice day!..")
+}
+
 // Run цикл
 func Run() {
 
@@ -99,14 +110,6 @@ func Run() {
 		}
 		drawGame()
 
-		// time := int(ui.GetTickCount()) - int(start);
-		// // if (time < 0) continue; // if time is negative, the time probably overflew, so continue asap
-		// if time>0 {
-		// 	sleepTime := 1000/10 - time
-		// 	if sleepTime > 0 {
-		// 		// ui.Delay( uint32(sleepTime))
-		// 	}
-		// }
 	}
 
 	ui.Destroy()

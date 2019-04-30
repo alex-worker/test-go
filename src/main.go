@@ -33,5 +33,5 @@ func main(){
     }
     fmt.Println("Hello!")
     engine.Init(loadInfo)
-    engine.Run()
+    // engine.RunOnce()
 }
