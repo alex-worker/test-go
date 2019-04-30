@@ -200,6 +200,8 @@ func DrawEnd(isShowFps bool) {
 	}
 
 	lastTime = currentTime
+	
+	UpdateUI(deltaTime)
 
 }
 
@@ -297,8 +299,8 @@ func getAnimTile(c def.Cell, delta uint32) (tile def.Cell) {
 		anim.NeedUpdate = true
 		index := anim.Index
 		tile = anim.Frames[index].Cell
-		// println("anim")
 	}
+
 	return
 }
 
