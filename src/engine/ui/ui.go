@@ -2,9 +2,11 @@ package ui
 
 import (
 	"fmt"
+
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
+
 	// "github.com/veandco/go-sdl2/mix"
 	"../def"
 )
@@ -123,7 +125,7 @@ func LoadFont(fontname string) {
 
 // LoadTileset загрузить текстуру и запомнить анимацию
 // пока так, потом посмотрим
-func LoadTileset(filename string, w int32, h int32, anim *def.AnimateTiles){
+func LoadTileset(filename string, w int32, h int32, anim *def.AnimateTiles) {
 	animateTiles = anim
 	textureAtlas = loadTexture(filename, w, h)
 }
@@ -174,19 +176,19 @@ func GetInput() def.GameEvent {
 }
 
 // DrawStart Начать отрисовку
-func DrawStart(){
+func DrawStart() {
 	renderer.Clear()
 }
 
 // DrawEnd Окончить отрисовку
-func DrawEnd( isShowFps bool ){
+func DrawEnd(isShowFps bool) {
 
 	if isShowFps {
 		showFPS()
 	}
 
 	renderer.Present()
-	
+
 	currentTime := sdl.GetTicks()
 
 	deltaTime = currentTime - lastTime
@@ -199,14 +201,12 @@ func DrawEnd( isShowFps bool ){
 
 	lastTime = currentTime
 
-	updateAnimation(deltaTime)
-
 }
 
-func updateAnimation(delta uint32){
+func updateAnimation(delta uint32) {
 
 	// var animateTiles *def.AnimateTiles
-	for _, t := range *animateTiles{
+	for _, t := range *animateTiles {
 		if t.NeedUpdate {
 			println("anim!")
 		}
@@ -214,7 +214,7 @@ func updateAnimation(delta uint32){
 }
 
 // ShowFPS показать FPS
-func showFPS(){
+func showFPS() {
 
 	fpsStr := fmt.Sprintf("fps: %v %v", fps, deltaTime)
 	printAt(fpsStr, 0, 0)
@@ -262,22 +262,22 @@ func Delay(time uint32) {
 }
 
 // DrawView рисуем окошко героя
-func DrawView(v *View){
+func DrawView(v *View) {
 
 	for _, layer := range v.Layers {
-		drawLayer( layer , v.Size )
+		drawLayer(layer, v.Size)
 	}
 
 }
 
-func drawLayer( l *Layer, size def.Size ){
+func drawLayer(l *Layer, size def.Size) {
 
-	layer:= *l
+	layer := *l
 
 	x := uint32(0)
 	y := uint32(0)
-	for index:=0; index< len(layer); index++ {
-		drawTile( layer[index], def.Pos{ X:x, Y: y } )
+	for index := 0; index < len(layer); index++ {
+		drawTile(layer[index], def.Pos{X: x, Y: y})
 		x++
 		if x == size.Width {
 			x = 0
@@ -287,37 +287,36 @@ func drawLayer( l *Layer, size def.Size ){
 
 }
 
-func getAnimTile( c def.Cell, delta uint32 ) (tile def.Cell) {
-	
-	tile = c
+func getAnimTile(c def.Cell, delta uint32) (tile def.Cell) {
 
-	fmt.Println("cell")
-	fmt.Println( int(c) )
+	tile = c
 
 	animate := *animateTiles
 
-	if anim, ok := animate[ uint32(c) ]; ok {
+	if anim, ok := animate[c]; ok {
 		anim.NeedUpdate = true
-		// fmt.Println(anim)
+		index := anim.Index
+		tile = anim.Frame[index].Cell
+		println("anim")
 	}
-	// 	(*animateTiles)[ uint32(c)].NeedUpdate = true
-	// 	tile = anim.Frame[ anim.Index ].Cell
-
-	// } else {
-	// 	tile = c
-	// }
-	return 
+	// println( uint32(c), "not-anim")
+	return
 }
 
-func drawTile( c def.Cell, pos def.Pos ){
+func drawTile(c def.Cell, pos def.Pos) {
 
-	c  = getAnimTile(c, deltaTime )
+	c = getAnimTile(c, deltaTime)
 
 	mapY := int32(c) >> tileShift
 	mapX := int32(c) - mapY<<tileShift
 
 	srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
-	dstRect := sdl.Rect{X: int32(pos.X*tilePixelSize), Y: int32(pos.Y*tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
+	dstRect := sdl.Rect{X: int32(pos.X * tilePixelSize), Y: int32(pos.Y * tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
 	renderer.Copy(textureAtlas, &srcRect, &dstRect)
 
+}
+
+// UpdateUI обновление UI
+func UpdateUI(delta uint32) {
+	updateAnimation(deltaTime);
 }

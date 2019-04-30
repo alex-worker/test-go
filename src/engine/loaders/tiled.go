@@ -9,13 +9,14 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
 	"../def"
 )
 
 // TileSetInfo описание тайлсета для дальнейшей обработки
 type TileSetInfo struct {
 	Filename string
-	Tiles *def.AnimateTiles
+	Tiles    *def.AnimateTiles
 	TileW    int32
 	TileH    int32
 }
@@ -44,7 +45,6 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 	}
 
 	w := uint32(w64)
-
 	h64, err := strconv.ParseUint(layer.Height, 10, 32)
 	if err != nil {
 		panic(err)
@@ -61,7 +61,11 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 		if err != nil {
 			panic(err)
 		}
-		myMap[y][x] = def.Cell(cell - 1)
+		if ( cell == 0 ) {
+			myMap[y][x] = 0
+		} else {
+			myMap[y][x] = def.Cell(cell -1 )
+		}
 		x++
 		if x == w {
 			y++
@@ -78,13 +82,13 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 
 }
 
-func loafFrames( t *tsxTile) *[]def.AnimateFrame{
-	
+func loafFrames(t *tsxTile) *[]def.AnimateFrame {
+
 	f := t.Animations.Frames
-	frames := make([]def.AnimateFrame, len(f) )
+	frames := make([]def.AnimateFrame, len(f))
 	for i, tsxFrame := range f {
 		frames[i] = def.AnimateFrame{
-			Cell: def.Cell(tsxFrame.Tileid),
+			Cell:     def.Cell(tsxFrame.Tileid),
 			Duration: tsxFrame.Duration,
 		}
 	}
@@ -93,19 +97,19 @@ func loafFrames( t *tsxTile) *[]def.AnimateFrame{
 }
 
 // парсим xml-тайлсет
-func parseAnimateTiles(tileset *tsxTileSet) *def.AnimateTiles{
+func parseAnimateTiles(tileset *tsxTileSet) *def.AnimateTiles {
 	fmt.Println("parse animate tileset")
 
 	tiles := make(def.AnimateTiles)
 
-	for index, tile := range tileset.Tiles {
-		tiles[ uint32(index)] = &def.AnimateTile{
-			Tick: 0,
-			Index: 0,
-			Frame: *loafFrames(tile),
-		}
-		fmt.Println( tile )
-	}
+	// for _, tile := range tileset.Tiles {
+	// 	// tiles[index] = &def.AnimateTile{
+	// 	// Tick: 0,
+	// 	// Index: 0,
+	// 	// Frame: *loafFrames(tile),
+	// 	// }
+	// 	// fmt.Println(tile)
+	// }
 	return &tiles
 }
 
@@ -134,7 +138,7 @@ func parseTileSet(tileset *tsxTileSet) TileSetInfo {
 
 	myTileSet := TileSetInfo{
 		Filename: tileName,
-		Tiles: parseAnimateTiles(tileset),
+		Tiles:    parseAnimateTiles(tileset),
 		TileW:    w,
 		TileH:    h,
 	}
@@ -187,15 +191,11 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 		layers[i] = *curlayer
 	}
 
-	tilesets := make([]TileSetInfo, len(tmxmap.TileSets) )
-
-	// setlen := len(tmxmap.TileSets)
+	tilesets := make([]TileSetInfo, len(tmxmap.TileSets))
 
 	for i, tileset := range tmxmap.TileSets {
-		// name := fmt.Sprint(setlen - i)
-		// fmt.Println(tileset.Name)
 		tilesets[i] = parseTileSet(tileset)
-		fmt.Println( "tileset name:", tileset.Name )
+		fmt.Println("tileset name:", tileset.Name)
 	}
 
 	mymap = &def.Map{
@@ -206,5 +206,4 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 	tsetsPtr = &tilesets
 
 	return
-
 }
