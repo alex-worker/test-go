@@ -82,7 +82,7 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 
 }
 
-func loafFrames(t *tsxTile) *[]def.AnimateFrame {
+func loadFrames(t *tsxTile) *[]def.AnimateFrame {
 
 	f := t.Animations.Frames
 	frames := make([]def.AnimateFrame, len(f))
@@ -91,6 +91,7 @@ func loafFrames(t *tsxTile) *[]def.AnimateFrame {
 			Cell:     def.Cell(tsxFrame.Tileid),
 			Duration: tsxFrame.Duration,
 		}
+		// fmt.Println( frames[i] )
 	}
 
 	return &frames
@@ -102,14 +103,17 @@ func parseAnimateTiles(tileset *tsxTileSet) *def.AnimateTiles {
 
 	tiles := make(def.AnimateTiles)
 
-	// for _, tile := range tileset.Tiles {
-	// 	// tiles[index] = &def.AnimateTile{
-	// 	// Tick: 0,
-	// 	// Index: 0,
-	// 	// Frame: *loafFrames(tile),
-	// 	// }
-	// 	// fmt.Println(tile)
-	// }
+	for _, tile := range tileset.Tiles {
+	
+		animCell := def.Cell( tile.ID )
+
+		tiles[animCell] = &def.AnimateTile{
+			Tick: 0,
+			Index: 0,
+			Frames: *loadFrames(tile),
+		}
+		// fmt.Println("anim cell:", animCell)
+	}
 	return &tiles
 }
 

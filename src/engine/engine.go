@@ -32,21 +32,21 @@ func Init(info def.LoadInfo) {
 
 	ui.Init(info.ScreenSize)
 
-	// var tilesets *[]loaders.TileSetInfo
-	myMapPtr, _ := loaders.LoadTmx(info.MapName)
+	var tilesets *[]loaders.TileSetInfo
+	myMapPtr, tilesets := loaders.LoadTmx(info.MapName)
 
 	myMap = *myMapPtr
 
-	fmt.Println( myMap.Layers[1].Data )
+	// fmt.Println( myMap.Layers[1].Data )
 
-	// loadTiles(tilesets)
+	loadTiles(tilesets)
 
-	// entity.SetHero(&hero)
-	// entity.SetMap(&myMap)
+	entity.SetHero(&hero)
+	entity.SetMap(&myMap)
 
-	// ui.LoadFont(info.FontName)
+	ui.LoadFont(info.FontName)
 
-	// view.MakeView(&myMap, hero.Pos, scrTilesSize)
+	view.MakeView(&myMap, hero.Pos, scrTilesSize)
 
 }
 
