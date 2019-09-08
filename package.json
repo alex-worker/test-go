@@ -8,6 +8,7 @@
   "scripts": {
     "glxgears": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -e DISPLAY=$ip:0 jamesbrink/opengl:demos glxgears -info",
     "build": "docker build -t gogame .",
+    "go": "go run src/main.go",
     "start": "ip=$(ifconfig en0 | grep inet | awk '$1==\"inet\" {print $2}') && xhost + $ip && docker run -it --rm -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix gogame",
     "test": "yarn build && yarn start"
   }
