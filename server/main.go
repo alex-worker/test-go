@@ -2,10 +2,10 @@ package main
 
 // based on https://github.com/scotch-io/go-realtime-chat
 
-import(
+import (
+	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
-	"github.com/gorilla/websocket"
 )
 
 var clients = make(map[*websocket.Conn]bool) // connected clients
@@ -25,11 +25,10 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func main(){
+func main() {
 
 	fs := http.FileServer(http.Dir("../public"))
 	http.Handle("/", fs)
-
 
 	// Configure websocket route
 	http.HandleFunc("/ws", handleConnections)
@@ -80,7 +79,10 @@ func handleMessages() {
 			err := client.WriteJSON(msg)
 			if err != nil {
 				log.Printf("error: %v", err)
-				client.Close()
+				err = client.Close()
+				if err != nil {
+					log.Fatal(err)
+				}
 				delete(clients, client)
 			}
 		}
