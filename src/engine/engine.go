@@ -1,11 +1,11 @@
 package engine
 
 import (
-	"fmt"
 	"./def"
 	"./entity"
 	"./loaders"
 	"./ui"
+	"fmt"
 )
 
 var hero = def.Hero{
@@ -81,11 +81,9 @@ func updateGame() bool {
 }
 
 func drawGame() {
-
 	ui.DrawStart()
 	ui.DrawView(&view)
 	ui.DrawEnd(true)
-
 }
 
 // RunOnce цикл
@@ -119,9 +117,9 @@ func Run() {
 
 func loadTiles(tilesets *[]loaders.TileSetInfo) {
 
-// TODO на будущее как-то надо подправить если текстур вдруг будет несколько
+	// TODO на будущее как-то надо подправить если текстур вдруг будет несколько
 	for _, tileset := range *tilesets {
-		ui.LoadTileset( 
+		ui.LoadTileset(
 			tileset.Filename,
 			tileset.TileW,
 			tileset.TileH,

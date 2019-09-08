@@ -61,10 +61,10 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 		if err != nil {
 			panic(err)
 		}
-		if ( cell == 0 ) {
+		if cell == 0 {
 			myMap[y][x] = 0
 		} else {
-			myMap[y][x] = def.Cell(cell -1 )
+			myMap[y][x] = def.Cell(cell - 1)
 		}
 		x++
 		if x == w {
@@ -104,12 +104,12 @@ func parseAnimateTiles(tileset *tsxTileSet) *def.AnimateTiles {
 	tiles := make(def.AnimateTiles)
 
 	for _, tile := range tileset.Tiles {
-	
-		animCell := def.Cell( tile.ID )
+
+		animCell := def.Cell(tile.ID)
 
 		tiles[animCell] = &def.AnimateTile{
-			Tick: 0,
-			Index: 0,
+			Tick:   0,
+			Index:  0,
 			Frames: *loadFrames(tile),
 		}
 		// fmt.Println("anim cell:", animCell)
@@ -159,12 +159,17 @@ func loadTSX(filename string) TileSetInfo {
 	if err != nil {
 		panic(err)
 	}
+
 	defer xmlFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(xmlFile)
 
 	var tsxmap tsxTileSet
-	xml.Unmarshal(byteValue, &tsxmap)
+
+	err = xml.Unmarshal(byteValue, &tsxmap)
+	if err != nil {
+		panic(err)
+	}
 
 	return parseTileSet(&tsxmap)
 }
@@ -185,7 +190,10 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 
 	var tmxmap tmxMap
 
-	xml.Unmarshal(byteValue, &tmxmap)
+	err = xml.Unmarshal(byteValue, &tmxmap)
+	if err != nil {
+		panic(err)
+	}
 
 	lenLayers := len(tmxmap.Layers)
 	layers := def.Layers(make([]def.Layer, lenLayers))
