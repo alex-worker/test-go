@@ -50,8 +50,16 @@ func Destroy() {
 	curFont.Close()
 	ttf.Quit()
 
-	renderer.Destroy()
-	window.Destroy()
+	err := renderer.Destroy()
+	if err != nil {
+		panic(err)
+	}
+
+	err = window.Destroy()
+	if err != nil {
+		panic(err)
+	}
+
 	sdl.Quit()
 	fmt.Println("Ui offline...")
 }
@@ -68,7 +76,10 @@ func Init(scr def.Size) {
 	numdrivers, _ := sdl.GetNumRenderDrivers()
 	for i := 0; i < numdrivers; i++ {
 		var drinfo sdl.RendererInfo
-		sdl.GetRenderDriverInfo(i, &drinfo)
+		_, err = sdl.GetRenderDriverInfo(i, &drinfo)
+		if err != nil {
+			panic(err)
+		}
 		println("Driver name", drinfo.Name)
 	}
 
@@ -177,7 +188,10 @@ func GetInput() def.GameEvent {
 
 // DrawStart Начать отрисовку
 func DrawStart() {
-	renderer.Clear()
+	err := renderer.Clear()
+	if err != nil {
+		panic(err)
+	}
 }
 
 // DrawEnd Окончить отрисовку
@@ -257,8 +271,15 @@ func printAt(text string, x int32, y int32) {
 
 	rect := sdl.Rect{X: 10, Y: 10, W: tW, H: tH}
 
-	grapText.SetAlphaMod(255)
-	renderer.Copy(grapText, nil, &rect)
+	err = grapText.SetAlphaMod(255)
+	if err != nil {
+		panic(err)
+	}
+
+	err = renderer.Copy(grapText, nil, &rect)
+	if err != nil {
+		panic(err)
+	}
 
 }
 
@@ -334,7 +355,10 @@ func drawTile(c def.Cell, pos def.Pos) {
 
 	srcRect := sdl.Rect{X: mapX * tileW, Y: mapY * tileH, W: tileW, H: tileH}
 	dstRect := sdl.Rect{X: int32(pos.X * tilePixelSize), Y: int32(pos.Y * tilePixelSize), W: int32(tilePixelSize), H: int32(tilePixelSize)}
-	renderer.Copy(textureAtlas, &srcRect, &dstRect)
+	err := renderer.Copy(textureAtlas, &srcRect, &dstRect)
+	if err != nil {
+		panic(err)
+	}
 
 }
 
