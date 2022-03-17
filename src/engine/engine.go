@@ -1,11 +1,11 @@
 package engine
 
 import (
-	"./def"
-	"./entity"
-	"./loaders"
-	"./ui"
 	"fmt"
+	"test-go/src/engine/def"
+	"test-go/src/engine/entity"
+	"test-go/src/engine/loaders"
+	"test-go/src/engine/ui"
 )
 
 var hero = def.Hero{

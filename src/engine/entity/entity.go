@@ -1,8 +1,8 @@
 package entity
 
 import (
-	"../def"
 	"fmt"
+	"test-go/src/engine/def"
 )
 
 // var layers *map[string]*def.Layer

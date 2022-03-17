@@ -1,10 +1,10 @@
 package ui
 
 import (
-	"../def"
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	"image/png"
+	"test-go/src/engine/def"
 )
 
 func imgFileToTexture(filename string) (texture *sdl.Texture, w int, h int) {

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./engine"
-	"./engine/def"
 	"flag"
 	"fmt"
+	"test-go/src/engine"
+	"test-go/src/engine/def"
 )
 
 const fontName string = "CaslonBold"
