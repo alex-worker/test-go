@@ -9,8 +9,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
-	"../def"
+	"test-go/src/engine/def"
 )
 
 // TileSetInfo описание тайлсета для дальнейшей обработки

@@ -1,8 +1,8 @@
 package entity
 
 import (
-	"../def"
 	"errors"
+	"test-go/src/engine/def"
 )
 
 func calcNewPos(pos *def.Pos, dir def.Direction, maxPosX uint32, maxPosY uint32) (*def.Pos, error) {
