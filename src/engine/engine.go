@@ -5,8 +5,8 @@ import (
 	"test-go/src/engine/entity"
 	"test-go/src/engine/loaders"
 	log "test-go/src/engine/logger"
+	"test-go/src/engine/resource"
 	"test-go/src/engine/ui"
-	"test-go/src/engine/utils"
 )
 
 type Engine struct {
@@ -36,7 +36,7 @@ func Create(info def.LoadInfo) *Engine {
 	logger.Log("Engine init...")
 	engine := new(Engine)
 
-	utils.SetResourceFolder(info.ResourceFolder)
+	resource.SetResourceFolder(info.ResourceFolder)
 
 	ui.Init(info.ScreenSize)
 

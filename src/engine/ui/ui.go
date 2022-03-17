@@ -5,7 +5,7 @@ import (
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
-	"test-go/src/engine/utils"
+	"test-go/src/engine/resource"
 
 	// "github.com/veandco/go-sdl2/mix"
 	"test-go/src/engine/def"
@@ -127,7 +127,7 @@ func Init(scr def.Size) {
 // LoadFont грузим шрифт
 func LoadFont(fontname string) {
 	fmt.Println("Loading font...", fontname)
-	font, err := ttf.OpenFont(utils.GetPath(fontname+".ttf"), 24)
+	font, err := ttf.OpenFont(resource.GetPath(fontname+".ttf"), 24)
 	if err != nil {
 		sdl.LogError(sdl.LOG_CATEGORY_APPLICATION, "OpenFont: %s\n", err)
 	}
