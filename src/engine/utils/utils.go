@@ -23,3 +23,10 @@ func OpenFile(filename string) (*os.File, error) {
 	path := filepath.Join(resFolder, filename)
 	return os.Open(path)
 }
+
+func CloseFile(file *os.File) {
+	err := file.Close()
+	if err != nil {
+		panic(err)
+	}
+}

@@ -160,7 +160,7 @@ func loadTSX(filename string) TileSetInfo {
 		panic(err)
 	}
 
-	defer xmlFile.Close()
+	defer utils.CloseFile(xmlFile)
 
 	byteValue, _ := ioutil.ReadAll(xmlFile)
 
@@ -184,7 +184,7 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 	if err != nil {
 		panic(err)
 	}
-	defer xmlFile.Close()
+	defer utils.CloseFile(xmlFile)
 
 	byteValue, _ := ioutil.ReadAll(xmlFile)
 
