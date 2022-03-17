@@ -13,7 +13,7 @@ const mapName string = "swamp.tmx"
 // const mapName string = "laboratory3.tmx"
 // const mapName string = "mycastle.tmx"
 
-const resPath string = "data/"
+const ResourcePathDefault string = "data/"
 
 var screenSize = def.Size{
 	Width:  800,
@@ -22,9 +22,9 @@ var screenSize = def.Size{
 
 func main() {
 
-	resDir := resPath
+	var resDir string
 
-	flag.StringVar(&resDir, "dir", resPath, "directory path")
+	flag.StringVar(&resDir, "dir", ResourcePathDefault, "directory path")
 	flag.Parse()
 
 	loadInfo := def.LoadInfo{
@@ -35,6 +35,6 @@ func main() {
 	}
 
 	fmt.Println("Hello!")
-	myEngine := engine.NewEngine(loadInfo)
+	myEngine := engine.Create(loadInfo)
 	myEngine.Run()
 }
