@@ -6,7 +6,7 @@
   "author": "alex-worker <43813540+alex-worker@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "build": "go build src/main.go",
+    "build": "go build -v src/main.go",
     "start": "go run src/main.go",
     "test": "yarn build && yarn start"
   }
