@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"test-go/src/engine/def"
+	"test-go/src/engine/utils"
 )
 
 // TileSetInfo описание тайлсета для дальнейшей обработки
@@ -154,7 +155,7 @@ func parseTileSet(tileset *tsxTileSet) TileSetInfo {
 func loadTSX(filename string) TileSetInfo {
 	fmt.Println("Loading TSX...", filename)
 
-	xmlFile, err := def.OpenFile(filename)
+	xmlFile, err := utils.OpenFile(filename)
 	if err != nil {
 		panic(err)
 	}
@@ -179,7 +180,7 @@ func loadTSX(filename string) TileSetInfo {
 func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 	fmt.Println("Loading map...", filename)
 
-	xmlFile, err := def.OpenFile(filename)
+	xmlFile, err := utils.OpenFile(filename)
 	if err != nil {
 		panic(err)
 	}

@@ -6,14 +6,8 @@ import (
 	"test-go/src/engine/loaders"
 	log "test-go/src/engine/logger"
 	"test-go/src/engine/ui"
+	"test-go/src/engine/utils"
 )
-
-//type IEngine interface {
-//	NewEngine() *IEngine
-//	Init(info def.LoadInfo)
-//	RunOnce()
-//	Run()
-//}
 
 type Engine struct {
 	hero def.Hero
@@ -38,11 +32,11 @@ var view ui.View
 var myMap def.Map
 
 // Init engine
-func NewEngine(info def.LoadInfo) *Engine {
+func Create(info def.LoadInfo) *Engine {
 	logger.Log("Engine init...")
 	engine := new(Engine)
 
-	def.SetResourceFolder(info.ResourceFolder)
+	utils.SetResourceFolder(info.ResourceFolder)
 
 	ui.Init(info.ScreenSize)
 
