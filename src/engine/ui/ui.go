@@ -42,8 +42,6 @@ var curFont *ttf.Font
 
 var animateTiles *def.AnimateTiles
 
-var view View
-
 // Destroy уничтожаем ui
 func Destroy() {
 
@@ -83,7 +81,10 @@ func Init(scr def.Size) {
 		println("Driver name", drinfo.Name)
 	}
 
-	img.Init(img.INIT_PNG)
+	err = img.Init(img.INIT_PNG)
+	if err != nil {
+		panic(err)
+	}
 
 	err = ttf.Init()
 	if err != nil {
