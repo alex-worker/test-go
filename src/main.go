@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./engine"
-	"./engine/def"
 	"flag"
 	"fmt"
+	"test-go/src/engine"
+	"test-go/src/engine/def"
 )
 
 const fontName string = "CaslonBold"
@@ -12,7 +12,8 @@ const mapName string = "swamp.tmx"
 
 // const mapName string = "laboratory3.tmx"
 // const mapName string = "mycastle.tmx"
-const resPath string = "data/"
+
+const ResourcePathDefault string = "data/"
 
 var screenSize = def.Size{
 	Width:  800,
@@ -21,9 +22,9 @@ var screenSize = def.Size{
 
 func main() {
 
-	resDir := resPath
+	var resDir string
 
-	flag.StringVar(&resDir, "dir", resPath, "directory path")
+	flag.StringVar(&resDir, "dir", ResourcePathDefault, "directory path")
 	flag.Parse()
 
 	loadInfo := def.LoadInfo{
@@ -32,7 +33,8 @@ func main() {
 		ResourceFolder: resDir,
 		ScreenSize:     screenSize,
 	}
+
 	fmt.Println("Hello!")
-	engine.Init(loadInfo)
-	engine.Run()
+	myEngine := engine.Create(loadInfo)
+	myEngine.Run()
 }

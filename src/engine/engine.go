@@ -1,12 +1,17 @@
 package engine
 
 import (
-	"./def"
-	"./entity"
-	"./loaders"
-	"./ui"
-	"fmt"
+	"test-go/src/engine/def"
+	"test-go/src/engine/entity"
+	"test-go/src/engine/loaders"
+	log "test-go/src/engine/logger"
+	"test-go/src/engine/resource"
+	"test-go/src/engine/ui"
 )
+
+type Engine struct {
+	hero def.Hero
+}
 
 var hero = def.Hero{
 	Pos: def.Pos{X: 0, Y: 0},
@@ -21,14 +26,17 @@ var needReview bool
 
 // var tiles *[]def.Tile
 
+var logger log.ConsoleLogger
+
 var view ui.View
 var myMap def.Map
 
 // Init engine
-func Init(info def.LoadInfo) {
-	fmt.Println("Engine init...")
+func Create(info def.LoadInfo) *Engine {
+	logger.Log("Engine init...")
+	engine := new(Engine)
 
-	def.SetResourceFolder(info.ResourceFolder)
+	resource.SetResourceFolder(info.ResourceFolder)
 
 	ui.Init(info.ScreenSize)
 
@@ -47,7 +55,7 @@ func Init(info def.LoadInfo) {
 	ui.LoadFont(info.FontName)
 
 	view.MakeView(&myMap, hero.Pos, scrTilesSize)
-
+	return engine
 }
 
 func updateGame() bool {
@@ -87,18 +95,18 @@ func drawGame() {
 }
 
 // RunOnce цикл
-func RunOnce() {
-	fmt.Println("Engine run once...")
+func (e Engine) RunOnce() {
+	logger.Log("Engine run once...")
 	updateGame()
 	drawGame()
 	ui.Destroy()
-	fmt.Println("Have a nice day!..")
+	logger.Log("Have a nice day!..")
 }
 
 // Run цикл
-func Run() {
+func (e Engine) Run() {
 
-	fmt.Println("Engine run...")
+	logger.Log("Engine run...")
 
 	for true {
 
@@ -111,7 +119,7 @@ func Run() {
 	}
 
 	ui.Destroy()
-	fmt.Println("Have a nice day!..")
+	logger.Log("Have a nice day!..")
 
 }
 
