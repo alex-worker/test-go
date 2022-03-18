@@ -1,15 +1,15 @@
 package ui
 
 import (
-	"../def"
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	"image/png"
+	"test-go/src/engine/resource"
 )
 
 func imgFileToTexture(filename string) (texture *sdl.Texture, w int, h int) {
 	fmt.Println("Load texture...", filename)
-	infile, err := def.OpenFile(filename)
+	infile, err := resource.OpenFile(filename)
 	if err != nil {
 		panic(err)
 	}

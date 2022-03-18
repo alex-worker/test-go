@@ -2,6 +2,7 @@ package def
 
 // GameEvent действия
 type GameEvent uint8
+
 const (
 
 	// EventNo нет событий
@@ -17,11 +18,10 @@ const (
 	EventPressRight
 	// EventPressFire огонь
 	EventPressFire
-	
+
 	// EventPressRestart рестарт
 	EventPressRestart
 
-	// EventQuit завершение 
+	// EventQuit завершение
 	EventQuit
-
 )

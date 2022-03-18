@@ -2,13 +2,13 @@ package ui
 
 import (
 	"fmt"
-
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
+	"test-go/src/engine/resource"
 
 	// "github.com/veandco/go-sdl2/mix"
-	"../def"
+	"test-go/src/engine/def"
 )
 
 var fps uint32
@@ -41,8 +41,6 @@ var textureAtlas *sdl.Texture
 var curFont *ttf.Font
 
 var animateTiles *def.AnimateTiles
-
-var view View
 
 // Destroy уничтожаем ui
 func Destroy() {
@@ -83,7 +81,10 @@ func Init(scr def.Size) {
 		println("Driver name", drinfo.Name)
 	}
 
-	img.Init(img.INIT_PNG)
+	err = img.Init(img.INIT_PNG)
+	if err != nil {
+		panic(err)
+	}
 
 	err = ttf.Init()
 	if err != nil {
@@ -127,7 +128,7 @@ func Init(scr def.Size) {
 // LoadFont грузим шрифт
 func LoadFont(fontname string) {
 	fmt.Println("Loading font...", fontname)
-	font, err := ttf.OpenFont(def.GetPath(fontname+".ttf"), 24)
+	font, err := ttf.OpenFont(resource.GetPath(fontname+".ttf"), 24)
 	if err != nil {
 		sdl.LogError(sdl.LOG_CATEGORY_APPLICATION, "OpenFont: %s\n", err)
 	}
