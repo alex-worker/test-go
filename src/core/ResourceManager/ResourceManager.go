@@ -24,7 +24,7 @@ func (r ResourceManager) GetResource(path string) (IResource, error) {
 		},
 		file: nil,
 	}
-	return res, nil
+	return &res, nil
 }
 
 func getResourceManager(dir string) IResourceManager {
