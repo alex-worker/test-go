@@ -39,4 +39,10 @@ func TestResourcesManager(t *testing.T) {
 
 	percent = res.GetReadyPercent()
 	assert.Equal(t, uint8(100), percent, "Must be equal")
+
+	buf, err := res.GetContent()
+	assert.Equal(t, err, nil, "Must be equal")
+	assert.NotEqual(t, buf, nil, "Must be not equal")
+
+	//t.Log(string(*buf)) for visual purpouse
 }
