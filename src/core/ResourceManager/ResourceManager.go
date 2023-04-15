@@ -1,7 +1,6 @@
 package ResourceManager
 
 import (
-	"errors"
 	"os"
 	"path/filepath"
 )
@@ -14,7 +13,7 @@ func (r ResourceManager) GetResource(path string) (IResource, error) {
 	filePath := filepath.Join(r.resFolder, path)
 	file, err := os.Open(filePath)
 	if err != nil {
-		return nil, errors.New("not found")
+		return nil, err
 	}
 
 	res := FileResource{
@@ -28,5 +27,7 @@ func (r ResourceManager) GetResource(path string) (IResource, error) {
 }
 
 func getResourceManager(dir string) IResourceManager {
-	return ResourceManager{dir}
+	return ResourceManager{
+		resFolder: dir,
+	}
 }
