@@ -6,9 +6,11 @@ type ResourceManager struct {
 
 func (r ResourceManager) GetResource(path string) IResource {
 	res := FileResource{
-		state:        Closed,
-		readyPercent: 0,
-		path:         "",
+		state: InternalResourceState{
+			state:        Closed,
+			readyPercent: 0,
+			path:         "",
+		},
 	}
 	return res
 }
