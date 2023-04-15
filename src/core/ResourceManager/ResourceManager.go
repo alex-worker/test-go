@@ -18,6 +18,7 @@ func (r ResourceManager) GetResource(path string) (IResource, error) {
 
 	res := FileResource{
 		state: InternalResourceState{
+			filePath:     filePath,
 			state:        Waiting,
 			readyPercent: 0,
 		},
