@@ -34,4 +34,6 @@ func TestResourcesManager(t *testing.T) {
 
 	_, err = res.GetContent()
 	assert.Equal(t, err.Error(), "not ready", "Must be equal")
+
+	res.Load()
 }

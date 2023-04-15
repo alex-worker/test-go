@@ -11,7 +11,7 @@ type ResourceManager struct {
 
 func (r ResourceManager) GetResource(path string) (IResource, error) {
 	filePath := filepath.Join(r.resFolder, path)
-	file, err := os.Open(filePath)
+	_, err := os.Stat(filePath)
 	if err != nil {
 		return nil, err
 	}
@@ -21,7 +21,7 @@ func (r ResourceManager) GetResource(path string) (IResource, error) {
 			state:        Waiting,
 			readyPercent: 0,
 		},
-		file: file,
+		file: nil,
 	}
 	return res, nil
 }

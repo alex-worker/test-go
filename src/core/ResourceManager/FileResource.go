@@ -6,12 +6,9 @@ import (
 )
 
 type FileResource struct {
-	state InternalResourceState
-	file  *os.File
-}
-
-func (f FileResource) Load() {
-
+	state  InternalResourceState
+	file   *os.File
+	buffer []byte
 }
 
 func (f FileResource) GetState() ResourceState {
@@ -22,13 +19,17 @@ func (f FileResource) GetReadyPercent() uint8 {
 	return f.state.readyPercent
 }
 
+func (f FileResource) Load() {
+	f.buffer = os.
+}
+
+func (f FileResource) Free() {
+	f.state.state = Closed
+}
+
 func (f FileResource) GetContent() ([]byte, error) {
 	if f.state.state != Ready {
 		return nil, errors.New("not ready")
 	}
 	return nil, nil
-}
-
-func (f FileResource) Free() {
-	f.state.state = Closed
 }
