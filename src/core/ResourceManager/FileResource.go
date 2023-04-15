@@ -2,13 +2,14 @@ package ResourceManager
 
 import (
 	"errors"
+	"io"
 	"os"
 )
 
 type FileResource struct {
 	state  InternalResourceState
 	file   *os.File
-	buffer []byte
+	buffer *[]byte
 }
 
 func (f FileResource) GetState() ResourceState {
@@ -20,10 +21,40 @@ func (f FileResource) GetReadyPercent() uint8 {
 }
 
 func (f FileResource) Load() {
-	f.buffer = os.
+	var err error
+	resState := []ResourceState{
+		Closed,
+		NotFound,
+		Ready,
+	}
+	if StateIn(f.state.state, resState) {
+		return
+	}
+
+	if f.file == nil {
+		f.file, err = os.Open(f.state.filePath)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	buffer, err := io.ReadAll(f.file)
+	if err != nil {
+		panic(err)
+	}
+	f.buffer = &buffer
+	f.state.state = Ready
+	f.state.readyPercent = 100
 }
 
 func (f FileResource) Free() {
+	if f.file != nil {
+		err := f.file.Close()
+		if err != nil {
+			panic(err)
+		}
+		f.file = nil
+	}
 	f.state.state = Closed
 }
 

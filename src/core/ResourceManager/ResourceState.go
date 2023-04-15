@@ -11,6 +11,16 @@ const (
 )
 
 type InternalResourceState struct {
+	filePath     string
 	state        ResourceState
 	readyPercent uint8
+}
+
+func StateIn(s ResourceState, arr []ResourceState) bool {
+	for _, item := range arr {
+		if item == s {
+			return true
+		}
+	}
+	return false
 }
