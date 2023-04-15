@@ -23,7 +23,6 @@ func (f *FileResource) GetReadyPercent() uint8 {
 func (f *FileResource) Load() {
 	var err error
 	resState := []ResourceState{
-		Closed,
 		NotFound,
 		Ready,
 	}
@@ -59,9 +58,9 @@ func (f *FileResource) Free() {
 	f.state.state = Closed
 }
 
-func (f *FileResource) GetContent() ([]byte, error) {
+func (f *FileResource) GetContent() (*[]byte, error) {
 	if f.state.state != Ready {
 		return nil, errors.New("not ready")
 	}
-	return nil, nil
+	return f.buffer, nil
 }
