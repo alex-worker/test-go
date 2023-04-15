@@ -12,15 +12,15 @@ type FileResource struct {
 	buffer *[]byte
 }
 
-func (f FileResource) GetState() ResourceState {
+func (f *FileResource) GetState() ResourceState {
 	return f.state.state
 }
 
-func (f FileResource) GetReadyPercent() uint8 {
+func (f *FileResource) GetReadyPercent() uint8 {
 	return f.state.readyPercent
 }
 
-func (f FileResource) Load() {
+func (f *FileResource) Load() {
 	var err error
 	resState := []ResourceState{
 		Closed,
@@ -42,12 +42,13 @@ func (f FileResource) Load() {
 	if err != nil {
 		panic(err)
 	}
+
 	f.buffer = &buffer
 	f.state.state = Ready
 	f.state.readyPercent = 100
 }
 
-func (f FileResource) Free() {
+func (f *FileResource) Free() {
 	if f.file != nil {
 		err := f.file.Close()
 		if err != nil {
@@ -58,7 +59,7 @@ func (f FileResource) Free() {
 	f.state.state = Closed
 }
 
-func (f FileResource) GetContent() ([]byte, error) {
+func (f *FileResource) GetContent() ([]byte, error) {
 	if f.state.state != Ready {
 		return nil, errors.New("not ready")
 	}
