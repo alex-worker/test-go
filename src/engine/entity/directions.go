@@ -2,21 +2,21 @@ package entity
 
 import (
 	"errors"
-	"test-go/src/engine/def"
+	"test-go/src/engine/defines"
 )
 
-func calcNewPos(pos *def.Pos, dir def.Direction, maxPosX uint32, maxPosY uint32) (*def.Pos, error) {
+func calcNewPos(pos *defines.Pos, dir defines.Direction, maxPosX uint32, maxPosY uint32) (*defines.Pos, error) {
 
 	x := pos.X
 	y := pos.Y
 
-	if dir == def.DirLeft {
+	if dir == defines.DirLeft {
 		x--
-	} else if dir == def.DirRight {
+	} else if dir == defines.DirRight {
 		x++
-	} else if dir == def.DirUp {
+	} else if dir == defines.DirUp {
 		y--
-	} else if dir == def.DirDown {
+	} else if dir == defines.DirDown {
 		y++
 	}
 
@@ -36,7 +36,7 @@ func calcNewPos(pos *def.Pos, dir def.Direction, maxPosX uint32, maxPosY uint32)
 		return nil, errors.New("туда нельзя")
 	}
 
-	newPos := def.Pos{X: x, Y: y}
+	newPos := defines.Pos{X: x, Y: y}
 	return &newPos, nil
 
 }

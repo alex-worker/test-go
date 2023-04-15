@@ -5,10 +5,8 @@ import (
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
+	"test-go/src/engine/defines"
 	"test-go/src/engine/resource"
-
-	// "github.com/veandco/go-sdl2/mix"
-	"test-go/src/engine/def"
 )
 
 var fps uint32
@@ -40,7 +38,7 @@ var backScreen *sdl.Texture
 var textureAtlas *sdl.Texture
 var curFont *ttf.Font
 
-var animateTiles *def.AnimateTiles
+var animateTiles *defines.AnimateTiles
 
 // Destroy уничтожаем ui
 func Destroy() {
@@ -63,7 +61,7 @@ func Destroy() {
 }
 
 // Init инициализируем ui
-func Init(scr def.Size) {
+func Init(scr defines.Size) {
 	fmt.Println("UI Init...")
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -137,7 +135,7 @@ func LoadFont(fontname string) {
 
 // LoadTileset загрузить текстуру и запомнить анимацию
 // пока так, потом посмотрим
-func LoadTileset(filename string, w int32, h int32, anim *def.AnimateTiles) {
+func LoadTileset(filename string, w int32, h int32, anim *defines.AnimateTiles) {
 	animateTiles = anim
 	textureAtlas = loadTexture(filename, w, h)
 }
@@ -162,7 +160,7 @@ func loadTexture(filename string, w int32, h int32) *sdl.Texture {
 
 // GetInput обновление событий экрана
 // return false when window is closed
-func GetInput() def.GameEvent {
+func GetInput() defines.GameEvent {
 
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch event.(type) {
@@ -170,21 +168,21 @@ func GetInput() def.GameEvent {
 			// fmt.Println( event )
 			break
 		case *sdl.QuitEvent:
-			return def.EventQuit
+			return defines.EventQuit
 		}
 	}
 
 	if keyboardState[sdl.SCANCODE_UP] != 0 {
-		return def.EventPressUp
+		return defines.EventPressUp
 	} else if keyboardState[sdl.SCANCODE_DOWN] != 0 {
-		return def.EventPressDown
+		return defines.EventPressDown
 	} else if keyboardState[sdl.SCANCODE_LEFT] != 0 {
-		return def.EventPressLeft
+		return defines.EventPressLeft
 	} else if keyboardState[sdl.SCANCODE_RIGHT] != 0 {
-		return def.EventPressRight
+		return defines.EventPressRight
 	}
 
-	return def.EventNo
+	return defines.EventNo
 }
 
 // DrawStart Начать отрисовку
@@ -221,7 +219,7 @@ func DrawEnd(isShowFps bool) {
 }
 
 // timing - отрицательное число которое осталось от предыдущего тайминга
-func nextTile(timing int, t *def.AnimateTile) {
+func nextTile(timing int, t *defines.AnimateTile) {
 	t.Index++
 	if t.Index > len(t.Frames)-1 {
 		t.Index = 0
@@ -229,7 +227,7 @@ func nextTile(timing int, t *def.AnimateTile) {
 	t.Tick = int(t.Frames[t.Index].Duration) + timing
 }
 
-func updateTile(delta uint32, t *def.AnimateTile) {
+func updateTile(delta uint32, t *defines.AnimateTile) {
 	t.NeedUpdate = false
 	timing := t.Tick - int(delta)
 
@@ -315,14 +313,14 @@ func DrawView(v *View) {
 
 }
 
-func drawLayer(l *Layer, size def.Size) {
+func drawLayer(l *Layer, size defines.Size) {
 
 	layer := *l
 
 	x := uint32(0)
 	y := uint32(0)
 	for index := 0; index < len(layer); index++ {
-		drawTile(layer[index], def.Pos{X: x, Y: y})
+		drawTile(layer[index], defines.Pos{X: x, Y: y})
 		x++
 		if x == size.Width {
 			x = 0
@@ -332,7 +330,7 @@ func drawLayer(l *Layer, size def.Size) {
 
 }
 
-func getAnimTile(c def.Cell, delta uint32) (tile def.Cell) {
+func getAnimTile(c defines.Cell, delta uint32) (tile defines.Cell) {
 
 	tile = c
 
@@ -347,7 +345,7 @@ func getAnimTile(c def.Cell, delta uint32) (tile def.Cell) {
 	return
 }
 
-func drawTile(c def.Cell, pos def.Pos) {
+func drawTile(c defines.Cell, pos defines.Pos) {
 
 	c = getAnimTile(c, deltaTime)
 

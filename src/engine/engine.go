@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"test-go/src/engine/def"
+	defines "test-go/src/engine/defines"
 	"test-go/src/engine/entity"
 	"test-go/src/engine/loaders"
 	log "test-go/src/engine/logger"
@@ -10,15 +10,15 @@ import (
 )
 
 type Engine struct {
-	hero def.Hero
+	hero defines.Hero
 }
 
-var hero = def.Hero{
-	Pos: def.Pos{X: 0, Y: 0},
-	Dir: def.DirDown}
+var hero = defines.Hero{
+	Pos: defines.Pos{X: 0, Y: 0},
+	Dir: defines.DirDown}
 
 // размеры экрана в тайлах
-var scrTilesSize = def.Size{
+var scrTilesSize = defines.Size{
 	Width: 15, Height: 11,
 }
 
@@ -29,10 +29,10 @@ var needReview bool
 var logger log.ConsoleLogger
 
 var view ui.View
-var myMap def.Map
+var myMap defines.Map
 
 // Init engine
-func Create(info def.LoadInfo) *Engine {
+func Create(info defines.LoadInfo) *Engine {
 	logger.Log("Engine init...")
 	engine := new(Engine)
 
@@ -62,22 +62,22 @@ func updateGame() bool {
 
 	evt := ui.GetInput()
 
-	if evt == def.EventQuit {
+	if evt == defines.EventQuit {
 		return false
 	}
 
 	switch evt {
-	case def.EventPressDown:
-		entity.HeroDo(def.DirDown, def.ActionStand)
+	case defines.EventPressDown:
+		entity.HeroDo(defines.DirDown, defines.ActionStand)
 		needReview = true
-	case def.EventPressUp:
-		entity.HeroDo(def.DirUp, def.ActionStand)
+	case defines.EventPressUp:
+		entity.HeroDo(defines.DirUp, defines.ActionStand)
 		needReview = true
-	case def.EventPressLeft:
-		entity.HeroDo(def.DirLeft, def.ActionStand)
+	case defines.EventPressLeft:
+		entity.HeroDo(defines.DirLeft, defines.ActionStand)
 		needReview = true
-	case def.EventPressRight:
-		entity.HeroDo(def.DirRight, def.ActionStand)
+	case defines.EventPressRight:
+		entity.HeroDo(defines.DirRight, defines.ActionStand)
 		needReview = true
 	}
 

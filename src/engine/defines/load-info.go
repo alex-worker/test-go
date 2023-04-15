@@ -1,16 +1,4 @@
-package def
-
-// Pos координаты X Y
-type Pos struct {
-	X uint32
-	Y uint32
-}
-
-// Size длина и ширина
-type Size struct {
-	Width  uint32
-	Height uint32
-}
+package defines
 
 // LoadInfo структура хранения настроек игры
 type LoadInfo struct {
