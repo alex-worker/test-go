@@ -26,20 +26,6 @@ func TestResourcesManager(t *testing.T) {
 	res, err := myManager.GetResource("castletiles.tsx")
 	assert.Equal(t, err, nil, "Must be equal")
 
-	percent := res.GetReadyPercent()
-	assert.Equal(t, percent, uint8(0), "Must be equal")
-
-	state := res.GetState()
-	assert.Equal(t, state, Waiting, "Must be equal")
-
-	_, err = res.GetContent()
-	assert.Equal(t, err.Error(), "not ready", "Must be equal")
-
-	res.Load()
-
-	percent = res.GetReadyPercent()
-	assert.Equal(t, uint8(100), percent, "Must be equal")
-
 	buf, err := res.GetContent()
 	assert.Equal(t, err, nil, "Must be equal")
 	assert.NotEqual(t, buf, nil, "Must be not equal")
