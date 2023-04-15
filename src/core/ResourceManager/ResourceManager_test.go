@@ -4,5 +4,6 @@ import "testing"
 
 func TestResourceManager(t *testing.T) {
 	myManager := getResourceManager("/data")
-	myManager.GetResource("castletiles.tsx")
+	res := myManager.GetResource("castletiles.tsx")
+	res.GetReadyPercent()
 }
