@@ -1,11 +1,22 @@
 package ResourceManager
 
-import (
-	"os"
+type ResourceState uint8
+
+const (
+	Closed ResourceState = iota
+	NotFound
+	Waiting
+	Loading
+	Ready
 )
 
+type IResource interface {
+	GetState() ResourceState
+	GetReadyPercent() uint8
+	GetContent() []byte
+	Free()
+}
+
 type IResourceManager interface {
-	GetPath(filename string) string
-	OpenFile(filename string) (*os.File, error)
-	CloseFile(file *os.File)
+	GetResource(path string) IResource
 }
