@@ -1,9 +1,17 @@
 package ResourceManager
 
-import "errors"
+import (
+	"errors"
+	"os"
+)
 
 type FileResource struct {
 	state InternalResourceState
+	file  *os.File
+}
+
+func (f FileResource) Load() {
+
 }
 
 func (f FileResource) GetState() ResourceState {
