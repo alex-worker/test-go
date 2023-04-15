@@ -13,7 +13,7 @@ const (
 type IResource interface {
 	GetState() ResourceState
 	GetReadyPercent() uint8
-	GetContent() []byte
+	GetContent() ([]byte, error)
 	Free()
 }
 
