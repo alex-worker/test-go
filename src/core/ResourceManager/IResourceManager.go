@@ -1,5 +1,5 @@
 package ResourceManager
 
 type IResourceManager interface {
-	GetResource(path string) IResource
+	GetResource(path string) (IResource, error)
 }

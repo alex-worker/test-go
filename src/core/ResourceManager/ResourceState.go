@@ -5,13 +5,12 @@ type ResourceState uint8
 const (
 	Closed ResourceState = iota
 	NotFound
-	Waiting
-	Loading
-	Ready
+	Waiting // found
+	Loading // loading some percent
+	Ready   // full loading and ready
 )
 
 type InternalResourceState struct {
 	state        ResourceState
 	readyPercent uint8
-	path         string
 }
