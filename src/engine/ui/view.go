@@ -1,11 +1,9 @@
 package ui
 
-import (
-	"test-go/src/engine/def"
-)
+import "test-go/src/engine/defines"
 
 // Layer Один слой
-type Layer []def.Cell // одномерный массив тайлов
+type Layer []defines.Cell // одномерный массив тайлов
 
 // Layers Несколько слоев
 type Layers []*Layer
@@ -13,12 +11,12 @@ type Layers []*Layer
 // View Окно обзора
 type View struct {
 	Layers Layers
-	pos    def.Pos
-	Size   def.Size
+	pos    defines.Pos
+	Size   defines.Size
 }
 
 // MakeView делаем окно по карте
-func (v *View) MakeView(m *def.Map, pos def.Pos, sz def.Size) {
+func (v *View) MakeView(m *defines.Map, pos defines.Pos, sz defines.Size) {
 	v.pos = pos
 	v.Size = sz
 
@@ -41,7 +39,7 @@ func (v *View) MakeView(m *def.Map, pos def.Pos, sz def.Size) {
 }
 
 // импортнуть один уровень с карты
-func (v *View) importLayer(src *def.Layer, pos def.Pos) *Layer {
+func (v *View) importLayer(src *defines.Layer, pos defines.Pos) *Layer {
 
 	var x, y uint32
 	index := 0
@@ -60,7 +58,7 @@ func (v *View) importLayer(src *def.Layer, pos def.Pos) *Layer {
 }
 
 // GetSize размер окошка
-func (v *View) GetSize() def.Size {
+func (v *View) GetSize() defines.Size {
 	return v.Size
 }
 
