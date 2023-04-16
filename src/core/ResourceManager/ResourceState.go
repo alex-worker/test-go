@@ -11,9 +11,9 @@ const (
 )
 
 type InternalResourceState struct {
-	filePath     string
-	state        ResourceState
-	readyPercent uint8
+	FilePath     string
+	State        ResourceState
+	ReadyPercent uint8
 }
 
 func StateIn(s ResourceState, arr []ResourceState) bool {

@@ -1,4 +1,4 @@
-package ResourceManager
+package FileManager
 
 import (
 	"path/filepath"
@@ -14,14 +14,14 @@ func getCurrentDir(t *testing.T) string {
 }
 
 func TestResourcesManagerForEmpty(t *testing.T) {
-	myManager := getResourceManager("../../../data")
+	myManager := getFileManager("../../../data")
 	res, err := myManager.GetResource("not existing path")
 	assert.Equal(t, res, nil, "Must be equal")
 	assert.NotEqualf(t, err, nil, "Must be equal")
 }
 
 func TestResourcesManager(t *testing.T) {
-	myManager := getResourceManager("../../../data")
+	myManager := getFileManager("../../../data")
 
 	res, err := myManager.GetResource("castletiles.tsx")
 	assert.Equal(t, err, nil, "Must be equal")
