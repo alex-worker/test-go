@@ -97,7 +97,7 @@ func Init(scr defines.Size) {
 	window, err = sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
 		int32(scrPixelWidth), int32(scrPixelHeight),
 		sdl.WINDOW_SHOWN,
-		// sdl.WINDOW_OPENGL,
+		//sdl.WINDOW_OPENGL,
 	)
 	if err != nil {
 		panic(err)
