@@ -18,6 +18,8 @@ func TestResourcesManagerForEmpty(t *testing.T) {
 	res, err := myManager.GetResource("not existing path")
 	assert.Equal(t, res, nil, "Must be equal")
 	assert.NotEqualf(t, err, nil, "Must be equal")
+
+	myManager.Release()
 }
 
 func TestResourcesManager(t *testing.T) {
@@ -31,4 +33,5 @@ func TestResourcesManager(t *testing.T) {
 	assert.NotEqual(t, buf, nil, "Must be not equal")
 
 	//t.Log(string(*buf)) for visual purpouse
+	myManager.Release()
 }
