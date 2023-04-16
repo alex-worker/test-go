@@ -2,8 +2,8 @@ package Engine
 
 import (
 	. "test-go/src/core/FileManager"
-	"test-go/src/core/IEngine"
-	. "test-go/src/core/IResourceManager"
+	"test-go/src/core/interfaces/IEngine"
+	. "test-go/src/core/interfaces/IResourceManager"
 )
 
 type Engine struct {

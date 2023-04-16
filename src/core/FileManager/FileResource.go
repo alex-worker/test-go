@@ -3,7 +3,7 @@ package FileManager
 import (
 	"io"
 	"os"
-	"test-go/src/core/IResourceManager"
+	"test-go/src/core/interfaces/IResourceManager"
 )
 
 type FileResource struct {
