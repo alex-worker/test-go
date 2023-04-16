@@ -38,7 +38,7 @@ func (r *FileManager) GetResource(path string) (IResourceManager.IResource, erro
 	return res, nil
 }
 
-func getFileManager(dir string) IResourceManager.IResourceManager {
+func GetFileManager(dir string) IResourceManager.IResourceManager {
 	return &FileManager{
 		resFolder:    dir,
 		resourceList: make(map[string]IResourceManager.IResource),

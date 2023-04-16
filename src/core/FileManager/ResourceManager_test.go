@@ -14,7 +14,7 @@ func getCurrentDir(t *testing.T) string {
 }
 
 func TestResourcesManagerForEmpty(t *testing.T) {
-	myManager := getFileManager("../../../data")
+	myManager := GetFileManager("../../../data")
 	res, err := myManager.GetResource("not existing path")
 	assert.Equal(t, res, nil, "Must be equal")
 	assert.NotEqualf(t, err, nil, "Must be equal")
@@ -23,7 +23,7 @@ func TestResourcesManagerForEmpty(t *testing.T) {
 }
 
 func TestResourcesManager(t *testing.T) {
-	myManager := getFileManager("../../../data")
+	myManager := GetFileManager("../../../data")
 
 	res, err := myManager.GetResource("castletiles.tsx")
 	assert.Equal(t, err, nil, "Must be equal")
