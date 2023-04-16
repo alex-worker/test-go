@@ -3,14 +3,14 @@ package FileManager
 import (
 	"os"
 	"path/filepath"
-	"test-go/src/core/ResourceManager"
+	"test-go/src/core/IResourceManager"
 )
 
 type FileManager struct {
 	resFolder string
 }
 
-func (r FileManager) GetResource(path string) (ResourceManager.IResource, error) {
+func (r FileManager) GetResource(path string) (IResourceManager.IResource, error) {
 	filePath := filepath.Join(r.resFolder, path)
 	_, err := os.Stat(filePath)
 	if err != nil {
@@ -18,9 +18,9 @@ func (r FileManager) GetResource(path string) (ResourceManager.IResource, error)
 	}
 
 	res := FileResource{
-		state: ResourceManager.InternalResourceState{
+		state: IResourceManager.InternalResourceState{
 			FilePath:     filePath,
-			State:        ResourceManager.Waiting,
+			State:        IResourceManager.Waiting,
 			ReadyPercent: 0,
 		},
 		file: nil,
@@ -28,7 +28,7 @@ func (r FileManager) GetResource(path string) (ResourceManager.IResource, error)
 	return &res, nil
 }
 
-func getFileManager(dir string) ResourceManager.IResourceManager {
+func getFileManager(dir string) IResourceManager.IResourceManager {
 	return FileManager{
 		resFolder: dir,
 	}

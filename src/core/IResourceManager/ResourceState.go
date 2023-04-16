@@ -1,4 +1,4 @@
-package ResourceManager
+package IResourceManager
 
 type ResourceState uint8
 

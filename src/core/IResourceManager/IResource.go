@@ -1,4 +1,4 @@
-package ResourceManager
+package IResourceManager
 
 type IResource interface {
 	GetContent() (*[]byte, error)
