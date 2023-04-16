@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"test-go/src/core/IResourceManager"
+	. "test-go/src/core/IResourceManager"
 )
 
 type FileManager struct {
 	resFolder    string
-	resourceList map[string]IResourceManager.IResource
+	resourceList map[string]IResource
 }
 
 func (r *FileManager) Release() {
@@ -19,7 +19,7 @@ func (r *FileManager) Release() {
 	}
 }
 
-func (r *FileManager) GetResource(path string) (IResourceManager.IResource, error) {
+func (r *FileManager) GetResource(path string) (IResource, error) {
 	filePath := filepath.Join(r.resFolder, path)
 	_, err := os.Stat(filePath)
 	if err != nil {
@@ -27,9 +27,9 @@ func (r *FileManager) GetResource(path string) (IResourceManager.IResource, erro
 	}
 
 	res := &FileResource{
-		state: IResourceManager.InternalResourceState{
+		state: InternalResourceState{
 			FilePath:     filePath,
-			State:        IResourceManager.Waiting,
+			State:        Waiting,
 			ReadyPercent: 0,
 		},
 		file: nil,
@@ -38,9 +38,9 @@ func (r *FileManager) GetResource(path string) (IResourceManager.IResource, erro
 	return res, nil
 }
 
-func GetFileManager(dir string) IResourceManager.IResourceManager {
+func GetFileManager(dir string) IResourceManager {
 	return &FileManager{
 		resFolder:    dir,
-		resourceList: make(map[string]IResourceManager.IResource),
+		resourceList: make(map[string]IResource),
 	}
 }
