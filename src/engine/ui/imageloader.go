@@ -1,9 +1,11 @@
 package ui
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	"image/png"
+	"io"
 	"test-go/src/engine/resource"
 	"unsafe"
 )
@@ -14,8 +16,14 @@ func imgFileToTexture(filename string) (texture *sdl.Texture, w int, h int) {
 	if err != nil {
 		panic(err)
 	}
+	buf, err := io.ReadAll(infile)
+	if err != nil {
+		panic(err)
+	}
 
-	img, err := png.Decode(infile)
+	bufReader := bytes.NewReader(buf)
+
+	img, err := png.Decode(bufReader)
 	if err != nil {
 		panic(err)
 	}
