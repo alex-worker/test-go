@@ -1,19 +1,20 @@
-package ResourceManager
+package FileManager
 
 import (
 	"io"
 	"os"
+	"test-go/src/core/ResourceManager"
 )
 
 type FileResource struct {
-	state  InternalResourceState
+	state  ResourceManager.InternalResourceState
 	file   *os.File
 	buffer *[]byte
 }
 
 func (f *FileResource) Release() {
 	f.closeFile()
-	f.state.state = Closed
+	f.state.State = ResourceManager.Closed
 }
 
 func (f *FileResource) GetContent() (*[]byte, error) {
@@ -36,7 +37,7 @@ func (f *FileResource) openFile() {
 	if f.file != nil {
 		return
 	}
-	file, err := os.Open(f.state.filePath)
+	file, err := os.Open(f.state.FilePath)
 	if err != nil {
 		panic(err)
 	}
@@ -53,6 +54,6 @@ func (f *FileResource) readAll() {
 	}
 
 	f.buffer = &buffer
-	f.state.state = Ready
-	f.state.readyPercent = 100
+	f.state.State = ResourceManager.Ready
+	f.state.ReadyPercent = 100
 }
