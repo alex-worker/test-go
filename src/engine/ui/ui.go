@@ -34,7 +34,7 @@ var window *sdl.Window
 var renderer *sdl.Renderer
 
 // var surface *sdl.Surface
-var backScreen *sdl.Texture
+// var backScreen *sdl.Texture
 var textureAtlas *sdl.Texture
 var curFont *ttf.Font
 
@@ -113,10 +113,10 @@ func Init(scr defines.Size) {
 		panic(err)
 	}
 
-	backScreen, err = renderer.CreateTexture(sdl.PIXELFORMAT_BGR888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight))
-	if err != nil {
-		panic(err)
-	}
+	//backScreen, err = renderer.CreateTexture(sdl.PIXELFORMAT_BGR888, sdl.TEXTUREACCESS_TARGET, int32(scrPixelWidth), int32(scrPixelHeight))
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	// sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 
