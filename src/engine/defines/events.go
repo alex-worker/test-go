@@ -1,4 +1,4 @@
-package def
+package defines
 
 // GameEvent действия
 type GameEvent uint8

@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"test-go/src/engine"
-	"test-go/src/engine/def"
+	defines "test-go/src/engine/defines"
 )
 
 const fontName string = "CaslonBold"
@@ -15,7 +15,7 @@ const mapName string = "swamp.tmx"
 
 const ResourcePathDefault string = "data/"
 
-var screenSize = def.Size{
+var screenSize = defines.Size{
 	Width:  800,
 	Height: 600,
 }
@@ -27,7 +27,7 @@ func main() {
 	flag.StringVar(&resDir, "dir", ResourcePathDefault, "directory path")
 	flag.Parse()
 
-	loadInfo := def.LoadInfo{
+	loadInfo := defines.LoadInfo{
 		MapName:        mapName,
 		FontName:       fontName,
 		ResourceFolder: resDir,

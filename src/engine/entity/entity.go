@@ -2,18 +2,18 @@ package entity
 
 import (
 	"fmt"
-	"test-go/src/engine/def"
+	"test-go/src/engine/defines"
 )
 
 // var layers *map[string]*def.Layer
-//var myMap *def.Map
+// var myMap *def.Map
 var mapW uint32 // размер карты
 var mapH uint32
 
-var curHero *def.Hero
+var curHero *defines.Hero
 
 // SetMap устанавливаем карту
-func SetMap(mymap *def.Map) {
+func SetMap(mymap *defines.Map) {
 
 	//myMap = mymap
 	mapW = mymap.W
@@ -22,17 +22,17 @@ func SetMap(mymap *def.Map) {
 }
 
 // SetHero устанавливаем главного героя
-func SetHero(hero *def.Hero) {
+func SetHero(hero *defines.Hero) {
 	curHero = hero
 }
 
 // GetHero указатель на героя
-func GetHero() *def.Hero {
+func GetHero() *defines.Hero {
 	return curHero
 }
 
 // HeroDo герой что-то делает
-func HeroDo(dir def.Direction, act def.HeroAction) {
+func HeroDo(dir defines.Direction, act defines.HeroAction) {
 
 	oldPos := curHero.Pos
 
@@ -42,25 +42,25 @@ func HeroDo(dir def.Direction, act def.HeroAction) {
 		return
 	}
 
-	heroAction(newPos, def.ActionStand)
+	heroAction(newPos, defines.ActionStand)
 
 }
 
-func heroAction(pos *def.Pos, act def.HeroAction) {
-	if act == def.ActionStand {
+func heroAction(pos *defines.Pos, act defines.HeroAction) {
+	if act == defines.ActionStand {
 		heroStand(pos)
 	}
 }
 
-func heroStand(pos *def.Pos) {
+func heroStand(pos *defines.Pos) {
 	curHero.Pos = *pos
 	fmt.Println(*curHero)
 }
 
-func heroGet(pos *def.Pos) {
+func heroGet(pos *defines.Pos) {
 
 }
 
-func heroDrop(pos *def.Pos) {
+func heroDrop(pos *defines.Pos) {
 
 }

@@ -9,31 +9,31 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"test-go/src/engine/def"
+	"test-go/src/engine/defines"
 	"test-go/src/engine/resource"
 )
 
 // TileSetInfo описание тайлсета для дальнейшей обработки
 type TileSetInfo struct {
 	Filename string
-	Tiles    *def.AnimateTiles
+	Tiles    *defines.AnimateTiles
 	TileW    int32
 	TileH    int32
 }
 
-func createMap(w uint32, h uint32) [][]def.Cell {
+func createMap(w uint32, h uint32) [][]defines.Cell {
 
-	myMap := make([][]def.Cell, h)
+	myMap := make([][]defines.Cell, h)
 
 	for i := range myMap {
-		myMap[i] = make([]def.Cell, w)
+		myMap[i] = make([]defines.Cell, w)
 	}
 
 	return myMap
 
 }
 
-func parseLayer(layer *tmxLayer) *def.Layer {
+func parseLayer(layer *tmxLayer) *defines.Layer {
 
 	re := regexp.MustCompile(`\r?\n`)
 	normalizedMap := re.ReplaceAllString(layer.Data, "")
@@ -64,7 +64,7 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 		if cell == 0 {
 			myMap[y][x] = 0
 		} else {
-			myMap[y][x] = def.Cell(cell - 1)
+			myMap[y][x] = defines.Cell(cell - 1)
 		}
 		x++
 		if x == w {
@@ -73,7 +73,7 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 		}
 	}
 
-	return &def.Layer{
+	return &defines.Layer{
 		Data: &myMap,
 		Name: layer.Name,
 		W:    w,
@@ -82,13 +82,13 @@ func parseLayer(layer *tmxLayer) *def.Layer {
 
 }
 
-func loadFrames(t *tsxTile) *[]def.AnimateFrame {
+func loadFrames(t *tsxTile) *[]defines.AnimateFrame {
 
 	f := t.Animations.Frames
-	frames := make([]def.AnimateFrame, len(f))
+	frames := make([]defines.AnimateFrame, len(f))
 	for i, tsxFrame := range f {
-		frames[i] = def.AnimateFrame{
-			Cell:     def.Cell(tsxFrame.Tileid),
+		frames[i] = defines.AnimateFrame{
+			Cell:     defines.Cell(tsxFrame.Tileid),
 			Duration: tsxFrame.Duration,
 		}
 		// fmt.Println( frames[i] )
@@ -98,16 +98,16 @@ func loadFrames(t *tsxTile) *[]def.AnimateFrame {
 }
 
 // парсим xml-тайлсет
-func parseAnimateTiles(tileset *tsxTileSet) *def.AnimateTiles {
+func parseAnimateTiles(tileset *tsxTileSet) *defines.AnimateTiles {
 	fmt.Println("parse animate tileset")
 
-	tiles := make(def.AnimateTiles)
+	tiles := make(defines.AnimateTiles)
 
 	for _, tile := range tileset.Tiles {
 
-		animCell := def.Cell(tile.ID)
+		animCell := defines.Cell(tile.ID)
 
-		tiles[animCell] = &def.AnimateTile{
+		tiles[animCell] = &defines.AnimateTile{
 			Tick:   0,
 			Index:  0,
 			Frames: *loadFrames(tile),
@@ -177,7 +177,7 @@ func loadTSX(filename string) TileSetInfo {
 // LoadTmx по файлу возвращаются
 // layers - карта width x height
 // tsxFileName - имя файла описания
-func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
+func LoadTmx(filename string) (mymap *defines.Map, tsetsPtr *[]TileSetInfo) {
 	fmt.Println("Loading map...", filename)
 
 	xmlFile, err := resource.OpenFile(filename)
@@ -196,7 +196,7 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 	}
 
 	lenLayers := len(tmxmap.Layers)
-	layers := def.Layers(make([]def.Layer, lenLayers))
+	layers := defines.Layers(make([]defines.Layer, lenLayers))
 
 	for i, layer := range tmxmap.Layers {
 		curlayer := parseLayer(layer)
@@ -210,7 +210,7 @@ func LoadTmx(filename string) (mymap *def.Map, tsetsPtr *[]TileSetInfo) {
 		fmt.Println("tileset name:", tileset.Name)
 	}
 
-	mymap = &def.Map{
+	mymap = &defines.Map{
 		Layers: layers,
 		W:      layers[0].W, // ориентируемся по первому слою ( земля )
 		H:      layers[0].H,
