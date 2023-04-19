@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	. "test-go/src/core/interfaces/IResourceManager"
+	. "test-go/src/interfaces/IResourceManager"
 )
 
 type FileManager struct {
