@@ -2,6 +2,8 @@ package Engine
 
 import (
 	"fmt"
+	"github.com/veandco/go-sdl2/sdl"
+	. "test-go/src/core"
 	. "test-go/src/core/FileManager"
 	. "test-go/src/core/SDLWindow"
 	"test-go/src/defines"
@@ -13,12 +15,17 @@ import (
 type Engine struct {
 	resourceManager IResourceManager
 	window          IWindow
+	fps             uint64
 }
 
 func (e *Engine) Run() {
 	fmt.Println("Engine::Run...")
 	for {
+		startTicks := sdl.GetTicks64()
 		e.window.Update()
+		endTicks := sdl.GetTicks64()
+		e.fps = CalcFPS(startTicks, endTicks)
+		println(e.fps)
 		evt := e.window.GetInput()
 		if evt == defines.EventQuit {
 			break

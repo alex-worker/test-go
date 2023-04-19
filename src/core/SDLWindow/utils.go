@@ -8,15 +8,6 @@ import (
 	"test-go/src/defines"
 )
 
-func calcFPS(startTicks uint64, endTicks uint64) uint64 {
-	deltaTicks := endTicks - startTicks
-	if deltaTicks == 0 {
-		return 0
-	}
-	fps := 1000 / deltaTicks
-	return fps
-}
-
 func initSDL(size defines.Size) *sdl.Renderer {
 	fmt.Println("UI Init...")
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)

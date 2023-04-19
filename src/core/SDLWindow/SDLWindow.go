@@ -10,7 +10,6 @@ type SDLWindow struct {
 	size          defines.Size
 	renderer      *sdl.Renderer
 	keyboardState []uint8
-	fps           uint64
 }
 
 func (s *SDLWindow) GetInput() defines.GameEvent {
@@ -38,12 +37,8 @@ func (s *SDLWindow) GetInput() defines.GameEvent {
 }
 
 func (s *SDLWindow) Update() {
-	startTicks := sdl.GetTicks64()
 	drawStart(s.renderer)
 	drawEnd(s.renderer)
-	endTicks := sdl.GetTicks64()
-	s.fps = calcFPS(startTicks, endTicks)
-	println(s.fps)
 }
 
 func GetWindow(size defines.Size) (IWindow, error) {
