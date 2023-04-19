@@ -8,10 +8,11 @@ import (
 )
 
 const fontName string = "CaslonBold"
+
 const mapName string = "swamp.tmx"
 
-// const mapName string = "laboratory3.tmx"
-// const mapName string = "mycastle.tmx"
+//const mapName string = "laboratory3.tmx"
+//const mapName string = "mycastle.tmx"
 
 const ResourcePathDefault string = "data/"
 
