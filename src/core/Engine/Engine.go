@@ -48,14 +48,17 @@ func GetEngine() IEngine {
 		window:          win,
 	}
 
-	getFile(&resourceManager, "tiles.png")
-
 	return eng
 }
 
-func getFile(res *IResourceManager, name string) {
-	_, err := (*res).GetResource(name)
+func getFile(r *IResourceManager, name string) *[]byte {
+	res, err := (*r).GetResource(name)
 	if err != nil {
 		panic(err)
 	}
+	buf, err := res.GetContent()
+	if err != nil {
+		panic(err)
+	}
+	return buf
 }

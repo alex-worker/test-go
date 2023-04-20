@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"github.com/veandco/go-sdl2/sdl"
 	"image/png"
+	"test-go/src/defines"
 	"unsafe"
 )
 
-func PngFileToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, w int, h int) {
+func PngFileToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, size defines.Size) {
 	bufReader := bytes.NewReader(*buf)
 
 	myImage, err := png.Decode(bufReader)
@@ -15,8 +16,8 @@ func PngFileToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture
 		panic(err)
 	}
 
-	w = myImage.Bounds().Max.X
-	h = myImage.Bounds().Max.Y
+	w := myImage.Bounds().Max.X
+	h := myImage.Bounds().Max.Y
 
 	pixels := make([]byte, w*h*4)
 	bIndex := 0
@@ -48,5 +49,6 @@ func PngFileToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture
 	if err != nil {
 		panic(err)
 	}
-	return
+
+	return texture, defines.Size{Width: uint32(w), Height: uint32(h)}
 }
