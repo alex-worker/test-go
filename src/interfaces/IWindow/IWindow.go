@@ -6,5 +6,12 @@ import (
 
 type IWindow interface {
 	GetInput() GameEvent
-	Update()
+	DrawStart()
+	Draw(item *IDrawable)
+	DrawEnd()
+}
+
+type IDrawable interface {
+	Init(window *IWindow)
+	Draw(window *IWindow)
 }

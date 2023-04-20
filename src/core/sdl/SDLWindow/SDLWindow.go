@@ -12,6 +12,19 @@ type SDLWindow struct {
 	keyboardState []uint8
 }
 
+func (s *SDLWindow) DrawStart() {
+	drawStart(s.renderer)
+}
+
+func (s *SDLWindow) DrawEnd() {
+	drawEnd(s.renderer)
+}
+
+func (s *SDLWindow) Draw(item *IDrawable) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (s *SDLWindow) GetInput() defines.GameEvent {
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch event.(type) {
@@ -34,11 +47,6 @@ func (s *SDLWindow) GetInput() defines.GameEvent {
 	}
 
 	return defines.EventNo
-}
-
-func (s *SDLWindow) Update() {
-	drawStart(s.renderer)
-	drawEnd(s.renderer)
 }
 
 func GetWindow(size defines.Size) (IWindow, error) {
