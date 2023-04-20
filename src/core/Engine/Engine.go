@@ -5,7 +5,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core"
 	. "test-go/src/core/FileManager"
-	. "test-go/src/core/SDLWindow"
+	. "test-go/src/core/sdl/SDLWindow"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IEngine"
 	. "test-go/src/interfaces/IResourceManager"
@@ -34,7 +34,7 @@ func (e *Engine) Run() {
 }
 
 func GetEngine() IEngine {
-	resourceManager := GetFileManager("/data")
+	resourceManager := GetFileManager("./data")
 
 	windowSize := defines.Size{Width: 640, Height: 480}
 
@@ -47,5 +47,15 @@ func GetEngine() IEngine {
 		resourceManager: resourceManager,
 		window:          win,
 	}
+
+	getFile(&resourceManager, "tiles.png")
+
 	return eng
+}
+
+func getFile(res *IResourceManager, name string) {
+	_, err := (*res).GetResource(name)
+	if err != nil {
+		panic(err)
+	}
 }
