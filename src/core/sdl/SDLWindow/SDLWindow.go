@@ -21,8 +21,8 @@ func (s *SDLWindow) DrawEnd() {
 }
 
 func (s *SDLWindow) Draw(item *IDrawable) {
-	//TODO implement me
-	panic("implement me")
+	win := IWindow(s)
+	(*item).Draw(&win)
 }
 
 func (s *SDLWindow) GetInput() defines.GameEvent {
