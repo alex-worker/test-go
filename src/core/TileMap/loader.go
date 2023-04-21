@@ -18,6 +18,10 @@ func Load(m *TmxMap) (*TileMap, error) {
 		layers[i] = *curLayer
 	}
 
-	fmt.Println(layers)
-	return nil, nil
+	fmt.Printf("tilesets: %#v\n", m.TileSets[0])
+	return &TileMap{
+		Layers: &layers,
+		W:      0,
+		H:      0,
+	}, nil
 }
