@@ -5,7 +5,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core"
 	. "test-go/src/core/FileManager"
-	"test-go/src/core/Tile/parser"
+	"test-go/src/core/TileMap/parser"
 	. "test-go/src/core/sdl/SDLWindow"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IEngine"
@@ -49,7 +49,12 @@ func GetEngine() IEngine {
 		window:          win,
 	}
 
-	m, err := parser.LoadTmx(&resourceManager, "mycastle.tmx")
+	tmxBuf, err := GetFile(&resourceManager, "mycastle.tmx")
+	if err != nil {
+		panic(err)
+	}
+
+	m, err := parser.LoadTmx(tmxBuf)
 	if err != nil {
 		panic(err)
 	}

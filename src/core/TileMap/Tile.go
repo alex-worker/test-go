@@ -1,3 +1,3 @@
-package Tile
+package TileMap
 
 type Tile struct{}
