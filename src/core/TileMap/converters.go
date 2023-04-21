@@ -27,8 +27,16 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 
 	cells := make([]Cell, w*h)
 
+	var index uint64
+
 	for _, c := range myMapStr {
-		fmt.Printf("cell: %#v", c)
+		//fmt.Printf("cell: %#v", c)
+		cell, err := strToUint(c)
+		if err != nil {
+			panic(err)
+		}
+		cells[index] = Cell(cell)
+		index++
 	}
 
 	return &Layer{
