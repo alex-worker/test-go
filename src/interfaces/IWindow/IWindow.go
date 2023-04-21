@@ -4,11 +4,13 @@ import (
 	. "test-go/src/defines"
 )
 
+type ITexture interface{}
+
 type IWindow interface {
 	GetInput() GameEvent
 	DrawStart()
-	Draw(item *IDrawable)
 	DrawEnd()
+	DecodeTexture(buf *[]byte) (ITexture, error)
 }
 
 type IDrawable interface {

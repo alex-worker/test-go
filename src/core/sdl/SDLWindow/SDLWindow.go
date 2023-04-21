@@ -2,6 +2,7 @@ package SDLWindow
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	. "test-go/src/core/sdl/SDLTexture"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IWindow"
 )
@@ -10,6 +11,14 @@ type SDLWindow struct {
 	size          defines.Size
 	renderer      *sdl.Renderer
 	keyboardState []uint8
+}
+
+func (s *SDLWindow) DecodeTexture(buf *[]byte) (ITexture, error) {
+	sdlTexture, size := PngFileToTexture(s.renderer, buf)
+	return &SDLTexture{
+		Size:    size,
+		Texture: sdlTexture,
+	}, nil
 }
 
 func (s *SDLWindow) DrawStart() {
@@ -49,7 +58,7 @@ func (s *SDLWindow) GetInput() defines.GameEvent {
 	return defines.EventNo
 }
 
-func GetWindow(size defines.Size) (IWindow, error) {
+func GetWindow(size defines.Size) (*SDLWindow, error) {
 	renderer := initSDL(size)
 	keyboardState := sdl.GetKeyboardState()
 	return &SDLWindow{

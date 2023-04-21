@@ -5,19 +5,16 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core"
 	. "test-go/src/core/FileManager"
-	"test-go/src/core/Tiles"
 	. "test-go/src/core/sdl/SDLWindow"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IEngine"
 	. "test-go/src/interfaces/IResourceManager"
-	. "test-go/src/interfaces/IWindow"
 )
 
 type Engine struct {
 	resourceManager IResourceManager
-	window          IWindow
+	window          *SDLWindow
 	fps             uint64
-	item            IDrawable
 }
 
 func (e *Engine) Run() {
@@ -25,7 +22,6 @@ func (e *Engine) Run() {
 	for {
 		startTicks := sdl.GetTicks64()
 		e.window.DrawStart()
-		e.window.Draw(&e.item)
 		e.window.DrawEnd()
 		endTicks := sdl.GetTicks64()
 		e.fps = CalcFPS(startTicks, endTicks)
@@ -47,12 +43,9 @@ func GetEngine() IEngine {
 		panic(err)
 	}
 
-	item := Tiles.GetDrawableTileMap()
-
 	eng := &Engine{
 		resourceManager: resourceManager,
 		window:          win,
-		item:            item,
 	}
 
 	return eng

@@ -1,4 +1,4 @@
-package SDLTextures
+package SDLTexture
 
 import (
 	"bytes"
