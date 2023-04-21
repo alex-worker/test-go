@@ -2,12 +2,18 @@ package TileMap
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
+	"strings"
 	. "test-go/src/core/TileMap/parser"
 )
 
 func convertLayer(layer *TmxLayer) (*Layer, error) {
 	fmt.Printf("layer data: %#v %#v\n", layer.Width, layer.Height)
+
+	re := regexp.MustCompile(`\r?\n`)
+	normalizedMap := re.ReplaceAllString(layer.Data, "")
+	myMapStr := strings.Split(normalizedMap, ",")
 
 	w, err := strToUint(layer.Width)
 	if err != nil {
@@ -20,6 +26,10 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 	}
 
 	cells := make([]Cell, w*h)
+
+	for _, c := range myMapStr {
+		fmt.Printf("cell: %#v", c)
+	}
 
 	return &Layer{
 		Data: &cells,

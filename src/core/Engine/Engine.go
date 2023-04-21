@@ -50,7 +50,11 @@ func GetEngine() IEngine {
 		window:          win,
 	}
 
-	tmxBuf, err := GetFile(&resourceManager, "mycastle.tmx")
+	//mapName := "mycastle.tmx"
+	//mapName := "laboratory3.tmx"
+	mapName := "swamp.tmx"
+
+	tmxBuf, err := GetFile(&resourceManager, mapName)
 	if err != nil {
 		panic(err)
 	}
