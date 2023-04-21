@@ -3,6 +3,6 @@ package TileMap
 // TileMap вся карта
 type TileMap struct {
 	Layers []Layer
-	W      uint32
-	H      uint32
+	W      uint64
+	H      uint64
 }

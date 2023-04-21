@@ -11,5 +11,5 @@ type TmxMap struct {
 	TileWidth  string        `xml:"tilewidth,attr"`
 	TileHeight string        `xml:"tileheight,attr"`
 	TileSets   []*tsxTileSet `xml:"tileset"`
-	Layers     []*tmxLayer   `xml:"layer"`
+	Layers     []*TmxLayer   `xml:"layer"`
 }

@@ -27,7 +27,7 @@ func (e *Engine) Run() {
 		e.window.DrawEnd()
 		endTicks := sdl.GetTicks64()
 		e.fps = CalcFPS(startTicks, endTicks)
-		println(e.fps)
+		//println(e.fps)
 		evt := e.window.GetInput()
 		if evt == defines.EventQuit {
 			break

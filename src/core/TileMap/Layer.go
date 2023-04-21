@@ -4,6 +4,6 @@ package TileMap
 type Layer struct {
 	Data *[][]Cell
 	Name string
-	W    uint32
-	H    uint32
+	W    uint64
+	H    uint64
 }
