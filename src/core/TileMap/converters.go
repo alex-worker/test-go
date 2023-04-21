@@ -19,10 +19,10 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 		return nil, err
 	}
 
-	myMap := createMap(w, h)
+	cells := make([]Cell, w*h)
 
 	return &Layer{
-		Data: myMap,
+		Data: &cells,
 		W:    w,
 		H:    h,
 		Name: layer.Name,
@@ -31,12 +31,4 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 
 func strToUint(str string) (uint64, error) {
 	return strconv.ParseUint(str, 10, 64)
-}
-
-func createMap(w uint64, h uint64) *[][]Cell {
-	myMap := make([][]Cell, h)
-	for i := range myMap {
-		myMap[i] = make([]Cell, w)
-	}
-	return &myMap
 }
