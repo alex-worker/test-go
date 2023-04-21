@@ -3,7 +3,6 @@ package SDLWindow
 import (
 	"github.com/veandco/go-sdl2/sdl"
 	"test-go/src/defines"
-	. "test-go/src/interfaces/IWindow"
 )
 
 type SDLWindow struct {
@@ -18,11 +17,6 @@ func (s *SDLWindow) DrawStart() {
 
 func (s *SDLWindow) DrawEnd() {
 	drawEnd(s.renderer)
-}
-
-func (s *SDLWindow) Draw(item *IDrawable) {
-	win := IWindow(s)
-	(*item).Draw(&win)
 }
 
 func (s *SDLWindow) GetInput() defines.GameEvent {
