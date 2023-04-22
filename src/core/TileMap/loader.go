@@ -23,9 +23,14 @@ func Load(m *TmxMap) (*TileMap, error) {
 	tileSets := make([]TileSetInfo, lenTileSets)
 	fmt.Printf("tilesets: #%v\n", tileSets)
 
+	//for i, tileset := range tmxmap.TileSets {
+	//	tilesets[i] = parseTileSet(tileset)
+	//	fmt.Println("tileset name:", tileset.Name)
+	//}
+
 	return &TileMap{
 		Layers: &layers,
-		W:      0,
-		H:      0,
+		W:      layers[0].W, // ориентируемся по первому слою (земля)
+		H:      layers[0].H,
 	}, nil
 }
