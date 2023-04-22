@@ -2,7 +2,7 @@ package parser
 
 import "encoding/xml"
 
-type tsxTileSet struct {
+type TsxTileSet struct {
 	XMLName    xml.Name   `xml:"tileset"`
 	Name       string     `xml:"name,attr"`
 	TileWidth  string     `xml:"tilewidth,attr"`

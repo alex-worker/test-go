@@ -8,6 +8,10 @@ import (
 	. "test-go/src/core/TileMap/parser"
 )
 
+func strToUint(str string) (uint64, error) {
+	return strconv.ParseUint(str, 10, 64)
+}
+
 func convertLayer(layer *TmxLayer) (*Layer, error) {
 	fmt.Printf("layer data: %#v %#v\n", layer.Width, layer.Height)
 
@@ -45,6 +49,33 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 	}, nil
 }
 
-func strToUint(str string) (uint64, error) {
-	return strconv.ParseUint(str, 10, 64)
+func convertTileSet(set *TsxTileSet) *TileSetInfo {
+	var tsxFileName = set.Source
+	if tsxFileName != "" {
+		panic("can't implement file download")
+	}
+
+	w, err := strToUint(set.TileWidth)
+	if err != nil {
+		panic(err)
+	}
+
+	h, err := strToUint(set.TileHeight)
+	if err != nil {
+		panic(err)
+	}
+
+	fileName := set.Image.Source
+	//tiles := convertAnimateTiles(set)
+
+	return &TileSetInfo{
+		ImageFileName: fileName,
+		Tiles:         nil,
+		TileW:         w,
+		TileH:         h,
+	}
+}
+
+func convertAnimateTiles(set *TsxTileSet) *[]AnimateTile {
+	return nil
 }

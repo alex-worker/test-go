@@ -5,7 +5,7 @@ import (
 	. "test-go/src/core/TileMap/parser"
 )
 
-func Load(m *TmxMap) (*TileMap, error) {
+func LoadMap(m *TmxMap) (*TileMap, error) {
 	lenLayers := len(m.Layers)
 	fmt.Printf("Layers: %#v\n", lenLayers)
 
@@ -20,17 +20,21 @@ func Load(m *TmxMap) (*TileMap, error) {
 
 	lenTileSets := len(m.TileSets)
 	fmt.Printf("TileSets: %#v\n", lenTileSets)
-	tileSets := make([]TileSetInfo, lenTileSets)
+	tileSets := make([]*TileSetInfo, lenTileSets)
 	fmt.Printf("tilesets: #%v\n", tileSets)
 
-	//for i, tileset := range tmxmap.TileSets {
-	//	tilesets[i] = parseTileSet(tileset)
-	//	fmt.Println("tileset name:", tileset.Name)
-	//}
+	for i, tileset := range m.TileSets {
+		tileSets[i] = convertTileSet(tileset)
+		fmt.Println("tileset name:", tileset.Name)
+	}
 
 	return &TileMap{
 		Layers: &layers,
 		W:      layers[0].W, // ориентируемся по первому слою (земля)
 		H:      layers[0].H,
 	}, nil
+}
+
+func LoadTilesets(m *TmxMap) (*[]TileSetInfo, error) {
+	return nil, nil
 }

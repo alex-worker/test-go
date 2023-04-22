@@ -64,12 +64,18 @@ func GetEngine() IEngine {
 		panic(err)
 	}
 
-	m, err := TileMap.Load(tmx)
+	m, err := TileMap.LoadMap(tmx)
+	if err != nil {
+		panic(err)
+	}
+
+	anim, err := TileMap.LoadTilesets(tmx)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println(m)
+	fmt.Println(anim)
 
 	return eng
 }
