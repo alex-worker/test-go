@@ -7,7 +7,7 @@ import (
 
 func Load(m *TmxMap) (*TileMap, error) {
 	lenLayers := len(m.Layers)
-	fmt.Printf("layers: %#v\n", lenLayers)
+	fmt.Printf("Layers: %#v\n", lenLayers)
 
 	layers := make([]Layer, lenLayers)
 	for i, tmxLayer := range m.Layers {
@@ -18,7 +18,10 @@ func Load(m *TmxMap) (*TileMap, error) {
 		layers[i] = *curLayer
 	}
 
-	fmt.Printf("tilesets: %#v\n", m.TileSets[0])
+	lenTileSets := len(m.TileSets)
+	fmt.Printf("TileSets: %#v\n", lenTileSets)
+	//tilesets := make([]TileSetInfo, len(tmxmap.TileSets))
+
 	return &TileMap{
 		Layers: &layers,
 		W:      0,
