@@ -64,7 +64,7 @@ func GetEngine() IEngine {
 		panic(err)
 	}
 
-	m, err := TileMap.LoadMap(tmx)
+	_, err = TileMap.LoadMap(tmx)
 	if err != nil {
 		panic(err)
 	}
@@ -74,7 +74,6 @@ func GetEngine() IEngine {
 		panic(err)
 	}
 
-	fmt.Println(m)
 	fmt.Println(anim)
 
 	return eng

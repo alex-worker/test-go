@@ -42,7 +42,7 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 	}
 
 	return &Layer{
-		Data: &cells,
+		Data: cells,
 		W:    w,
 		H:    h,
 		Name: layer.Name,
@@ -66,16 +66,26 @@ func convertTileSet(set *TsxTileSet) *TileSetInfo {
 	}
 
 	fileName := set.Image.Source
-	//tiles := convertAnimateTiles(set)
+
+	lenTiles := len(set.Tiles)
+	fmt.Printf("Tiles: %#v\n", lenTiles)
+	tiles := make([]AnimateTile, lenTiles)
+
+	for _, tile := range set.Tiles {
+		fmt.Printf("tile: #%v\n", tile)
+		fmt.Println("name:", tile.XMLName)
+		fmt.Println("ID:", tile.ID)
+	}
 
 	return &TileSetInfo{
 		ImageFileName: fileName,
-		Tiles:         nil,
+		Tiles:         tiles,
 		TileW:         w,
 		TileH:         h,
 	}
 }
 
 func convertAnimateTiles(set *TsxTileSet) *[]AnimateTile {
+
 	return nil
 }
