@@ -20,7 +20,8 @@ func Load(m *TmxMap) (*TileMap, error) {
 
 	lenTileSets := len(m.TileSets)
 	fmt.Printf("TileSets: %#v\n", lenTileSets)
-	//tilesets := make([]TileSetInfo, len(tmxmap.TileSets))
+	tileSets := make([]TileSetInfo, lenTileSets)
+	fmt.Printf("tilesets: #%v\n", tileSets)
 
 	return &TileMap{
 		Layers: &layers,
