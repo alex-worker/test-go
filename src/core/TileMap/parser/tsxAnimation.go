@@ -2,7 +2,7 @@ package parser
 
 import "encoding/xml"
 
-type tsxAnimation struct {
+type TsxAnimation struct {
 	XMLName xml.Name    `xml:"animation"`
 	Frames  []*tsxFrame `xml:"frame"`
 }

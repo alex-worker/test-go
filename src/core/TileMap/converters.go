@@ -49,6 +49,20 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 	}, nil
 }
 
+func convertFrames(anims *TsxAnimation) []AnimateFrame {
+	lenFrames := len(anims.Frames)
+
+	frames := make([]AnimateFrame, lenFrames)
+
+	for i, tsxFrame := range anims.Frames {
+		frames[i] = AnimateFrame{
+			Cell:     Cell(tsxFrame.Tileid),
+			Duration: tsxFrame.Duration,
+		}
+	}
+	return frames
+}
+
 func convertTileSet(set *TsxTileSet) *TileSet {
 	var tsxFileName = set.Source
 	if tsxFileName != "" {
@@ -72,9 +86,17 @@ func convertTileSet(set *TsxTileSet) *TileSet {
 	tiles := make([]AnimateTile, lenTiles)
 
 	for _, tile := range set.Tiles {
-		fmt.Printf("tile: #%v\n", tile)
-		fmt.Println("name:", tile.XMLName)
-		fmt.Println("ID:", tile.ID)
+		idCell := tile.ID
+		frames := convertFrames(&tile.Animations)
+		tiles[idCell] = AnimateTile{
+			Tick:       0,
+			Index:      0,
+			NeedUpdate: false,
+			Frames:     frames,
+		}
+		//fmt.Printf("tile: #%v\n", tile)
+		//fmt.Println("name:", tile.XMLName)
+		//fmt.Println("ID:", tile.ID)
 	}
 
 	return &TileSet{
