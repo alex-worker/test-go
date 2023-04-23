@@ -49,7 +49,7 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 	}, nil
 }
 
-func convertTileSet(set *TsxTileSet) *TileSetInfo {
+func convertTileSet(set *TsxTileSet) *TileSet {
 	var tsxFileName = set.Source
 	if tsxFileName != "" {
 		panic("can't implement file download")
@@ -77,7 +77,7 @@ func convertTileSet(set *TsxTileSet) *TileSetInfo {
 		fmt.Println("ID:", tile.ID)
 	}
 
-	return &TileSetInfo{
+	return &TileSet{
 		ImageFileName: fileName,
 		Tiles:         tiles,
 		TileW:         w,

@@ -18,16 +18,6 @@ func LoadMap(m *TmxMap) (*TileMap, error) {
 		layers[i] = *curLayer
 	}
 
-	lenTileSets := len(m.TileSets)
-	fmt.Printf("TileSets: %#v\n", lenTileSets)
-	tileSets := make([]TileSetInfo, lenTileSets)
-	fmt.Printf("tilesets: #%v\n", tileSets)
-
-	for i, tileset := range m.TileSets {
-		tileSets[i] = *convertTileSet(tileset)
-		fmt.Println("tileset name:", tileset.Name)
-	}
-
 	return &TileMap{
 		Layers: layers,
 		W:      layers[0].W, // ориентируемся по первому слою (земля)
@@ -35,6 +25,13 @@ func LoadMap(m *TmxMap) (*TileMap, error) {
 	}, nil
 }
 
-func LoadTilesets(m *TmxMap) ([]TileSetInfo, error) {
-	return nil, nil
+func LoadTileSets(m *TmxMap) ([]TileSet, error) {
+	lenTileSets := len(m.TileSets)
+	tileSets := make([]TileSet, lenTileSets)
+
+	for i, tsxTileSet := range m.TileSets {
+		curTileSet := convertTileSet(tsxTileSet)
+		tileSets[i] = *curTileSet
+	}
+	return tileSets, nil
 }
