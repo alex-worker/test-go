@@ -104,8 +104,3 @@ func convertTileSet(set *TsxTileSet) *TileSet {
 		TileH:         h,
 	}
 }
-
-func convertAnimateTiles(set *TsxTileSet) *[]AnimateTile {
-
-	return nil
-}
