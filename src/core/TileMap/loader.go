@@ -25,13 +25,13 @@ func LoadMap(m *TmxMap) (*TileMap, error) {
 	}, nil
 }
 
-func LoadTileSets(m *TmxMap) ([]TileSet, error) {
+func LoadTileSets(m *TmxMap) []TileSet {
 	lenTileSets := len(m.TileSets)
 	tileSets := make([]TileSet, lenTileSets)
 
 	for i, tsxTileSet := range m.TileSets {
-		curTileSet := convertTileSet(tsxTileSet)
+		_, curTileSet := convertTileSet(tsxTileSet)
 		tileSets[i] = *curTileSet
 	}
-	return tileSets, nil
+	return tileSets
 }

@@ -69,12 +69,9 @@ func GetEngine() IEngine {
 		panic(err)
 	}
 
-	anim, err := TileMap.LoadTileSets(tmx)
-	if err != nil {
-		panic(err)
-	}
+	animInfo := TileMap.LoadTileSets(tmx)
 
-	fmt.Println(anim)
+	fmt.Println(animInfo)
 
 	return eng
 }

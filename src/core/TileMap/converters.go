@@ -63,7 +63,7 @@ func convertFrames(anims *TsxAnimation) []AnimateFrame {
 	return frames
 }
 
-func convertTileSet(set *TsxTileSet) *TileSet {
+func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 	var tsxFileName = set.Source
 	if tsxFileName != "" {
 		panic("can't implement file download")
@@ -97,10 +97,9 @@ func convertTileSet(set *TsxTileSet) *TileSet {
 		}
 	}
 
-	return &TileSet{
-		ImageFileName: fileName,
-		Tiles:         tiles,
-		TileW:         w,
-		TileH:         h,
+	return fileName, &TileSet{
+		Tiles: tiles,
+		TileW: w,
+		TileH: h,
 	}
 }
