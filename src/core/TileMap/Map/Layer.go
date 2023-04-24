@@ -1,4 +1,8 @@
-package TileMap
+package Map
+
+import (
+	. "test-go/src/core/TileMap"
+)
 
 // Layer слой
 type Layer struct {

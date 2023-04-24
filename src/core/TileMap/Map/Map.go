@@ -1,4 +1,4 @@
-package TileMap
+package Map
 
 // TileMap вся карта
 type TileMap struct {
