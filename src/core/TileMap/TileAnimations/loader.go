@@ -1,53 +1,9 @@
-package TileMap
+package TileAnimations
 
 import (
-	"fmt"
-	"regexp"
-	"strconv"
-	"strings"
+	. "test-go/src/core/TileMap"
 	. "test-go/src/core/TileMap/parser"
 )
-
-func strToUint(str string) (uint64, error) {
-	return strconv.ParseUint(str, 10, 64)
-}
-
-func convertLayer(layer *TmxLayer) (*Layer, error) {
-	fmt.Printf("layer data: %#v %#v\n", layer.Width, layer.Height)
-
-	re := regexp.MustCompile(`\r?\n`)
-	normalizedMap := re.ReplaceAllString(layer.Data, "")
-	myMapStr := strings.Split(normalizedMap, ",")
-
-	w, err := strToUint(layer.Width)
-	if err != nil {
-		return nil, err
-	}
-
-	h, err := strToUint(layer.Height)
-	if err != nil {
-		return nil, err
-	}
-
-	cells := make([]Cell, w*h)
-
-	var index uint64
-	for _, c := range myMapStr {
-		cell, err2 := strToUint(c)
-		if err2 != nil {
-			panic(err2)
-		}
-		cells[index] = Cell(cell)
-		index++
-	}
-
-	return &Layer{
-		Data: cells,
-		W:    w,
-		H:    h,
-		Name: layer.Name,
-	}, nil
-}
 
 func convertFrames(anims *TsxAnimation) []AnimateFrame {
 	lenFrames := len(anims.Frames)
@@ -69,12 +25,12 @@ func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 		panic("can't implement file download")
 	}
 
-	w, err := strToUint(set.TileWidth)
+	w, err := StrToUint(set.TileWidth)
 	if err != nil {
 		panic(err)
 	}
 
-	h, err := strToUint(set.TileHeight)
+	h, err := StrToUint(set.TileHeight)
 	if err != nil {
 		panic(err)
 	}
@@ -102,4 +58,15 @@ func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 		TileW: w,
 		TileH: h,
 	}
+}
+
+func LoadTileSets(m *TmxMap) []TileSet {
+	lenTileSets := len(m.TileSets)
+	tileSets := make([]TileSet, lenTileSets)
+
+	for i, tsxTileSet := range m.TileSets {
+		_, curTileSet := convertTileSet(tsxTileSet)
+		tileSets[i] = *curTileSet
+	}
+	return tileSets
 }

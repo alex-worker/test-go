@@ -1,4 +1,4 @@
-package TileMap
+package TileAnimations
 
 // AnimateTile анимированый тайл ну или нет...
 type AnimateTile struct {
