@@ -3,7 +3,7 @@ package TileMap
 // TileSet описание тайлсета для дальнейшей обработки
 type TileSet struct {
 	ImageFileName string
-	Tiles         []AnimateTile
+	Tiles         map[Cell]AnimateTile
 	TileW         uint64
 	TileH         uint64
 }

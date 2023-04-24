@@ -33,9 +33,9 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 
 	var index uint64
 	for _, c := range myMapStr {
-		cell, err := strToUint(c)
-		if err != nil {
-			panic(err)
+		cell, err2 := strToUint(c)
+		if err2 != nil {
+			panic(err2)
 		}
 		cells[index] = Cell(cell)
 		index++
@@ -54,10 +54,10 @@ func convertFrames(anims *TsxAnimation) []AnimateFrame {
 
 	frames := make([]AnimateFrame, lenFrames)
 
-	for i, tsxFrame := range anims.Frames {
+	for i, f := range anims.Frames {
 		frames[i] = AnimateFrame{
-			Cell:     Cell(tsxFrame.Tileid),
-			Duration: tsxFrame.Duration,
+			Cell:     Cell(f.Tileid),
+			Duration: f.Duration,
 		}
 	}
 	return frames
@@ -81,22 +81,20 @@ func convertTileSet(set *TsxTileSet) *TileSet {
 
 	fileName := set.Image.Source
 
-	lenTiles := len(set.Tiles)
-	fmt.Printf("Tiles: %#v\n", lenTiles)
-	tiles := make([]AnimateTile, lenTiles)
+	tiles := make(map[Cell]AnimateTile)
 
 	for _, tile := range set.Tiles {
-		idCell := tile.ID
+		idCell := Cell(tile.ID)
+		//fmt.Println("ID:", idCell)
+
 		frames := convertFrames(&tile.Animations)
+
 		tiles[idCell] = AnimateTile{
 			Tick:       0,
 			Index:      0,
 			NeedUpdate: false,
 			Frames:     frames,
 		}
-		//fmt.Printf("tile: #%v\n", tile)
-		//fmt.Println("name:", tile.XMLName)
-		//fmt.Println("ID:", tile.ID)
 	}
 
 	return &TileSet{
