@@ -60,13 +60,21 @@ func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 	}
 }
 
-func LoadTileSets(m *TmxMap) []TileSet {
+type TileSetPack struct {
+	fileName string
+	tiles    *TileSet
+}
+
+func LoadTileSets(m *TmxMap) []TileSetPack {
 	lenTileSets := len(m.TileSets)
-	tileSets := make([]TileSet, lenTileSets)
+	tileSets := make([]TileSetPack, lenTileSets)
 
 	for i, tsxTileSet := range m.TileSets {
-		_, curTileSet := convertTileSet(tsxTileSet)
-		tileSets[i] = *curTileSet
+		fileName, curTileSet := convertTileSet(tsxTileSet)
+		tileSets[i] = TileSetPack{
+			fileName: fileName,
+			tiles:    curTileSet,
+		}
 	}
 	return tileSets
 }
