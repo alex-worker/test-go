@@ -73,7 +73,7 @@ func GetEngine() IEngine {
 	animInfo := LoadTileSets(tmx)
 
 	if len(animInfo) > 1 {
-		panic("TileSets more then one")
+		panic("TileSets more then one not supported")
 	}
 	fmt.Println(animInfo)
 
