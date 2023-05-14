@@ -3,7 +3,6 @@ package SDLInputSystem
 import (
 	"github.com/veandco/go-sdl2/sdl"
 	"test-go/src/defines"
-	. "test-go/src/interfaces/IInputSystem"
 )
 
 type SDLInputSystem struct {
@@ -32,12 +31,4 @@ func (s *SDLInputSystem) GetInput() defines.GameEvent {
 	}
 
 	return defines.EventNo
-}
-
-func GetInputSystem() (IInputSystem, error) {
-	keyboardState := sdl.GetKeyboardState()
-	inputSystem := SDLInputSystem{
-		keyboardState: keyboardState,
-	}
-	return &inputSystem, nil
 }
