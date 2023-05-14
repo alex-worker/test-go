@@ -8,8 +8,7 @@ import (
 )
 
 type SDLRenderSystem struct {
-	renderer      *sdl.Renderer
-	keyboardState []uint8
+	renderer *sdl.Renderer
 }
 
 func (s *SDLRenderSystem) drawStart() {
@@ -23,30 +22,6 @@ func (s *SDLRenderSystem) drawEnd() {
 	s.renderer.Present()
 }
 
-func (s *SDLRenderSystem) GetInput() defines.GameEvent {
-	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
-		switch event.(type) {
-		default:
-			//fmt.Println(event)
-			break
-		case *sdl.QuitEvent:
-			return defines.EventQuit
-		}
-	}
-
-	if s.keyboardState[sdl.SCANCODE_UP] != 0 {
-		return defines.EventPressUp
-	} else if s.keyboardState[sdl.SCANCODE_DOWN] != 0 {
-		return defines.EventPressDown
-	} else if s.keyboardState[sdl.SCANCODE_LEFT] != 0 {
-		return defines.EventPressLeft
-	} else if s.keyboardState[sdl.SCANCODE_RIGHT] != 0 {
-		return defines.EventPressRight
-	}
-
-	return defines.EventNo
-}
-
 func (s *SDLRenderSystem) Draw() {
 	s.drawStart()
 	s.drawEnd()
@@ -54,10 +29,8 @@ func (s *SDLRenderSystem) Draw() {
 
 func GetRenderSystem(windowSize defines.Size) (IRenderSystem, error) {
 	renderer := InitSDL(windowSize)
-	keyboardState := sdl.GetKeyboardState()
 	renderSystem := SDLRenderSystem{
-		renderer:      renderer,
-		keyboardState: keyboardState,
+		renderer: renderer,
 	}
 	return &renderSystem, nil
 }

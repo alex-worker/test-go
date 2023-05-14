@@ -6,9 +6,11 @@ import (
 	. "test-go/src/core/TileMap/Map"
 	. "test-go/src/core/TileMap/TileAnimations"
 	"test-go/src/core/TileMap/parser"
+	. "test-go/src/core/sdl/SDLInputSystem"
 	. "test-go/src/core/sdl/SDLRenderSystem"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IEngine"
+	. "test-go/src/interfaces/IInputSystem"
 	. "test-go/src/interfaces/IRenderSystem"
 	. "test-go/src/interfaces/IResourceManager"
 )
@@ -16,7 +18,7 @@ import (
 type Engine struct {
 	renderSystem    IRenderSystem
 	resourceManager IResourceManager
-	//fps             uint64
+	inputSystem     IInputSystem
 }
 
 func (e *Engine) Run() {
@@ -29,7 +31,7 @@ func (e *Engine) Run() {
 		//endTicks := sdl.GetTicks64()
 		//e.fps = CalcFPS(startTicks, endTicks)
 		//println(e.fps)
-		evt := e.renderSystem.GetInput()
+		evt := e.inputSystem.GetInput()
 		if evt == defines.EventQuit {
 			break
 		}
@@ -46,6 +48,7 @@ func GetEngine() IEngine {
 		panic(err)
 	}
 
+	inputSystem, err := GetInputSystem()
 	//win, err := GetWindow(renderer)
 	//if err != nil {
 	//	panic(err)
@@ -54,6 +57,7 @@ func GetEngine() IEngine {
 	eng := &Engine{
 		resourceManager: resourceManager,
 		renderSystem:    renderSystem,
+		inputSystem:     inputSystem,
 	}
 
 	mapName := "swamp.tmx"
