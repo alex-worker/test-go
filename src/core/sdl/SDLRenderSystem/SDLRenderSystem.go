@@ -2,9 +2,6 @@ package SDLRenderSystem
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	. "test-go/src/core/sdl"
-	"test-go/src/defines"
-	. "test-go/src/interfaces/IRenderSystem"
 )
 
 type SDLRenderSystem struct {
@@ -25,12 +22,4 @@ func (s *SDLRenderSystem) drawEnd() {
 func (s *SDLRenderSystem) Draw() {
 	s.drawStart()
 	s.drawEnd()
-}
-
-func GetRenderSystem(windowSize defines.Size) (IRenderSystem, error) {
-	renderer := InitSDL(windowSize)
-	renderSystem := SDLRenderSystem{
-		renderer: renderer,
-	}
-	return &renderSystem, nil
 }
