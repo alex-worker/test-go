@@ -49,10 +49,9 @@ func GetEngine() IEngine {
 	}
 
 	inputSystem, err := GetInputSystem()
-	//win, err := GetWindow(renderer)
-	//if err != nil {
-	//	panic(err)
-	//}
+	if err != nil {
+		panic(err)
+	}
 
 	eng := &Engine{
 		resourceManager: resourceManager,
