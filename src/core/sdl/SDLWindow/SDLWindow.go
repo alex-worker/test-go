@@ -6,7 +6,6 @@ import (
 )
 
 type SDLWindow struct {
-	size          defines.Size
 	renderer      *sdl.Renderer
 	keyboardState []uint8
 }
@@ -43,11 +42,9 @@ func (s *SDLWindow) GetInput() defines.GameEvent {
 	return defines.EventNo
 }
 
-func GetWindow(size defines.Size) (*SDLWindow, error) {
-	renderer := initSDL(size)
+func GetWindow(renderer *sdl.Renderer) (*SDLWindow, error) {
 	keyboardState := sdl.GetKeyboardState()
 	return &SDLWindow{
-		size:          size,
 		renderer:      renderer,
 		keyboardState: keyboardState,
 	}, nil

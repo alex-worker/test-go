@@ -8,6 +8,8 @@ import (
 	. "test-go/src/core/TileMap/Map"
 	. "test-go/src/core/TileMap/TileAnimations"
 	"test-go/src/core/TileMap/parser"
+	. "test-go/src/core/sdl"
+	. "test-go/src/core/sdl/SDLTileSet"
 	. "test-go/src/core/sdl/SDLWindow"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IEngine"
@@ -41,7 +43,9 @@ func GetEngine() IEngine {
 
 	windowSize := defines.Size{Width: 640, Height: 480}
 
-	win, err := GetWindow(windowSize)
+	renderer := InitSDL(windowSize)
+
+	win, err := GetWindow(renderer)
 	if err != nil {
 		panic(err)
 	}
@@ -51,8 +55,6 @@ func GetEngine() IEngine {
 		window:          win,
 	}
 
-	//mapName := "mycastle.tmx"
-	//mapName := "laboratory3.tmx"
 	mapName := "swamp.tmx"
 
 	tmxBuf, err := GetFile(&resourceManager, mapName)
@@ -75,7 +77,9 @@ func GetEngine() IEngine {
 	if len(animInfo) > 1 {
 		panic("TileSets more then one not supported")
 	}
-	fmt.Println(animInfo)
+
+	tileSet, err := GetSDLTileSet(animInfo[0].FileName, animInfo[0].Tiles)
+	fmt.Println(tileSet)
 
 	return eng
 }
