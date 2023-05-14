@@ -2,36 +2,34 @@ package Engine
 
 import (
 	"fmt"
-	"github.com/veandco/go-sdl2/sdl"
-	. "test-go/src/core"
 	. "test-go/src/core/FileManager"
 	. "test-go/src/core/TileMap/Map"
 	. "test-go/src/core/TileMap/TileAnimations"
 	"test-go/src/core/TileMap/parser"
-	. "test-go/src/core/sdl"
-	. "test-go/src/core/sdl/SDLTileSet"
-	. "test-go/src/core/sdl/SDLWindow"
+	. "test-go/src/core/sdl/SDLRenderSystem"
 	"test-go/src/defines"
 	. "test-go/src/interfaces/IEngine"
+	. "test-go/src/interfaces/IRenderSystem"
 	. "test-go/src/interfaces/IResourceManager"
 )
 
 type Engine struct {
+	renderSystem    IRenderSystem
 	resourceManager IResourceManager
-	window          *SDLWindow
-	fps             uint64
+	//fps             uint64
 }
 
 func (e *Engine) Run() {
 	fmt.Println("Engine::Run...")
 	for {
-		startTicks := sdl.GetTicks64()
-		e.window.DrawStart()
-		e.window.DrawEnd()
-		endTicks := sdl.GetTicks64()
-		e.fps = CalcFPS(startTicks, endTicks)
+		//startTicks := sdl.GetTicks64()
+		e.renderSystem.Draw()
+		//e.window.DrawStart()
+		//e.window.DrawEnd()
+		//endTicks := sdl.GetTicks64()
+		//e.fps = CalcFPS(startTicks, endTicks)
 		//println(e.fps)
-		evt := e.window.GetInput()
+		evt := e.renderSystem.GetInput()
 		if evt == defines.EventQuit {
 			break
 		}
@@ -43,16 +41,19 @@ func GetEngine() IEngine {
 
 	windowSize := defines.Size{Width: 640, Height: 480}
 
-	renderer := InitSDL(windowSize)
-
-	win, err := GetWindow(renderer)
+	renderSystem, err := GetRenderSystem(windowSize)
 	if err != nil {
 		panic(err)
 	}
 
+	//win, err := GetWindow(renderer)
+	//if err != nil {
+	//	panic(err)
+	//}
+
 	eng := &Engine{
 		resourceManager: resourceManager,
-		window:          win,
+		renderSystem:    renderSystem,
 	}
 
 	mapName := "swamp.tmx"
@@ -78,8 +79,8 @@ func GetEngine() IEngine {
 		panic("TileSets more then one not supported")
 	}
 
-	tileSet, err := GetSDLTileSet(animInfo[0].FileName, animInfo[0].Tiles)
-	fmt.Println(tileSet)
+	//tileSet, err := GetSDLTileSet(animInfo[0].FileName, animInfo[0].Tiles)
+	//fmt.Println(tileSet)
 
 	return eng
 }

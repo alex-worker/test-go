@@ -1,27 +1,29 @@
-package SDLWindow
+package SDLRenderSystem
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	. "test-go/src/core/sdl"
 	"test-go/src/defines"
+	. "test-go/src/interfaces/IRenderSystem"
 )
 
-type SDLWindow struct {
+type SDLRenderSystem struct {
 	renderer      *sdl.Renderer
 	keyboardState []uint8
 }
 
-func (s *SDLWindow) DrawStart() {
+func (s *SDLRenderSystem) drawStart() {
 	err := s.renderer.Clear()
 	if err != nil {
 		panic(err)
 	}
 }
 
-func (s *SDLWindow) DrawEnd() {
+func (s *SDLRenderSystem) drawEnd() {
 	s.renderer.Present()
 }
 
-func (s *SDLWindow) GetInput() defines.GameEvent {
+func (s *SDLRenderSystem) GetInput() defines.GameEvent {
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch event.(type) {
 		default:
@@ -45,10 +47,17 @@ func (s *SDLWindow) GetInput() defines.GameEvent {
 	return defines.EventNo
 }
 
-func GetWindow(renderer *sdl.Renderer) (*SDLWindow, error) {
+func (s *SDLRenderSystem) Draw() {
+	s.drawStart()
+	s.drawEnd()
+}
+
+func GetRenderSystem(windowSize defines.Size) (IRenderSystem, error) {
+	renderer := InitSDL(windowSize)
 	keyboardState := sdl.GetKeyboardState()
-	return &SDLWindow{
+	renderSystem := SDLRenderSystem{
 		renderer:      renderer,
 		keyboardState: keyboardState,
-	}, nil
+	}
+	return &renderSystem, nil
 }
