@@ -11,11 +11,14 @@ type SDLWindow struct {
 }
 
 func (s *SDLWindow) DrawStart() {
-	drawStart(s.renderer)
+	err := s.renderer.Clear()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (s *SDLWindow) DrawEnd() {
-	drawEnd(s.renderer)
+	s.renderer.Present()
 }
 
 func (s *SDLWindow) GetInput() defines.GameEvent {

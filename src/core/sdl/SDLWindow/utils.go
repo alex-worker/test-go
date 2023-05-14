@@ -4,13 +4,6 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-func drawStart(renderer *sdl.Renderer) {
-	err := renderer.Clear()
-	if err != nil {
-		panic(err)
-	}
-}
-
 func drawEnd(renderer *sdl.Renderer) {
 
 	//if isShowFps {
