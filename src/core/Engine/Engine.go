@@ -32,8 +32,8 @@ func (e *Engine) Run() {
 	}
 }
 
-func GetEngine() IEngine {
-	resourceManager := GetFileManager("./data")
+func GetEngine(dataPath string) IEngine {
+	resourceManager := GetFileManager(dataPath)
 
 	windowSize := defines.Size{Width: 640, Height: 480}
 

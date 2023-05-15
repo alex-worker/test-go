@@ -7,6 +7,6 @@ import (
 
 func main() {
 	fmt.Println("Hello!")
-	eng := Engine.GetEngine()
+	eng := Engine.GetEngine("./data")
 	eng.Run()
 }
