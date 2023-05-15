@@ -3,6 +3,7 @@ package TileAnimations
 import (
 	. "test-go/src/core/TileMap"
 	. "test-go/src/core/TileMap/parser"
+	. "test-go/src/core/utils"
 )
 
 func convertFrames(anims *TsxAnimation) []AnimateFrame {

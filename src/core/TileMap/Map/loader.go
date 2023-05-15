@@ -6,6 +6,7 @@ import (
 	"strings"
 	TileMap2 "test-go/src/core/TileMap"
 	. "test-go/src/core/TileMap/parser"
+	. "test-go/src/core/utils"
 )
 
 func LoadMap(m *TmxMap) (*TileMap, error) {
@@ -35,12 +36,12 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 	normalizedMap := re.ReplaceAllString(layer.Data, "")
 	myMapStr := strings.Split(normalizedMap, ",")
 
-	w, err := TileMap2.StrToUint(layer.Width)
+	w, err := StrToUint(layer.Width)
 	if err != nil {
 		return nil, err
 	}
 
-	h, err := TileMap2.StrToUint(layer.Height)
+	h, err := StrToUint(layer.Height)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +50,7 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 
 	var index uint64
 	for _, c := range myMapStr {
-		cell, err2 := TileMap2.StrToUint(c)
+		cell, err2 := StrToUint(c)
 		if err2 != nil {
 			panic(err2)
 		}

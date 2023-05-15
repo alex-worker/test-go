@@ -1,4 +1,4 @@
-package TileMap
+package utils
 
 import "strconv"
 
