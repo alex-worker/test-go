@@ -24,13 +24,7 @@ type Engine struct {
 func (e *Engine) Run() {
 	fmt.Println("Engine::Run...")
 	for {
-		//startTicks := sdl.GetTicks64()
 		e.renderSystem.Draw()
-		//e.window.DrawStart()
-		//e.window.DrawEnd()
-		//endTicks := sdl.GetTicks64()
-		//e.fps = CalcFPS(startTicks, endTicks)
-		//println(e.fps)
 		evt := e.inputSystem.GetInput()
 		if evt == defines.EventQuit {
 			break
