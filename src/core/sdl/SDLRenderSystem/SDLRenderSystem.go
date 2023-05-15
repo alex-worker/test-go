@@ -2,6 +2,7 @@ package SDLRenderSystem
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	. "test-go/src/core/math"
 )
 
 type SDLRenderSystem struct {
@@ -20,6 +21,10 @@ func (s *SDLRenderSystem) drawEnd() {
 }
 
 func (s *SDLRenderSystem) Draw() {
+	startTicks := sdl.GetTicks64()
 	s.drawStart()
 	s.drawEnd()
+	endTicks := sdl.GetTicks64()
+	fps := CalcFPS(startTicks, endTicks)
+	println(fps)
 }

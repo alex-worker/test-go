@@ -82,8 +82,5 @@ func GetEngine() IEngine {
 		panic("TileSets more then one not supported")
 	}
 
-	//tileSet, err := GetSDLTileSet(animInfo[0].FileName, animInfo[0].Tiles)
-	//fmt.Println(tileSet)
-
 	return eng
 }
