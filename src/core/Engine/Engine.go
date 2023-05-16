@@ -12,13 +12,13 @@ import (
 	. "test-go/src/interfaces/IEngine"
 	. "test-go/src/interfaces/IInputSystem"
 	. "test-go/src/interfaces/IRenderSystem"
-	. "test-go/src/interfaces/IResourceManager"
+	. "test-go/src/interfaces/IResourceSystem"
 )
 
 type Engine struct {
-	renderSystem    IRenderSystem
-	resourceManager IResourceManager
-	inputSystem     IInputSystem
+	renderSystem   IRenderSystem
+	resourceSystem IResourceSystem
+	inputSystem    IInputSystem
 }
 
 func (e *Engine) Run() {
@@ -33,7 +33,7 @@ func (e *Engine) Run() {
 }
 
 func GetEngine(dataPath string) IEngine {
-	resourceManager := GetFileManager(dataPath)
+	resourceSystem := GetFileManager(dataPath)
 
 	windowSize := defines.Size{Width: 640, Height: 480}
 
@@ -48,14 +48,14 @@ func GetEngine(dataPath string) IEngine {
 	}
 
 	eng := &Engine{
-		resourceManager: resourceManager,
-		renderSystem:    renderSystem,
-		inputSystem:     inputSystem,
+		resourceSystem: resourceSystem,
+		renderSystem:   renderSystem,
+		inputSystem:    inputSystem,
 	}
 
 	mapName := "swamp.tmx"
 
-	tmxBuf, err := GetFile(&resourceManager, mapName)
+	tmxBuf, err := GetFile(&resourceSystem, mapName)
 	if err != nil {
 		panic(err)
 	}

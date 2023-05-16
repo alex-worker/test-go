@@ -1,6 +1,6 @@
-package IResourceManager
+package IResourceSystem
 
-type IResourceManager interface {
+type IResourceSystem interface {
 	GetResource(path string) (IResource, error)
 	Release()
 }

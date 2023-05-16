@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	. "test-go/src/interfaces/IResourceManager"
+	. "test-go/src/interfaces/IResourceSystem"
 )
 
 type FileManager struct {
@@ -38,7 +38,7 @@ func (r *FileManager) GetResource(path string) (IResource, error) {
 	return res, nil
 }
 
-func GetFileManager(dir string) IResourceManager {
+func GetFileManager(dir string) IResourceSystem {
 	return &FileManager{
 		resFolder:    dir,
 		resourceList: make(map[string]IResource),
