@@ -1,9 +1,11 @@
 package TileAnimations
 
-import "test-go/src/core/TileMap"
+import (
+	. "test-go/src/defines"
+)
 
 // AnimateFrame анимационный фрейм тайла
 type AnimateFrame struct {
-	Cell     TileMap.Cell // номер тайла
-	Duration uint32       // задержка таймера
+	Cell     Cell   // номер тайла
+	Duration uint32 // задержка таймера
 }

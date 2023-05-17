@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-	TileMap2 "test-go/src/core/TileMap"
 	. "test-go/src/core/TileMap/parser"
 	. "test-go/src/core/utils"
+	. "test-go/src/defines"
 )
 
 func LoadMap(m *TmxMap) (*TileMap, error) {
@@ -46,7 +46,7 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 		return nil, err
 	}
 
-	cells := make([]TileMap2.Cell, w*h)
+	cells := make([]Cell, w*h)
 
 	var index uint64
 	for _, c := range myMapStr {
@@ -54,7 +54,7 @@ func convertLayer(layer *TmxLayer) (*Layer, error) {
 		if err2 != nil {
 			panic(err2)
 		}
-		cells[index] = TileMap2.Cell(cell)
+		cells[index] = Cell(cell)
 		index++
 	}
 

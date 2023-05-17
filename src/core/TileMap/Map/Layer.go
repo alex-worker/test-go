@@ -1,7 +1,7 @@
 package Map
 
 import (
-	. "test-go/src/core/TileMap"
+	. "test-go/src/defines"
 )
 
 // Layer слой
