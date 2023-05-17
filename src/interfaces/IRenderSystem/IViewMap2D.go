@@ -1,3 +1,9 @@
 package IRenderSystem
 
-type IViewMap2D interface{}
+import (
+	. "test-go/src/math"
+)
+
+type IViewMap2D interface {
+	SetLayer(l *Array2D)
+}

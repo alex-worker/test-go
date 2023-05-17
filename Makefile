@@ -7,7 +7,7 @@ start:
 	go run src/main.go
 
 test:
-	go test ./src/core/* -v
+	go test ./src/math/... -v
 
 update:
 	go get -u all

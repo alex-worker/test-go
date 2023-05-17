@@ -2,7 +2,7 @@ package SDLRenderSystem
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	. "test-go/src/core/math"
+	. "test-go/src/math"
 )
 
 type SDLRenderSystem struct {
