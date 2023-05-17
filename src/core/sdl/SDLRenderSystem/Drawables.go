@@ -1,20 +1,19 @@
 package SDLRenderSystem
 
 import (
-	IRenderSystem "test-go/src/interfaces/IRenderSystem"
+	. "test-go/src/interfaces/IRenderSystem"
 )
 
-func (s *SDLRenderSystem) NewDrawable(drawableType IRenderSystem.DrawableType) IRenderSystem.IDrawable {
+func (s *SDLRenderSystem) NewDrawable(drawableType DrawableType) IDrawable {
 	switch drawableType {
-	case IRenderSystem.ViewMap2D:
+	case ViewMap2D:
 		return s.newViewMap2D()
 	default:
-		panic("unrecognized type")
+		panic("unsupported type")
 	}
-
 }
 
-func (s *SDLRenderSystem) newViewMap2D() IRenderSystem.IViewMap2D {
+func (s *SDLRenderSystem) newViewMap2D() IViewMap2D {
 	d := SDLViewMap2D{}
 	return &d
 }
