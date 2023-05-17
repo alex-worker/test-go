@@ -3,7 +3,6 @@ package mail_old
 import (
 	"flag"
 	"fmt"
-	"test-go/src/engine"
 	defines "test-go/src/engine/defines"
 )
 
@@ -36,6 +35,6 @@ func main() {
 	}
 
 	fmt.Println("Hello!")
-	myEngine := engine.Create(loadInfo)
+	myEngine := engine_old.Create(loadInfo)
 	myEngine.Run()
 }

@@ -5,6 +5,6 @@ import (
 )
 
 type tsxImage struct {
-	XMLName xml.Name `xml:"image"`	
-	Source string `xml:"source,attr"`
+	XMLName xml.Name `xml:"image"`
+	Source  string   `xml:"source,attr"`
 }

@@ -1,4 +1,4 @@
-package math
+package Array2D
 
 import (
 	"github.com/stretchr/testify/require"
@@ -8,7 +8,7 @@ import (
 
 func TestNew(t *testing.T) {
 	t.Run("It working", func(t *testing.T) {
-		s := defines.Size2D{
+		s := Size2D{
 			Width:  10,
 			Height: 10,
 		}

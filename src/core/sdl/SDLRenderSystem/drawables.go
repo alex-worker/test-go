@@ -1,7 +1,7 @@
 package SDLRenderSystem
 
 import (
-	. "test-go/src/core/sdl/SDLRenderSystem/drawables"
+	. "test-go/src/core/sdl/SDLRenderSystem/SDLViewMap2D"
 	. "test-go/src/interfaces/IRenderSystem"
 )
 

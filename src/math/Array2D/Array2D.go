@@ -1,7 +1,8 @@
-package math
+package Array2D
 
 import (
 	. "test-go/src/defines"
+	. "test-go/src/math"
 )
 
 type Array2D struct {
