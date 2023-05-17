@@ -11,7 +11,7 @@ import (
 	"unsafe"
 )
 
-func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, size defines.Size) {
+func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, size defines.Size2D) {
 	bufReader := bytes.NewReader(*buf)
 
 	myImage, err := png.Decode(bufReader)
@@ -53,10 +53,10 @@ func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture,
 		panic(err)
 	}
 
-	return texture, defines.Size{Width: uint32(w), Height: uint32(h)}
+	return texture, defines.Size2D{Width: defines.Dimension(w), Height: defines.Dimension(h)}
 }
 
-func InitSDL(size defines.Size) *sdl.Renderer {
+func InitSDL(size defines.Size2D) *sdl.Renderer {
 	fmt.Println("UI Init...")
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)

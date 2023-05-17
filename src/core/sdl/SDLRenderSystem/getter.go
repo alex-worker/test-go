@@ -6,7 +6,7 @@ import (
 	. "test-go/src/interfaces/IRenderSystem"
 )
 
-func GetRenderSystem(windowSize Size) (IRenderSystem, error) {
+func GetRenderSystem(windowSize Size2D) (IRenderSystem, error) {
 	renderer := InitSDL(windowSize)
 	renderSystem := SDLRenderSystem{
 		renderer: renderer,

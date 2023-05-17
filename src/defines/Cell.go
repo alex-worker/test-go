@@ -1,4 +1,4 @@
 package defines
 
 // Cell ячейка карты
-type Cell uint32
+type Cell Dimension

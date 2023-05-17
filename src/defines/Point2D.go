@@ -1,6 +1,6 @@
 package defines
 
 type Point2D struct {
-	X uint32
-	Y uint32
+	X Dimension
+	Y Dimension
 }

@@ -35,7 +35,7 @@ func (e *Engine) Run() {
 func GetEngine(dataPath string) IEngine {
 	resourceSystem := GetFileManager(dataPath)
 
-	windowSize := defines.Size{Width: 640, Height: 480}
+	windowSize := defines.Size2D{Width: 640, Height: 480}
 
 	renderSystem, err := GetRenderSystem(windowSize)
 	if err != nil {
