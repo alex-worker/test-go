@@ -1,4 +1,4 @@
-package SDLRenderSystem
+package drawables
 
 import (
 	. "test-go/src/defines"
