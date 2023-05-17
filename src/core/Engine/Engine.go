@@ -13,6 +13,7 @@ import (
 	. "test-go/src/interfaces/IInputSystem"
 	. "test-go/src/interfaces/IRenderSystem"
 	. "test-go/src/interfaces/IResourceSystem"
+	. "test-go/src/math"
 )
 
 type Engine struct {
@@ -35,7 +36,7 @@ func (e *Engine) Run() {
 func GetEngine(dataPath string) IEngine {
 	resourceSystem := GetFileManager(dataPath)
 
-	windowSize := defines.Size2D{Width: 640, Height: 480}
+	windowSize := Size2D{Width: 640, Height: 480}
 
 	renderSystem, err := GetRenderSystem(windowSize)
 	if err != nil {

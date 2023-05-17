@@ -1,6 +1,9 @@
-package defines
+package math
 
-import "errors"
+import (
+	"errors"
+	. "test-go/src/defines"
+)
 
 // Size2D длина и ширина
 type Size2D struct {

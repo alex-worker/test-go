@@ -8,10 +8,11 @@ import (
 	"github.com/veandco/go-sdl2/ttf"
 	"image/png"
 	"test-go/src/defines"
+	. "test-go/src/math"
 	"unsafe"
 )
 
-func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, size defines.Size2D) {
+func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, size Size2D) {
 	bufReader := bytes.NewReader(*buf)
 
 	myImage, err := png.Decode(bufReader)
@@ -53,10 +54,10 @@ func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture,
 		panic(err)
 	}
 
-	return texture, defines.Size2D{Width: defines.Dimension(w), Height: defines.Dimension(h)}
+	return texture, Size2D{Width: defines.Dimension(w), Height: defines.Dimension(h)}
 }
 
-func InitSDL(size defines.Size2D) *sdl.Renderer {
+func InitSDL(size Size2D) *sdl.Renderer {
 	fmt.Println("UI Init...")
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)
