@@ -1,4 +1,4 @@
-package SDLViewMap2D
+package SDLRenderSystem
 
 import (
 	a "test-go/src/math/Array2D"
