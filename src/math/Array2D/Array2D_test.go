@@ -3,6 +3,7 @@ package Array2D
 import (
 	"github.com/stretchr/testify/require"
 	"test-go/src/defines"
+	. "test-go/src/math"
 	"testing"
 )
 
