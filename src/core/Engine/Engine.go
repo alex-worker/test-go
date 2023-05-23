@@ -9,17 +9,13 @@ import (
 	. "test-go/src/core/sdl/SDLInputSystem"
 	. "test-go/src/core/sdl/SDLRenderSystem"
 	"test-go/src/defines"
-	. "test-go/src/interfaces/IEngine"
-	. "test-go/src/interfaces/IInputSystem"
-	. "test-go/src/interfaces/IRenderSystem"
-	. "test-go/src/interfaces/IResourceSystem"
 	. "test-go/src/math"
 )
 
 type Engine struct {
-	renderSystem   IRenderSystem
-	resourceSystem IResourceSystem
-	inputSystem    IInputSystem
+	renderSystem   *SDLRenderSystem
+	resourceSystem *FileManager
+	inputSystem    *SDLInputSystem
 }
 
 func (e *Engine) Run() {
@@ -33,8 +29,11 @@ func (e *Engine) Run() {
 	}
 }
 
-func GetEngine(dataPath string) IEngine {
-	resourceSystem := GetFileManager(dataPath)
+func GetEngine(dataPath string) (*Engine, error) {
+	resourceSystem, err := GetFileManager(dataPath)
+	if err != nil {
+		panic(err)
+	}
 
 	windowSize := Size2D{Width: 640, Height: 480}
 
@@ -56,7 +55,7 @@ func GetEngine(dataPath string) IEngine {
 
 	mapName := "swamp.tmx"
 
-	tmxBuf, err := GetFile(&resourceSystem, mapName)
+	tmxBuf, err := GetFile(resourceSystem, mapName)
 	if err != nil {
 		panic(err)
 	}
@@ -77,5 +76,5 @@ func GetEngine(dataPath string) IEngine {
 		panic("TileSets more then one not supported")
 	}
 
-	return eng
+	return eng, nil
 }

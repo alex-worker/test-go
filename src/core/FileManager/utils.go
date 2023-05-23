@@ -1,10 +1,6 @@
 package FileManager
 
-import (
-	. "test-go/src/interfaces/IResourceSystem"
-)
-
-func GetFile(r *IResourceSystem, name string) (*[]byte, error) {
+func GetFile(r *FileManager, name string) (*[]byte, error) {
 	res, err := (*r).GetResource(name)
 	if err != nil {
 		return nil, err
