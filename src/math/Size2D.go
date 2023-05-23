@@ -12,7 +12,7 @@ type Size2D struct {
 }
 
 func (s Size2D) IsPointInto(p Point2D) bool {
-	return s.Width >= p.X && s.Height >= p.Y
+	return s.Width > p.X && s.Height > p.Y // (!) without >=
 }
 
 func (s Size2D) GetIndex(p Point2D) (Dimension, error) {
