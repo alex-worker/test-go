@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture, size Size2D) {
+func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (*sdl.Texture, Size2D, error) {
 	bufReader := bytes.NewReader(*buf)
 
 	myImage, err := png.Decode(bufReader)
@@ -39,7 +39,7 @@ func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture,
 		}
 	}
 
-	texture, err = renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STATIC, int32(w), int32(h))
+	texture, err := renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STATIC, int32(w), int32(h))
 	if err != nil {
 		panic(err)
 	}
@@ -54,7 +54,7 @@ func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (texture *sdl.Texture,
 		panic(err)
 	}
 
-	return texture, Size2D{Width: defines.Dimension(w), Height: defines.Dimension(h)}
+	return texture, Size2D{Width: defines.Dimension(w), Height: defines.Dimension(h)}, nil
 }
 
 func InitSDL(size Size2D) *sdl.Renderer {
