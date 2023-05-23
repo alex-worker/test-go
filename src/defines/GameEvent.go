@@ -4,8 +4,8 @@ type GameEvent uint8
 
 const (
 
-	// EventNo нет событий
-	EventNo GameEvent = iota
+	// EventNone нет событий
+	EventNone GameEvent = iota
 
 	// EventPressUp вверх
 	EventPressUp
