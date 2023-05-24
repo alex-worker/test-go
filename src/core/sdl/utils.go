@@ -49,10 +49,10 @@ func PngBufToTexture(renderer *sdl.Renderer, buf *[]byte) (*sdl.Texture, Size2D,
 		panic(err)
 	}
 
-	err = texture.SetBlendMode(sdl.BLENDMODE_BLEND)
-	if err != nil {
-		panic(err)
-	}
+	//err = texture.SetBlendMode(sdl.BLENDMODE_BLEND)
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	return texture, Size2D{Width: defines.Dimension(w), Height: defines.Dimension(h)}, nil
 }

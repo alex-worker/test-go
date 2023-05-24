@@ -109,7 +109,7 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 		return nil, err
 	}
 
-	fmt.Printf("texture size", texture.Size)
+	fmt.Println("texture size", texture.Size)
 
 	viewSize := Size2D{
 		Width:  10,

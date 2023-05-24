@@ -28,15 +28,15 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	srcRect := sdl.Rect{
 		X: 0,
 		Y: 0,
-		W: 10,
-		H: 10,
+		W: 300,
+		H: 300,
 	}
 
 	dstRect := sdl.Rect{
 		X: 0,
 		Y: 0,
-		W: 10,
-		H: 10,
+		W: 300,
+		H: 300,
 	}
 
 	return r.GetRenderer().Copy(m.texture, &srcRect, &dstRect)
