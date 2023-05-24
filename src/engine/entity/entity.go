@@ -3,10 +3,11 @@ package entity
 import (
 	"fmt"
 	"test-go/src/engine/def"
+	. "test-go/src/math"
 )
 
 // var layers *map[string]*def.Layer
-//var myMap *def.Map
+// var myMap *def.Map
 var mapW uint32 // размер карты
 var mapH uint32
 
@@ -46,21 +47,21 @@ func HeroDo(dir def.Direction, act def.HeroAction) {
 
 }
 
-func heroAction(pos *def.Pos, act def.HeroAction) {
+func heroAction(pos *Pos2D, act def.HeroAction) {
 	if act == def.ActionStand {
 		heroStand(pos)
 	}
 }
 
-func heroStand(pos *def.Pos) {
+func heroStand(pos *Pos2D) {
 	curHero.Pos = *pos
 	fmt.Println(*curHero)
 }
 
-func heroGet(pos *def.Pos) {
+func heroGet(pos *Pos2D) {
 
 }
 
-func heroDrop(pos *def.Pos) {
+func heroDrop(pos *Pos2D) {
 
 }

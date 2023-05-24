@@ -15,7 +15,7 @@ type Engine struct {
 }
 
 var hero = def.Hero{
-	Pos: def.Pos{X: 0, Y: 0},
+	Pos: Pos2D{X: 0, Y: 0},
 	Dir: def.DirDown}
 
 // размеры экрана в тайлах

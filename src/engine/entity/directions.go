@@ -3,9 +3,10 @@ package entity
 import (
 	"errors"
 	"test-go/src/engine/def"
+	. "test-go/src/math"
 )
 
-func calcNewPos(pos *def.Pos, dir def.Direction, maxPosX uint32, maxPosY uint32) (*def.Pos, error) {
+func calcNewPos(pos *Pos2D, dir def.Direction, maxPosX uint32, maxPosY uint32) (*Pos2D, error) {
 
 	x := pos.X
 	y := pos.Y
@@ -36,7 +37,7 @@ func calcNewPos(pos *def.Pos, dir def.Direction, maxPosX uint32, maxPosY uint32)
 		return nil, errors.New("туда нельзя")
 	}
 
-	newPos := def.Pos{X: x, Y: y}
+	newPos := Pos2D{X: x, Y: y}
 	return &newPos, nil
 
 }

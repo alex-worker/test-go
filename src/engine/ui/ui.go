@@ -321,7 +321,7 @@ func drawLayer(l *Layer, size Size2D) {
 	x := uint32(0)
 	y := uint32(0)
 	for index := 0; index < len(layer); index++ {
-		drawTile(layer[index], def.Pos{X: x, Y: y})
+		drawTile(layer[index], Pos2D{X: x, Y: y})
 		x++
 		if x == size.Width {
 			x = 0
@@ -346,7 +346,7 @@ func getAnimTile(c def.Cell, delta uint32) (tile def.Cell) {
 	return
 }
 
-func drawTile(c def.Cell, pos def.Pos) {
+func drawTile(c def.Cell, pos Pos2D) {
 
 	c = getAnimTile(c, deltaTime)
 

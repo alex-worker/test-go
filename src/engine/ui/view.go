@@ -14,12 +14,12 @@ type Layers []*Layer
 // View Окно обзора
 type View struct {
 	Layers Layers
-	pos    def.Pos
+	pos    Pos2D
 	Size   Size2D
 }
 
 // MakeView делаем окно по карте
-func (v *View) MakeView(m *def.Map, pos def.Pos, sz Size2D) {
+func (v *View) MakeView(m *def.Map, pos Pos2D, sz Size2D) {
 	v.pos = pos
 	v.Size = sz
 
@@ -42,7 +42,7 @@ func (v *View) MakeView(m *def.Map, pos def.Pos, sz Size2D) {
 }
 
 // импортнуть один уровень с карты
-func (v *View) importLayer(src *def.Layer, pos def.Pos) *Layer {
+func (v *View) importLayer(src *def.Layer, pos Pos2D) *Layer {
 
 	var x, y uint32
 	index := 0
