@@ -1,8 +1,5 @@
 module test-go
 
-go 1.18
+go 1.20
 
-require (
-	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/veandco/go-sdl2 v0.4.16 // indirect
-)
+require github.com/veandco/go-sdl2 v0.4.35
