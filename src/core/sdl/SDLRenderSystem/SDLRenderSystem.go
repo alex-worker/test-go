@@ -8,26 +8,23 @@ import (
 )
 
 type SDLRenderSystem struct {
-	renderer *sdl.Renderer
+	renderer   *sdl.Renderer
+	startTicks uint64
 }
 
-func (s *SDLRenderSystem) drawStart() {
-	err := s.renderer.Clear()
-	if err != nil {
-		panic(err)
-	}
+func (s *SDLRenderSystem) GetRenderer() *sdl.Renderer {
+	return s.renderer
 }
 
-func (s *SDLRenderSystem) drawEnd() {
+func (s *SDLRenderSystem) DrawStart() error {
+	s.startTicks = sdl.GetTicks64()
+	return s.renderer.Clear()
+}
+
+func (s *SDLRenderSystem) DrawEnd() {
 	s.renderer.Present()
-}
-
-func (s *SDLRenderSystem) Draw() {
-	startTicks := sdl.GetTicks64()
-	s.drawStart()
-	s.drawEnd()
 	endTicks := sdl.GetTicks64()
-	fps := CalcFPS(startTicks, endTicks)
+	fps := CalcFPS(s.startTicks, endTicks)
 	println(fps)
 }
 

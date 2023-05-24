@@ -23,11 +23,18 @@ type Engine struct {
 func (e *Engine) Run() error {
 	fmt.Println("Engine::Run...")
 	for {
-		e.renderSystem.Draw()
-		err := e.mapView.Draw(e.renderSystem)
+		err := e.renderSystem.DrawStart()
 		if err != nil {
 			return err
 		}
+
+		err = e.mapView.Draw(e.renderSystem)
+		if err != nil {
+			return err
+		}
+
+		e.renderSystem.DrawEnd()
+
 		evt := e.inputSystem.GetInput()
 		if evt == defines.EventQuit {
 			break
@@ -101,6 +108,8 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Printf("texture size", texture.Size)
 
 	viewSize := Size2D{
 		Width:  10,

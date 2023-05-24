@@ -2,7 +2,6 @@ package SDLViewMap2D
 
 import (
 	"errors"
-	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core/sdl/SDLRenderSystem"
 	. "test-go/src/math"
@@ -25,7 +24,21 @@ func New(size Size2D, texture *sdl.Texture) (*SDLViewMap2D, error) {
 	}, nil
 }
 
-func (a *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
-	fmt.Println("Draw...")
-	return nil
+func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
+	srcRect := sdl.Rect{
+		X: 0,
+		Y: 0,
+		W: 10,
+		H: 10,
+	}
+
+	dstRect := sdl.Rect{
+		X: 0,
+		Y: 0,
+		W: 10,
+		H: 10,
+	}
+
+	return r.GetRenderer().Copy(m.texture, &srcRect, &dstRect)
+
 }
