@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"test-go/src/engine"
 	"test-go/src/engine/def"
+	. "test-go/src/math"
 )
 
 const fontName string = "CaslonBold"
@@ -15,7 +16,7 @@ const mapName string = "swamp.tmx"
 
 const ResourcePathDefault string = "data/"
 
-var screenSize = def.Size{
+var screenSize = Size2D{
 	Width:  800,
 	Height: 600,
 }

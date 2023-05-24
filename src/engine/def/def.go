@@ -1,21 +1,17 @@
 package def
 
+import . "test-go/src/math"
+
 // Pos координаты X Y
 type Pos struct {
 	X uint32
 	Y uint32
 }
 
-// Size длина и ширина
-type Size struct {
-	Width  uint32
-	Height uint32
-}
-
 // LoadInfo структура хранения настроек игры
 type LoadInfo struct {
 	MapName        string
 	ResourceFolder string
-	ScreenSize     Size
+	ScreenSize     Size2D
 	FontName       string
 }

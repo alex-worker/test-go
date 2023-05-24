@@ -5,10 +5,9 @@ import (
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
-	"test-go/src/engine/resource"
-
-	// "github.com/veandco/go-sdl2/mix"
 	"test-go/src/engine/def"
+	"test-go/src/engine/resource"
+	. "test-go/src/math"
 )
 
 var fps uint32
@@ -63,7 +62,7 @@ func Destroy() {
 }
 
 // Init инициализируем ui
-func Init(scr def.Size) {
+func Init(scr Size2D) {
 	fmt.Println("UI Init...")
 	// sdl.LogSetAllPriority(sdl.LOG_PRIORITY_VERBOSE)
 	err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -315,7 +314,7 @@ func DrawView(v *View) {
 
 }
 
-func drawLayer(l *Layer, size def.Size) {
+func drawLayer(l *Layer, size Size2D) {
 
 	layer := *l
 

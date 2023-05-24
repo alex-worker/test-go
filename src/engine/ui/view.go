@@ -2,6 +2,7 @@ package ui
 
 import (
 	"test-go/src/engine/def"
+	. "test-go/src/math"
 )
 
 // Layer Один слой
@@ -14,11 +15,11 @@ type Layers []*Layer
 type View struct {
 	Layers Layers
 	pos    def.Pos
-	Size   def.Size
+	Size   Size2D
 }
 
 // MakeView делаем окно по карте
-func (v *View) MakeView(m *def.Map, pos def.Pos, sz def.Size) {
+func (v *View) MakeView(m *def.Map, pos def.Pos, sz Size2D) {
 	v.pos = pos
 	v.Size = sz
 
@@ -60,7 +61,7 @@ func (v *View) importLayer(src *def.Layer, pos def.Pos) *Layer {
 }
 
 // GetSize размер окошка
-func (v *View) GetSize() def.Size {
+func (v *View) GetSize() Size2D {
 	return v.Size
 }
 

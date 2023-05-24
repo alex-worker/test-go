@@ -7,6 +7,7 @@ import (
 	log "test-go/src/engine/logger"
 	"test-go/src/engine/resource"
 	"test-go/src/engine/ui"
+	. "test-go/src/math"
 )
 
 type Engine struct {
@@ -18,7 +19,7 @@ var hero = def.Hero{
 	Dir: def.DirDown}
 
 // размеры экрана в тайлах
-var scrTilesSize = def.Size{
+var scrTilesSize = Size2D{
 	Width: 15, Height: 11,
 }
 
