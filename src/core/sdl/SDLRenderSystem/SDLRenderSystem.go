@@ -2,6 +2,8 @@ package SDLRenderSystem
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	. "test-go/src/core/sdl"
+	. "test-go/src/core/sdl/SDLTexture"
 	. "test-go/src/math"
 )
 
@@ -27,4 +29,15 @@ func (s *SDLRenderSystem) Draw() {
 	endTicks := sdl.GetTicks64()
 	fps := CalcFPS(startTicks, endTicks)
 	println(fps)
+}
+
+func (s *SDLRenderSystem) GetTexture(buf *[]byte) (*SDLTexture, error) {
+	texture, size, err := PngBufToTexture(s.renderer, buf)
+	if err != nil {
+		return nil, err
+	}
+	return &SDLTexture{
+		Size:    size,
+		Texture: texture,
+	}, nil
 }
