@@ -33,12 +33,14 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 
 	layer := make([]Cell, size.Width*size.Height)
 
+	tileShift := CalcTileShift(tsx)
+
 	return &SDLViewMap2D{
 		layer:     layer,
 		texture:   texture,
 		size:      size,
 		tsx:       tsx,
-		tileShift: CalcTileShift(tsx),
+		tileShift: tileShift,
 	}, nil
 }
 
