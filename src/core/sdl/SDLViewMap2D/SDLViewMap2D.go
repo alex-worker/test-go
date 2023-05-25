@@ -38,26 +38,20 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 		texture:   texture,
 		size:      size,
 		tsx:       tsx,
-		tileShift: tsx.CalcTileShift(),
+		tileShift: CalcTileShift(tsx),
 	}, nil
 }
 
 func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
-	//cY := int32(c) >> m.tileShift
-	//cX := int32(c) - cY<<m.tileShift
-
-	//mapY := cY * int32(m.tsx.TileW)
-	//mapX := cX * int32(m.tsx.TileH)
-
-	var srcRect = sdl.Rect{
+	srcRect := sdl.Rect{
 		X: 0,
 		Y: 0,
 		W: int32(m.tsx.TileW),
 		H: int32(m.tsx.TileH),
 	}
 
-	var dstRect = sdl.Rect{
+	dstRect := sdl.Rect{
 		X: 0,
 		Y: 0,
 		W: int32(m.tsx.TileW),
@@ -75,7 +69,6 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
 	for _, c := range m.layer {
 
-		//var c Dimension = 1
 		m.tileToRect(c, &srcRect)
 
 		dstRect.X = scrPosX
@@ -109,4 +102,16 @@ func (m *SDLViewMap2D) tileToRect(tile Cell, pos *sdl.Rect) {
 
 	pos.X = cY * int32(m.tsx.TileW)
 	pos.Y = cX * int32(m.tsx.TileH)
+}
+
+func CalcTileShift(t *TileSet) uint32 {
+	var tileShift uint32 = 1
+
+	tilesCnt := t.Columns
+
+	for tilesCnt > 2 { // ручной логарифм по основанию 2 !
+		tilesCnt = tilesCnt / 2
+		tileShift++
+	}
+	return tileShift
 }
