@@ -7,8 +7,13 @@ import (
 )
 
 type SDLRenderSystem struct {
-	renderer   *sdl.Renderer
-	startTicks uint64
+	renderer *sdl.Renderer
+	ticks    uint64
+	fps      uint64
+}
+
+func (s *SDLRenderSystem) GetFPS() uint64 {
+	return s.fps
 }
 
 func (s *SDLRenderSystem) GetRenderer() *sdl.Renderer {
@@ -16,15 +21,14 @@ func (s *SDLRenderSystem) GetRenderer() *sdl.Renderer {
 }
 
 func (s *SDLRenderSystem) DrawStart() error {
-	s.startTicks = sdl.GetTicks64()
+	s.ticks = sdl.GetTicks64()
 	return s.renderer.Clear()
 }
 
 func (s *SDLRenderSystem) DrawEnd() {
 	s.renderer.Present()
 	endTicks := sdl.GetTicks64()
-	fps := CalcFPS(s.startTicks, endTicks)
-	println(fps)
+	s.fps = CalcFPS(s.ticks, endTicks)
 }
 
 func (s *SDLRenderSystem) GetTexture(buf *[]byte) (*SDLTexture, error) {
