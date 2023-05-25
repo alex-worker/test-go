@@ -34,6 +34,8 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 
 func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
+	//var tileNum Dimension = 1
+
 	var srcRect = sdl.Rect{
 		X: 0,
 		Y: 0,
@@ -44,14 +46,23 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	var dstRect = sdl.Rect{
 		X: 0,
 		Y: 0,
-		W: 300,
-		H: 300,
+		W: int32(m.tsx.TileW),
+		H: int32(m.tsx.TileH),
 	}
+
+	var scrDeltaX = int32(m.tsx.TileW)
+	var scrDeltaY = int32(m.tsx.TileH)
+
+	var scrPosX int32 = 0
+	var scrPosY int32 = 0
 
 	var posX Dimension = 0
 	var posY Dimension = 0
 
 	for _ = range m.layer {
+
+		dstRect.X = scrPosX
+		dstRect.Y = scrPosY
 
 		err := r.GetRenderer().Copy(m.texture.Texture, &srcRect, &dstRect)
 		if err != nil {
@@ -59,9 +70,13 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 		}
 
 		posX++
+		scrPosX += scrDeltaX
+
 		if posX == m.size.Width {
 			posX = 0
 			posY++
+			scrPosX = 0
+			scrPosY += scrDeltaY
 		}
 	}
 
