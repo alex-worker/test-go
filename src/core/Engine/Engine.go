@@ -9,7 +9,7 @@ import (
 	. "test-go/src/core/sdl/SDLInputSystem"
 	. "test-go/src/core/sdl/SDLRenderSystem"
 	"test-go/src/core/sdl/SDLViewMap2D"
-	"test-go/src/defines"
+	. "test-go/src/defines"
 	. "test-go/src/math"
 )
 
@@ -39,7 +39,7 @@ func (e *Engine) Run() error {
 		fmt.Println(fps)
 
 		evt := e.inputSystem.GetInput()
-		if evt == defines.EventQuit {
+		if evt == EventQuit {
 			break
 		}
 	}
@@ -103,7 +103,7 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 	}
 
 	tsx := animInfo[0]
-	//tsx.Tiles.
+	//tsx.Tiles.Columns
 
 	textureBuf, err := GetFile(e.resourceSystem, tsx.FileName)
 	if err != nil {
@@ -123,8 +123,8 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 	}
 
 	tilesInTextureSize := Size2D{
-		Width:  10,
-		Height: 10,
+		Width:  Dimension(tsx.Tiles.Columns),
+		Height: Dimension(tsx.Tiles.TileCount / tsx.Tiles.Columns),
 	}
 
 	return SDLViewMap2D.New(viewSize, tilesInTextureSize, texture)
