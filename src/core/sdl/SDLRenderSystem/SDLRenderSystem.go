@@ -7,9 +7,14 @@ import (
 )
 
 type SDLRenderSystem struct {
-	renderer *sdl.Renderer
-	ticks    uint64
-	fps      uint64
+	renderer   *sdl.Renderer
+	windowSize Size2D
+	ticks      uint64
+	fps        uint64
+}
+
+func (s *SDLRenderSystem) GetScreenSize() Size2D {
+	return s.windowSize
 }
 
 func (s *SDLRenderSystem) GetFPS() uint64 {

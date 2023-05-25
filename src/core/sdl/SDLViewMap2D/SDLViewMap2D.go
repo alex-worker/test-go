@@ -46,6 +46,19 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 
 func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
+	// условно считаем что тайлы квадратные и у массива тайлов тоже длина и высота одна и та же
+	screenSize := r.GetScreenSize()
+	minScreenSize := Min(screenSize.Width, screenSize.Height)
+
+	var scrDeltaX = int32(minScreenSize / m.size.Width)
+	var scrDeltaY = int32(minScreenSize / m.size.Height)
+
+	// дальше пропорция:
+	// minScreenSize -> m.size.Width
+
+	//var scrDeltaX = int32(m.tsx.TileW)
+	//var scrDeltaY = int32(m.tsx.TileH)
+
 	srcRect := sdl.Rect{
 		X: 0,
 		Y: 0,
@@ -56,12 +69,9 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	dstRect := sdl.Rect{
 		X: 0,
 		Y: 0,
-		W: int32(m.tsx.TileW),
-		H: int32(m.tsx.TileH),
+		W: scrDeltaX,
+		H: scrDeltaY,
 	}
-
-	var scrDeltaX = int32(m.tsx.TileW)
-	var scrDeltaY = int32(m.tsx.TileH)
 
 	var scrPosX int32 = 0
 	var scrPosY int32 = 0
@@ -69,9 +79,11 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	var posX Dimension = 0
 	var posY Dimension = 0
 
-	for _, c := range m.layer {
+	for _ = range m.layer {
 
-		m.tileToRect(c, &srcRect)
+		//m.tileToRect(Cell(index), &srcRect)
+		srcRect.X = int32(posX) * int32(m.tsx.TileW)
+		srcRect.Y = int32(posY) * int32(m.tsx.TileH)
 
 		dstRect.X = scrPosX
 		dstRect.Y = scrPosY
@@ -96,9 +108,9 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 }
 
 func (m *SDLViewMap2D) tileToRect(tile Cell, pos *sdl.Rect) {
-	if tile == 0 {
-		tile = 1
-	}
+	//if tile == 0 {
+	//	tile = 12
+	//}
 	cY := int32(tile) >> m.tileShift
 	cX := int32(tile) - cY<<m.tileShift
 
