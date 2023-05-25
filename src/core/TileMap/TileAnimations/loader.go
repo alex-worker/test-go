@@ -57,10 +57,10 @@ func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 		frames := convertFrames(&tile.Animations)
 
 		tiles[idCell] = AnimateTile{
-			Tick:       0,
-			Index:      0,
-			NeedUpdate: false,
-			Frames:     frames,
+			//Tick:       0,
+			//Index:      0,
+			//NeedUpdate: false,
+			Frames: frames,
 		}
 	}
 

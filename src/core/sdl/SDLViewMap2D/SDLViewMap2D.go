@@ -3,6 +3,7 @@ package SDLViewMap2D
 import (
 	"errors"
 	"github.com/veandco/go-sdl2/sdl"
+	. "test-go/src/core/TileMap/TileAnimations"
 	. "test-go/src/core/sdl/SDLRenderSystem"
 	. "test-go/src/core/sdl/SDLTexture"
 	. "test-go/src/defines"
@@ -10,13 +11,13 @@ import (
 )
 
 type SDLViewMap2D struct {
-	layer          []Cell
-	size           Size2D
-	tilesInTexture Size2D
-	texture        *SDLTexture
+	layer   []Cell
+	size    Size2D
+	tsx     *TileSet
+	texture *SDLTexture
 }
 
-func New(size Size2D, tilesInTexture Size2D, texture *SDLTexture) (*SDLViewMap2D, error) {
+func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) {
 	if texture == nil {
 		return nil, errors.New("invalid pointer")
 	}
@@ -24,10 +25,10 @@ func New(size Size2D, tilesInTexture Size2D, texture *SDLTexture) (*SDLViewMap2D
 	layer := make([]Cell, size.Width*size.Height)
 
 	return &SDLViewMap2D{
-		layer:          layer,
-		texture:        texture,
-		size:           size,
-		tilesInTexture: tilesInTexture,
+		layer:   layer,
+		texture: texture,
+		size:    size,
+		tsx:     tsx,
 	}, nil
 }
 

@@ -103,7 +103,6 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 	}
 
 	tsx := animInfo[0]
-	//tsx.Tiles.Columns
 
 	textureBuf, err := GetFile(e.resourceSystem, tsx.FileName)
 	if err != nil {
@@ -122,10 +121,5 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 		Height: 10,
 	}
 
-	tilesInTextureSize := Size2D{
-		Width:  Dimension(tsx.Tiles.Columns),
-		Height: Dimension(tsx.Tiles.TileCount / tsx.Tiles.Columns),
-	}
-
-	return SDLViewMap2D.New(viewSize, tilesInTextureSize, texture)
+	return SDLViewMap2D.New(viewSize, tsx.Tiles, texture)
 }
