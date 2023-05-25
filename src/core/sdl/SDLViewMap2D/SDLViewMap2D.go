@@ -50,6 +50,8 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	screenSize := r.GetScreenSize()
 	minScreenSize := Min(screenSize.Width, screenSize.Height)
 
+	//minViewSize := Min(m.size.Width, m.size.Height)
+
 	var scrDeltaX = int32(minScreenSize / m.size.Width)
 	var scrDeltaY = int32(minScreenSize / m.size.Height)
 
