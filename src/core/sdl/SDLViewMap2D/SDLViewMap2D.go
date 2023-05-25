@@ -4,17 +4,19 @@ import (
 	"errors"
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core/sdl/SDLRenderSystem"
+	. "test-go/src/core/sdl/SDLTexture"
 	. "test-go/src/defines"
 	. "test-go/src/math"
 )
 
 type SDLViewMap2D struct {
-	layer   []Cell
-	size    Size2D
-	texture *sdl.Texture
+	layer          []Cell
+	size           Size2D
+	tilesInTexture Size2D
+	texture        *SDLTexture
 }
 
-func New(size Size2D, texture *sdl.Texture) (*SDLViewMap2D, error) {
+func New(size Size2D, tilesInTexture Size2D, texture *SDLTexture) (*SDLViewMap2D, error) {
 	if texture == nil {
 		return nil, errors.New("invalid pointer")
 	}
@@ -22,9 +24,10 @@ func New(size Size2D, texture *sdl.Texture) (*SDLViewMap2D, error) {
 	layer := make([]Cell, size.Width*size.Height)
 
 	return &SDLViewMap2D{
-		layer:   layer,
-		texture: texture,
-		size:    size,
+		layer:          layer,
+		texture:        texture,
+		size:           size,
+		tilesInTexture: tilesInTexture,
 	}, nil
 }
 
@@ -49,7 +52,7 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
 	for _ = range m.layer {
 
-		err := r.GetRenderer().Copy(m.texture, &srcRect, &dstRect)
+		err := r.GetRenderer().Copy(m.texture.Texture, &srcRect, &dstRect)
 		if err != nil {
 			return err
 		}

@@ -102,7 +102,10 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 		panic("TileSets more then one not supported")
 	}
 
-	textureBuf, err := GetFile(e.resourceSystem, animInfo[0].FileName)
+	tsx := animInfo[0]
+	//tsx.Tiles.
+
+	textureBuf, err := GetFile(e.resourceSystem, tsx.FileName)
 	if err != nil {
 		return nil, err
 	}
@@ -118,5 +121,11 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 		Width:  10,
 		Height: 10,
 	}
-	return SDLViewMap2D.New(viewSize, texture.Texture)
+
+	tilesInTextureSize := Size2D{
+		Width:  10,
+		Height: 10,
+	}
+
+	return SDLViewMap2D.New(viewSize, tilesInTextureSize, texture)
 }

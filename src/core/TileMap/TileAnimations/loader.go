@@ -36,6 +36,16 @@ func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 		panic(err)
 	}
 
+	col, err := StrToUint(set.Columns)
+	if err != nil {
+		panic(err)
+	}
+
+	tileCount, err := StrToUint(set.TileCount)
+	if err != nil {
+		panic(err)
+	}
+
 	fileName := set.Image.Source
 
 	tiles := make(map[Cell]AnimateTile)
@@ -55,9 +65,11 @@ func convertTileSet(set *TsxTileSet) (string, *TileSet) {
 	}
 
 	return fileName, &TileSet{
-		Tiles: tiles,
-		TileW: w,
-		TileH: h,
+		Tiles:     tiles,
+		TileW:     w,
+		TileH:     h,
+		Columns:   col,
+		TileCount: tileCount,
 	}
 }
 
