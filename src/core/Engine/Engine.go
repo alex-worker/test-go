@@ -35,6 +35,9 @@ func (e *Engine) Run() error {
 
 		e.renderSystem.DrawEnd()
 
+		fps := e.renderSystem.GetFPS()
+		fmt.Println(fps)
+
 		evt := e.inputSystem.GetInput()
 		if evt == defines.EventQuit {
 			break
