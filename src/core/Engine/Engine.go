@@ -117,8 +117,8 @@ func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
 	fmt.Println("texture size", texture.Size)
 
 	viewSize := Size2D{
-		Width:  10,
-		Height: 10,
+		Width:  32,
+		Height: 32,
 	}
 
 	return SDLViewMap2D.New(viewSize, tsx.Tiles, texture)
