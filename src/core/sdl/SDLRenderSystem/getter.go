@@ -1,7 +1,6 @@
 package SDLRenderSystem
 
 import (
-	. "test-go/src/core/sdl"
 	. "test-go/src/math"
 )
 

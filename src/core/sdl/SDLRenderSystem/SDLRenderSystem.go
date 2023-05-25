@@ -2,7 +2,6 @@ package SDLRenderSystem
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	. "test-go/src/core/sdl"
 	. "test-go/src/core/sdl/SDLTexture"
 	. "test-go/src/math"
 )
