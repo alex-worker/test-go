@@ -2,6 +2,7 @@ package SDLViewMap2D
 
 import (
 	"errors"
+	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core/TileMap/TileAnimations"
 	. "test-go/src/core/sdl/SDLRenderSystem"
@@ -9,6 +10,11 @@ import (
 	. "test-go/src/defines"
 	. "test-go/src/math"
 )
+
+type SizeInt32 struct {
+	Width  int32
+	Height int32
+}
 
 type PosInt32 struct {
 	X int32
@@ -33,7 +39,7 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 
 	layer := make([]Cell, size.Width*size.Height)
 
-	tileShift := CalcTileShift(tsx)
+	tileShift := calcTileShift(tsx)
 
 	return &SDLViewMap2D{
 		layer:     layer,
@@ -46,20 +52,17 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 
 func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
-	// условно считаем что тайлы квадратные и у массива тайлов тоже длина и высота одна и та же
 	screenSize := r.GetScreenSize()
-	minScreenSize := Min(screenSize.Width, screenSize.Height)
 
-	//minViewSize := Min(m.size.Width, m.size.Height)
+	scrDeltaX := int32(screenSize.Width / m.size.Width)
+	scrDeltaY := int32(screenSize.Height / m.size.Height)
+	if scrDeltaX > scrDeltaY {
+		scrDeltaX = scrDeltaY
+	} else {
+		scrDeltaY = scrDeltaX
+	}
 
-	var scrDeltaX = int32(minScreenSize / m.size.Width)
-	var scrDeltaY = int32(minScreenSize / m.size.Height)
-
-	// дальше пропорция:
-	// minScreenSize -> m.size.Width
-
-	//var scrDeltaX = int32(m.tsx.TileW)
-	//var scrDeltaY = int32(m.tsx.TileH)
+	fmt.Println("scrDeltaX: ", scrDeltaX, "scrDeltaY: ", scrDeltaY)
 
 	srcRect := sdl.Rect{
 		X: 0,
@@ -81,9 +84,8 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	var posX Dimension = 0
 	var posY Dimension = 0
 
-	for _ = range m.layer {
+	for range m.layer {
 
-		//m.tileToRect(Cell(index), &srcRect)
 		srcRect.X = int32(posX) * int32(m.tsx.TileW)
 		srcRect.Y = int32(posY) * int32(m.tsx.TileH)
 
@@ -110,9 +112,6 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 }
 
 func (m *SDLViewMap2D) tileToRect(tile Cell, pos *sdl.Rect) {
-	//if tile == 0 {
-	//	tile = 12
-	//}
 	cY := int32(tile) >> m.tileShift
 	cX := int32(tile) - cY<<m.tileShift
 
@@ -120,7 +119,7 @@ func (m *SDLViewMap2D) tileToRect(tile Cell, pos *sdl.Rect) {
 	pos.Y = cX * int32(m.tsx.TileH)
 }
 
-func CalcTileShift(t *TileSet) uint32 {
+func calcTileShift(t *TileSet) uint32 {
 	var tileShift uint32 = 1
 
 	tilesCnt := t.Columns
