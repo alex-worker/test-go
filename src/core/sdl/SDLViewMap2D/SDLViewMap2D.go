@@ -8,6 +8,7 @@ import (
 	. "test-go/src/core/sdl/SDLTexture"
 	. "test-go/src/defines"
 	. "test-go/src/math"
+	Array2D "test-go/src/math/Array2D"
 )
 
 type SizeInt32 struct {
@@ -107,6 +108,10 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 		}
 	}
 
+	return nil
+}
+
+func (m *SDLViewMap2D) GetFromMap(pos Point2D, src *Array2D.Array2D) error {
 	return nil
 }
 
