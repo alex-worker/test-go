@@ -8,12 +8,15 @@ import (
 	"test-go/src/core/TileMap/parser"
 	. "test-go/src/core/sdl/SDLInputSystem"
 	. "test-go/src/core/sdl/SDLRenderSystem"
+	. "test-go/src/core/sdl/SDLTimeSystem"
 	"test-go/src/core/sdl/SDLViewMap2D"
 	. "test-go/src/defines"
 	. "test-go/src/math"
+	"test-go/src/math/fps"
 )
 
 type Engine struct {
+	timeSystem     *SDLTimeSystem
 	renderSystem   *SDLRenderSystem
 	resourceSystem *FileManager
 	inputSystem    *SDLInputSystem
@@ -35,8 +38,15 @@ func (e *Engine) Run() error {
 
 		e.renderSystem.DrawEnd()
 
-		//fps := e.renderSystem.GetFPS()
-		//fmt.Println(fps)
+		deltaTime := e.timeSystem.GetDeltaTime()
+
+		err = e.mapView.Update(deltaTime)
+		if err != nil {
+			return err
+		}
+
+		myFps := fps.CalcFPSByDelta(deltaTime)
+		fmt.Println(myFps)
 
 		evt := e.inputSystem.GetInput()
 		if evt == EventQuit {
@@ -47,6 +57,8 @@ func (e *Engine) Run() error {
 }
 
 func GetEngine(dataPath string) (*Engine, error) {
+	timeSystem := &SDLTimeSystem{}
+
 	resourceSystem, err := GetFileManager(dataPath)
 	if err != nil {
 		panic(err)
@@ -68,6 +80,7 @@ func GetEngine(dataPath string) (*Engine, error) {
 		resourceSystem: resourceSystem,
 		renderSystem:   renderSystem,
 		inputSystem:    inputSystem,
+		timeSystem:     timeSystem,
 	}
 
 	mapName := "swamp.tmx"

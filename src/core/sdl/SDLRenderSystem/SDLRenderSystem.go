@@ -26,14 +26,11 @@ func (s *SDLRenderSystem) GetRenderer() *sdl.Renderer {
 }
 
 func (s *SDLRenderSystem) DrawStart() error {
-	s.ticks = sdl.GetTicks64()
 	return s.renderer.Clear()
 }
 
 func (s *SDLRenderSystem) DrawEnd() {
 	s.renderer.Present()
-	endTicks := sdl.GetTicks64()
-	s.fps = CalcFPS(s.ticks, endTicks)
 }
 
 func (s *SDLRenderSystem) GetTexture(buf *[]byte) (*SDLTexture, error) {

@@ -2,7 +2,6 @@ package SDLViewMap2D
 
 import (
 	"errors"
-	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	. "test-go/src/core/TileMap/TileAnimations"
 	. "test-go/src/core/sdl/SDLRenderSystem"
@@ -62,7 +61,7 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 		scrDeltaY = scrDeltaX
 	}
 
-	fmt.Println("scrDeltaX: ", scrDeltaX, "scrDeltaY: ", scrDeltaY)
+	//fmt.Println("scrDeltaX: ", scrDeltaX, "scrDeltaY: ", scrDeltaY)
 
 	srcRect := sdl.Rect{
 		X: 0,
@@ -108,6 +107,10 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 		}
 	}
 
+	return nil
+}
+
+func (m *SDLViewMap2D) Update(delta uint64) error {
 	return nil
 }
 
