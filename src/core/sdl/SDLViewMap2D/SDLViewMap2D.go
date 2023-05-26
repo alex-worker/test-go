@@ -22,8 +22,9 @@ type PosInt32 struct {
 }
 
 type SDLViewMap2D struct {
-	layer     []Cell
-	size      Size2D
+	//layer     []Cell
+	//size      Size2D
+	a         Array2D.Array2D
 	tsx       *TileSet
 	tileShift uint32
 	texture   *SDLTexture
@@ -37,14 +38,16 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 		return nil, errors.New("invalid pointer")
 	}
 
-	layer := make([]Cell, size.Width*size.Height)
+	//layer := make([]Cell, size.Width*size.Height)
+	arr := Array2D.New(size)
 
 	tileShift := calcTileShift(tsx)
 
 	return &SDLViewMap2D{
-		layer:     layer,
-		texture:   texture,
-		size:      size,
+		a: arr,
+		//layer:     layer,
+		texture: texture,
+		//size:      size,
 		tsx:       tsx,
 		tileShift: tileShift,
 	}, nil
@@ -54,8 +57,8 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 
 	screenSize := r.GetScreenSize()
 
-	scrDeltaX := int32(screenSize.Width / m.size.Width)
-	scrDeltaY := int32(screenSize.Height / m.size.Height)
+	scrDeltaX := int32(screenSize.Width / m.a.Size.Width)
+	scrDeltaY := int32(screenSize.Height / m.a.Size.Height)
 	if scrDeltaX > scrDeltaY {
 		scrDeltaX = scrDeltaY
 	} else {
@@ -84,7 +87,7 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 	var posX Dimension = 0
 	var posY Dimension = 0
 
-	for range m.layer {
+	for range m.a.Data {
 
 		srcRect.X = int32(posX) * int32(m.tsx.TileW)
 		srcRect.Y = int32(posY) * int32(m.tsx.TileH)
@@ -100,7 +103,7 @@ func (m *SDLViewMap2D) Draw(r *SDLRenderSystem) error {
 		posX++
 		scrPosX += scrDeltaX
 
-		if posX == m.size.Width {
+		if posX == m.a.Size.Width {
 			posX = 0
 			posY++
 			scrPosX = 0
