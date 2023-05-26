@@ -22,8 +22,6 @@ type PosInt32 struct {
 }
 
 type SDLViewMap2D struct {
-	//layer     []Cell
-	//size      Size2D
 	a         Array2D.Array2D
 	tsx       *TileSet
 	tileShift uint32
@@ -38,7 +36,6 @@ func New(size Size2D, tsx *TileSet, texture *SDLTexture) (*SDLViewMap2D, error) 
 		return nil, errors.New("invalid pointer")
 	}
 
-	//layer := make([]Cell, size.Width*size.Height)
 	arr := Array2D.New(size)
 
 	tileShift := calcTileShift(tsx)
