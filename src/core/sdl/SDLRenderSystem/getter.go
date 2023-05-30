@@ -1,15 +1,14 @@
 package SDLRenderSystem
 
 import (
-	. "test-go/src/core/sdl"
-	. "test-go/src/interfaces/IRenderSystem"
 	. "test-go/src/math"
 )
 
-func GetRenderSystem(windowSize Size2D) (IRenderSystem, error) {
+func GetRenderSystem(windowSize Size2D) (*SDLRenderSystem, error) {
 	renderer := InitSDL(windowSize)
 	renderSystem := SDLRenderSystem{
-		renderer: renderer,
+		renderer:   renderer,
+		windowSize: windowSize,
 	}
 	return &renderSystem, nil
 }

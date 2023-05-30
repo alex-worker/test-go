@@ -30,5 +30,5 @@ func (s *SDLInputSystem) GetInput() defines.GameEvent {
 		return defines.EventPressRight
 	}
 
-	return defines.EventNo
+	return defines.EventNone
 }

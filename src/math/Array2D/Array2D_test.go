@@ -3,6 +3,7 @@ package Array2D
 import (
 	"github.com/stretchr/testify/require"
 	"test-go/src/defines"
+	. "test-go/src/math"
 	"testing"
 )
 
@@ -13,9 +14,9 @@ func TestNew(t *testing.T) {
 			Height: 10,
 		}
 		expected := New(s)
-		require.Equal(t, expected.size, s, "size must be equal")
+		require.Equal(t, expected.Size, s, "size must be equal")
 
-		mapSize := len(expected.data)
+		mapSize := len(expected.Data)
 		require.Equal(t, defines.Dimension(mapSize), s.Width*s.Height, "size must be equal")
 	})
 }

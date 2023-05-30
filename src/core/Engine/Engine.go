@@ -8,33 +8,61 @@ import (
 	"test-go/src/core/TileMap/parser"
 	. "test-go/src/core/sdl/SDLInputSystem"
 	. "test-go/src/core/sdl/SDLRenderSystem"
-	"test-go/src/defines"
-	. "test-go/src/interfaces/IEngine"
-	. "test-go/src/interfaces/IInputSystem"
-	. "test-go/src/interfaces/IRenderSystem"
-	. "test-go/src/interfaces/IResourceSystem"
+	. "test-go/src/core/sdl/SDLTimeSystem"
+	"test-go/src/core/sdl/SDLViewMap2D"
+	. "test-go/src/defines"
 	. "test-go/src/math"
+	"test-go/src/math/fps"
 )
 
 type Engine struct {
-	renderSystem   IRenderSystem
-	resourceSystem IResourceSystem
-	inputSystem    IInputSystem
+	timeSystem     *SDLTimeSystem
+	renderSystem   *SDLRenderSystem
+	resourceSystem *FileManager
+	inputSystem    *SDLInputSystem
+	mapView        *SDLViewMap2D.SDLViewMap2D
 }
 
-func (e *Engine) Run() {
+func (e *Engine) Run() error {
 	fmt.Println("Engine::Run...")
 	for {
-		e.renderSystem.Draw()
+		err := e.renderSystem.DrawStart()
+		if err != nil {
+			return err
+		}
+
+		err = e.mapView.Draw(e.renderSystem)
+		if err != nil {
+			return err
+		}
+
+		e.renderSystem.DrawEnd()
+
+		deltaTime := e.timeSystem.GetDeltaTime()
+
+		err = e.mapView.Update(deltaTime)
+		if err != nil {
+			return err
+		}
+
+		myFps := fps.CalcFPSByDelta(deltaTime)
+		fmt.Println(myFps)
+
 		evt := e.inputSystem.GetInput()
-		if evt == defines.EventQuit {
+		if evt == EventQuit {
 			break
 		}
 	}
+	return nil
 }
 
-func GetEngine(dataPath string) IEngine {
-	resourceSystem := GetFileManager(dataPath)
+func GetEngine(dataPath string) (*Engine, error) {
+	timeSystem := &SDLTimeSystem{}
+
+	resourceSystem, err := GetFileManager(dataPath)
+	if err != nil {
+		panic(err)
+	}
 
 	windowSize := Size2D{Width: 640, Height: 480}
 
@@ -52,11 +80,21 @@ func GetEngine(dataPath string) IEngine {
 		resourceSystem: resourceSystem,
 		renderSystem:   renderSystem,
 		inputSystem:    inputSystem,
+		timeSystem:     timeSystem,
 	}
 
 	mapName := "swamp.tmx"
 
-	tmxBuf, err := GetFile(&resourceSystem, mapName)
+	eng.mapView, err = eng.parseMap(mapName)
+	if err != nil {
+		panic(err)
+	}
+
+	return eng, nil
+}
+
+func (e *Engine) parseMap(mapName string) (*SDLViewMap2D.SDLViewMap2D, error) {
+	tmxBuf, err := GetFile(e.resourceSystem, mapName)
 	if err != nil {
 		panic(err)
 	}
@@ -77,5 +115,24 @@ func GetEngine(dataPath string) IEngine {
 		panic("TileSets more then one not supported")
 	}
 
-	return eng
+	tsx := animInfo[0]
+
+	textureBuf, err := GetFile(e.resourceSystem, tsx.FileName)
+	if err != nil {
+		return nil, err
+	}
+
+	texture, err := e.renderSystem.GetTexture(textureBuf)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("texture size", texture.Size)
+
+	viewSize := Size2D{
+		Width:  13,
+		Height: 10,
+	}
+
+	return SDLViewMap2D.New(viewSize, tsx.Tiles, texture)
 }
