@@ -15,5 +15,8 @@ func main() {
 
 	runtime.LockOSThread() // примораживаем текущую горутину к текущему треду
 
-	eng.Run()
+	err = eng.Run()
+	if err != nil {
+		return
+	}
 }
