@@ -1,5 +1,5 @@
-#export PATH=$PATH:~/go/go1.22.2/bin
-#export PATH=$PATH:$GOPATH/bin
+# export PATH=$PATH:~/go/go1.22.2/bin
+# export PATH=$PATH:$GOPATH/bin
 export CGO_ENABLED=1
 
 run: build start
