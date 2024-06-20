@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetEngine(t *testing.T) {
-	eng := GetEngine("./data")
+	eng, _ := GetEngine("./data")
 	assert.NotEqual(t, nil, eng, "not equal")
 }
